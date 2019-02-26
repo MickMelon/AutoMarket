@@ -6,13 +6,23 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mickmelon.carshare.R;
+import com.mickmelon.carshare.core.Advert;
 import com.mickmelon.carshare.database.AdvertRepository;
+import com.mickmelon.carshare.database.DataAccess;
 
 public class ViewAdvertFragment extends Fragment {
+    private DataAccess _dataAccess;
+
+    private TextView _name;
+    private TextView _description;
+    private TextView _price;
+    private ImageView _image;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_viewadvert, container, false);
@@ -20,15 +30,27 @@ public class ViewAdvertFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        _dataAccess = DataAccess.getInstance();
+
+        _name = view.findViewById(R.id.textView_Name);
+        _description = view.findViewById(R.id.textView_Description);
+        _price = view.findViewById(R.id.textView_Price);
+        _image = view.findViewById(R.id.imageView_Car);
+
         Bundle args = getArguments();
         int advertId = args.getInt("Position");
-        Toast.makeText(getContext(),
-                "ADVERT:" + advertId,
-                Toast.LENGTH_SHORT).show();
 
-        TextView textView = getView().findViewById(R.id.textView);
-        textView.setText("ID:" + advertId);
+        Advert advert = _dataAccess.adverts().getAdvertById(advertId);
+        if (advert != null) {
+            populateView(advert);
+        } else {
+            // do something
+        }
     }
 
-
+    private void populateView(Advert advert) {
+        _name.setText(advert.getVehicleReg());
+        _description.setText(advert.getDescription());
+        _price.setText(String.valueOf(advert.getPrice()));
+    }
 }

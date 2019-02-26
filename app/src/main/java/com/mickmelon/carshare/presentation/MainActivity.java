@@ -40,8 +40,6 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
 
     @Override
     public void onAdvertSelected(int position) {
-        //ViewAdvertFragment viewAdvert = (ViewAdvertFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_viewadvert);
-
         ViewAdvertFragment viewAdvert = new ViewAdvertFragment();
         Bundle args = new Bundle();
         args.putInt("Position", position);

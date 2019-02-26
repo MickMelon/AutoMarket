@@ -1,6 +1,5 @@
 package com.mickmelon.carshare.presentation;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,22 +9,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mickmelon.carshare.R;
 import com.mickmelon.carshare.core.Advert;
-import com.mickmelon.carshare.database.AdvertRepository;
+import com.mickmelon.carshare.database.DataAccess;
 
 import java.util.List;
 
 public class AdvertBrowserFragment extends Fragment {
     private OnAdvertSelectedListener _advertSelectedListener;
-    private AdvertRepository _advertRepository;
+    private DataAccess _dataAccess;
     private LinearLayout _linearLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        _advertRepository = new AdvertRepository();
+        _dataAccess = DataAccess.getInstance();
         return inflater.inflate(R.layout.fragment_advertbrowser, container, false);
     }
 
@@ -40,7 +38,7 @@ public class AdvertBrowserFragment extends Fragment {
     }
 
     public void populateAdverts() {
-        List<Advert> adverts = _advertRepository.getAllAdverts();
+        List<Advert> adverts = _dataAccess.adverts().getAllAdverts();
 
         for (Advert advert : adverts) {
             final int advertId = advert.getAdvertId();
