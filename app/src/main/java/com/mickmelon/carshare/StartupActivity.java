@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.mickmelon.carshare.presentation.MainActivity;
 
 import java.sql.Connection;
 
@@ -24,7 +25,7 @@ public class StartupActivity extends AppCompatActivity {
         if (verifyGooglePlayServices()) {
             // We can safely start the app
             System.out.println("Verified");
-            Intent intent = new Intent(this, MapsActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         } else System.out.println("NOT VERIFIED");
 
