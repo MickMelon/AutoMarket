@@ -8,11 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mickmelon.carshare.R;
 import com.mickmelon.carshare.core.Advert;
-import com.mickmelon.carshare.database.AdvertRepository;
 import com.mickmelon.carshare.database.DataAccess;
 
 public class ViewAdvertFragment extends Fragment {
@@ -22,6 +20,9 @@ public class ViewAdvertFragment extends Fragment {
     private TextView _description;
     private TextView _price;
     private ImageView _image;
+
+    private TextView _sellerName;
+    private TextView _sellerDescription;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,6 +38,9 @@ public class ViewAdvertFragment extends Fragment {
         _price = view.findViewById(R.id.textView_Price);
         _image = view.findViewById(R.id.imageView_Car);
 
+        _sellerName = view.findViewById(R.id.textView_SellerName);
+        _sellerDescription = view.findViewById(R.id.textView_SellerDescription);
+
         Bundle args = getArguments();
         int advertId = args.getInt("Position");
 
@@ -44,7 +48,7 @@ public class ViewAdvertFragment extends Fragment {
         if (advert != null) {
             populateView(advert);
         } else {
-            // do something
+            // do something ( this shouldn't happen though )
         }
     }
 
@@ -52,5 +56,8 @@ public class ViewAdvertFragment extends Fragment {
         _name.setText(advert.getVehicleReg());
         _description.setText(advert.getDescription());
         _price.setText(String.valueOf(advert.getPrice()));
+
+        _sellerName.setText(advert.getSeller().getName());
+        _sellerDescription.setText(advert.getSeller().getDescription());
     }
 }

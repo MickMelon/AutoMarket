@@ -7,13 +7,29 @@ public class Seller {
     public String _name;
     public String _website;
     public String _description;
+    public String _location;
 
-    public Seller(int sellerId, String email, String phoneNumber, String name, String website, String description) {
+    public Seller(int sellerId, String email, String phoneNumber, String name, String website, String description, String location) {
         _sellerId = sellerId;
         _email = email;
         _phoneNumber = phoneNumber;
         _name = name;
         _website = website;
         _description = description;
+        _location = location;
     }
+
+    public int getSellerId() { return _sellerId; }
+
+    public String getEmail() { return _email; }
+
+    public String getPhoneNumber() { return _phoneNumber; }
+
+    public String getName() { return _name; }
+
+    public String getWebsite() { return _website; }
+
+    public String getDescription() { return _description; }
+
+    public String getLocation() { return _location; }
 }

@@ -2,24 +2,22 @@ package com.mickmelon.carshare.core;
 
 public class Advert {
     private int _advertId;
-    private int _sellerId;
     private String _vehicleReg;
     private String _description;
-    private String _location;
     private double _price;
+    private Seller _seller;
 
-    public Advert(int advertId, int sellerId, String vehicleReg, String description, String location, double price) {
+    public Advert(int advertId, String vehicleReg, String description, double price, Seller seller) {
         _advertId = advertId;
-        _sellerId = sellerId;
         _vehicleReg = vehicleReg;
         _description = description;
-        _location = location;
         _price = price;
+        _seller = seller;
     }
 
     public int getAdvertId() { return _advertId; }
 
-    public int getSellerId() { return _sellerId; }
+    public Seller getSeller() { return _seller; }
 
     public String getVehicleReg() { return _vehicleReg; }
 
@@ -28,10 +26,6 @@ public class Advert {
     public String getDescription() { return _description; }
 
     public void setDescription(String description) { _description = description; }
-
-    public String getLocation() { return _location; }
-
-    public void setLocation(String location) { _location = location; }
 
     public double getPrice() { return _price; }
 

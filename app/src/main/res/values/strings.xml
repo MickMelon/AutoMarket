@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">CarShare</string>
     <string name="title_activity_maps">Map</string>
+
+    <!-- ViewAdvertFragment -->
+    <string name="viewadvert_button_call">Call</string>
+    <string name="viewadvert_button_email">Email</string>
+    <string name="viewadvert_button_website">Website</string>
 </resources>

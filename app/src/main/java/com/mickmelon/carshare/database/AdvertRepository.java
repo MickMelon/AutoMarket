@@ -1,6 +1,7 @@
 package com.mickmelon.carshare.database;
 
 import com.mickmelon.carshare.core.Advert;
+import com.mickmelon.carshare.core.Seller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +12,16 @@ public class AdvertRepository {
     public AdvertRepository() {
         _adverts = new ArrayList<Advert>();
 
-        _adverts.add(new Advert(1, 1, "SA07ENW", "Volkswagen Golf Gt Tdi", "Dundee", 2000));
-        _adverts.add(new Advert(2, 1, "YE05JYF", "Volkswagen Golf Tdi", "Dundee", 1599));
-        _adverts.add(new Advert(3, 2, "SP07NMA", "Vauxhall Zafira", "Aberdeen", 1355.33));
-        _adverts.add(new Advert(4, 3, "SM53YXN", "Vauxhall Corsa", "Forfar", 2999.99));
-        _adverts.add(new Advert(5, 4, "ST06XHJ", "Ford Fiesta", "Arbroath", 500));
+        _adverts.add(new Advert(1, "SA07ENW", "Volkswagen Golf Gt Tdi",2000,
+                new Seller(1, "1@1.com", "01", "Seller1", "www.1.com", "Description1", "Forfar")));
+        _adverts.add(new Advert(2, "YE05JYF", "Volkswagen Golf Tdi", 1599,
+                new Seller(1, "1@1.com", "01", "Seller1", "www.1.com", "Description1", "Forfar")));
+        _adverts.add(new Advert(3, "SP07NMA", "Vauxhall Zafira", 1355.33,
+                new Seller(1, "1@1.com", "01", "Seller1", "www.1.com", "Description1", "Forfar")));
+        _adverts.add(new Advert(4, "SM53YXN", "Vauxhall Corsa", 2999.99,
+                new Seller(1, "1@1.com", "01", "Seller1", "www.1.com", "Description1", "Forfar")));
+        _adverts.add(new Advert(5, "ST06XHJ", "Ford Fiesta", 500,
+                new Seller(1, "1@1.com", "01", "Seller1", "www.1.com", "Description1", "Forfar")));
     }
 
     public List<Advert> getAllAdverts() {
@@ -31,12 +37,12 @@ public class AdvertRepository {
         return null;
     }
 
-    public boolean addAdvert(int advertId, int sellerId, String vehicleReg, String description, String location, double price) {
+    public boolean addAdvert(int advertId, String vehicleReg, String description, double price, Seller seller) {
         if (getAdvertById(advertId) != null) {
             return false;
         }
 
-        _adverts.add(new Advert(advertId, sellerId, vehicleReg, description, location, price));
+        _adverts.add(new Advert(advertId, vehicleReg, description, price, seller));
         return true;
     }
 
