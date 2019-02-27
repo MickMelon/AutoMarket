@@ -60,15 +60,16 @@ public class ViewAdvertFragment extends Fragment {
         Button email = view.findViewById(R.id.button_Email);
         Button website = view.findViewById(R.id.button_Website);
 
+        final String emailAddress = advert.getSeller().getEmail();
+        final String reg = advert.getVehicleReg();
+        final String phoneNumber = advert.getSeller().getPhoneNumber();
+
         call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                makePhoneCall(phoneNumber);
             }
         });
-
-        final String emailAddress = advert.getSeller().getEmail();
-        final String reg = advert.getVehicleReg();
 
         email.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +81,6 @@ public class ViewAdvertFragment extends Fragment {
         website.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
     }
@@ -92,6 +92,14 @@ public class ViewAdvertFragment extends Fragment {
         intent.putExtra(Intent.EXTRA_EMAIL, addresses);
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, "I am interested in buying your vehicle.");
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+    private void makePhoneCall(String phoneNumber) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + phoneNumber));
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivity(intent);
         }
