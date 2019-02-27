@@ -4,10 +4,10 @@ public class Seller {
     private int _sellerId;
     private String _email;
     private String _phoneNumber;
-    public String _name;
-    public String _website;
-    public String _description;
-    public String _location;
+    private String _name;
+    private String _website;
+    private String _description;
+    private String _location;
 
     public Seller(int sellerId, String email, String phoneNumber, String name, String website, String description, String location) {
         _sellerId = sellerId;

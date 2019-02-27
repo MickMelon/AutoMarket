@@ -50,6 +50,8 @@ public class ViewAdvertFragment extends Fragment {
         } else {
             // do something ( this shouldn't happen though )
         }
+
+        // Do buttons for email, call, website intents
     }
 
     private void populateView(Advert advert) {
