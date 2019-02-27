@@ -1,11 +1,14 @@
 package com.mickmelon.carshare.presentation;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -45,13 +48,53 @@ public class ViewAdvertFragment extends Fragment {
         int advertId = args.getInt("Position");
 
         Advert advert = _dataAccess.adverts().getAdvertById(advertId);
-        if (advert != null) {
-            populateView(advert);
-        } else {
-            // do something ( this shouldn't happen though )
+        if (advert == null) {
+            // Show error or something
+            return;
         }
 
+        populateView(advert);
+
         // Do buttons for email, call, website intents
+        Button call = view.findViewById(R.id.button_Call);
+        Button email = view.findViewById(R.id.button_Email);
+        Button website = view.findViewById(R.id.button_Website);
+
+        call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        final String emailAddress = advert.getSeller().getEmail();
+        final String reg = advert.getVehicleReg();
+
+        email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                composeEmail(emailAddress, "Enquiry for " + reg);
+            }
+        });
+
+        website.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
+    private void composeEmail(String address, String subject) {
+        String[] addresses = new String[] {address};
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL, addresses);
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, "I am interested in buying your vehicle.");
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
     private void populateView(Advert advert) {
