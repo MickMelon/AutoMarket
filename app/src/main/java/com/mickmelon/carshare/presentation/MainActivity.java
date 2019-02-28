@@ -2,8 +2,14 @@ package com.mickmelon.carshare.presentation;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import com.mickmelon.carshare.R;
 
@@ -11,11 +17,21 @@ import com.mickmelon.carshare.R;
  * This class is the container for all the fragments. It holds the navigation drawer.
  */
 public class MainActivity extends AppCompatActivity implements AdvertBrowserFragment.OnAdvertSelectedListener {
+    private DrawerLayout _drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.fragment_advertbrowser);
+        setContentView(R.layout.activity_main);
+
+        _drawerLayout = findViewById(R.id.drawer_layout);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
         showFragment();
     }
@@ -31,8 +47,7 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
     public void showFragment() {
         AdvertBrowserFragment advertBrowser = new AdvertBrowserFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-        transaction.replace(android.R.id.content, advertBrowser);
+        transaction.replace(R.id.fragment_container, advertBrowser);
         transaction.addToBackStack(null);
 
         transaction.commit();
@@ -46,9 +61,19 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
         viewAdvert.setArguments(args);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(android.R.id.content, viewAdvert);
+        transaction.replace(R.id.fragment_container, viewAdvert);
         transaction.addToBackStack(null);
 
         transaction.commit();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                _drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

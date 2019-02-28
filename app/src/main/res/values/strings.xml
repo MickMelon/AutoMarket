@@ -2,8 +2,21 @@
     <string name="app_name">CarShare</string>
     <string name="title_activity_maps">Map</string>
 
+    <!-- Navigation -->
+    <string name="nav_search">Search</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_logout">Logout</string>
+    <string name="nav_browse">Browse</string>
+
     <!-- ViewAdvertFragment -->
     <string name="viewadvert_button_call">Call</string>
     <string name="viewadvert_button_email">Email</string>
     <string name="viewadvert_button_website">Website</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 </resources>

@@ -63,6 +63,7 @@ public class ViewAdvertFragment extends Fragment {
         final String emailAddress = advert.getSeller().getEmail();
         final String reg = advert.getVehicleReg();
         final String phoneNumber = advert.getSeller().getPhoneNumber();
+        final String websiteUrl = advert.getSeller().getWebsite();
 
         call.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +82,7 @@ public class ViewAdvertFragment extends Fragment {
         website.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                openWebPage(websiteUrl);
             }
         });
     }
@@ -100,6 +102,17 @@ public class ViewAdvertFragment extends Fragment {
     private void makePhoneCall(String phoneNumber) {
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse("tel:" + phoneNumber));
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(intent);
+        }
+    }
+
+    private void openWebPage(String url) {
+        if (!url.startsWith("http://") && !url.startsWith("https://")) {
+
+        }
+        Uri webPage = Uri.parse("http://" + url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivity(intent);
         }
