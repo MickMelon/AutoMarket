@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 
 import com.mickmelon.carshare.R;
 
@@ -60,9 +59,10 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
         args.putInt("Position", position);
         viewAdvert.setArguments(args);
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, viewAdvert);
-        transaction.addToBackStack(null);
+        FragmentTransaction transaction = getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, viewAdvert)
+                .addToBackStack(null);
 
         transaction.commit();
     }
