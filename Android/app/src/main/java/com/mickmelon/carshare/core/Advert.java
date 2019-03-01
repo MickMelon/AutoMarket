@@ -5,19 +5,19 @@ public class Advert {
     private String _vehicleReg;
     private String _description;
     private double _price;
-    private Seller _seller;
+    private int _sellerId;
 
-    public Advert(int advertId, String vehicleReg, String description, double price, Seller seller) {
+    public Advert(int advertId, String vehicleReg, String description, double price, int sellerId) {
         _advertId = advertId;
         _vehicleReg = vehicleReg;
         _description = description;
         _price = price;
-        _seller = seller;
+        _sellerId = sellerId;
     }
 
     public int getAdvertId() { return _advertId; }
 
-    public Seller getSeller() { return _seller; }
+    public int getSellerId() { return _sellerId; }
 
     public String getVehicleReg() { return _vehicleReg; }
 

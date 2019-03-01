@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.mickmelon.carshare.R;
 import com.mickmelon.carshare.core.Advert;
+import com.mickmelon.carshare.core.Seller;
 import com.mickmelon.carshare.database.DataAccess;
 
 public class ViewAdvertFragment extends Fragment {
@@ -48,22 +49,23 @@ public class ViewAdvertFragment extends Fragment {
         int advertId = args.getInt("Position");
 
         Advert advert = _dataAccess.adverts().getAdvertById(advertId);
-        if (advert == null) {
+        Seller seller = _dataAccess.sellers().getSellerById(advert.getSellerId());
+        if (advert == null || seller == null) {
             // Show error or something
             return;
         }
 
-        populateView(advert);
+        populateView(advert, seller);
 
         // Do buttons for email, call, website intents
         Button call = view.findViewById(R.id.button_Call);
         Button email = view.findViewById(R.id.button_Email);
         Button website = view.findViewById(R.id.button_Website);
 
-        final String emailAddress = advert.getSeller().getEmail();
+        final String emailAddress = seller.getEmail();
         final String reg = advert.getVehicleReg();
-        final String phoneNumber = advert.getSeller().getPhoneNumber();
-        final String websiteUrl = advert.getSeller().getWebsite();
+        final String phoneNumber = seller.getPhoneNumber();
+        final String websiteUrl = seller.getWebsite();
 
         call.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,12 +120,12 @@ public class ViewAdvertFragment extends Fragment {
         }
     }
 
-    private void populateView(Advert advert) {
+    private void populateView(Advert advert, Seller seller) {
         _name.setText(advert.getVehicleReg());
         _description.setText(advert.getDescription());
         _price.setText(String.valueOf(advert.getPrice()));
 
-        _sellerName.setText(advert.getSeller().getName());
-        _sellerDescription.setText(advert.getSeller().getDescription());
+        _sellerName.setText(seller.getName());
+        _sellerDescription.setText(seller.getDescription());
     }
 }

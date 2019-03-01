@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IAdvertRepository {
     List<Advert> getAllAdverts();
-    Advert getAdvertById();
+    Advert getAdvertById(int id);
     boolean addAdvert(Advert advert);
     boolean removeAdvert(Advert advert);
     boolean updateAdvert(Advert advert);
