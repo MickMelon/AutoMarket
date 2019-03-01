@@ -53,7 +53,27 @@ class SellerController
 
     public function update()
     {
+        if (!empty($_POST['ID']) &&
+            !empty($_POST['Email']) &&
+            !empty($_POST['PhoneNumber']) &&
+            !empty($_POST['Name']) &&
+            !empty($_POST['Website']) &&
+            !empty($_POST['Description']) &&
+            !empty($_POST['Location']))
+        {
+            $id = $_POST['ID'];
+            $email = $_POST['Email'];
+            $phoneNumber = $_POST['PhoneNumber'];
+            $name = $_POST['Name'];
+            $website = $_POST['Website'];
+            $description = $_POST['Description'];
+            $location = $_POST['Location'];
 
+            $this->sellerModel->update($id, $email, $phoneNumber, $name, $website, $description, $location);
+            return new Results\JsonResult("Seller updated successfully.");
+        }
+
+        return new Results\JsonResult("Unable to update the Seller.");
     }
 
     public function delete()

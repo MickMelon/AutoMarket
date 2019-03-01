@@ -33,4 +33,27 @@ class SellerModel
         $query->bindParam(':location', $location, PDO::PARAM_STR);
         $query->execute();
     }
+
+    public function update($id, $email, $phoneNumber, $name, $website, $description, $location)
+    {
+        $db = Database::getInstance();
+
+        $sql = "UPDATE `Seller` SET"
+            . " `Email` = :email,"
+            . " `PhoneNumber` = :phoneNumber,"
+            . " `Name` = :name,"
+            . " `Website` = :website,"
+            . " `Description` = :description,"
+            . " `Location` = :location"
+            . " WHERE `ID` = :id LIMIT 1";
+        $query = $db->prepare($sql);
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
+        $query->bindParam(':email', $email, PDO::PARAM_STR);
+        $query->bindParam(':phoneNumber', $phoneNumber, PDO::PARAM_STR);
+        $query->bindParam(':name', $name, PDO::PARAM_STR);
+        $query->bindParam(':website', $website, PDO::PARAM_STR);
+        $query->bindParam(':description', $description, PDO::PARAM_STR);
+        $query->bindParam(':location', $location, PDO::PARAM_STR);
+        $query->execute();
+    }
 }
