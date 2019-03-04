@@ -1,20 +1,19 @@
 package com.mickmelon.carshare;
 
-import android.app.Dialog;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.mickmelon.carshare.database.HttpClient;
-import com.mickmelon.carshare.database.PostAsyncTask;
-import com.mickmelon.carshare.presentation.MainActivity;
+import com.mickmelon.carshare.database.PostData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Connection;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class StartupActivity extends AppCompatActivity {
@@ -24,7 +23,7 @@ public class StartupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startup);
 
-        PostAsyncTask task = new PostAsyncTask();
+        /*HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
 
         String seller = null;
         try {
@@ -39,6 +38,23 @@ public class StartupActivity extends AppCompatActivity {
 
             System.out.println("NAME: " + name);
         } catch (JSONException e) {
+            e.printStackTrace();
+        }*/
+
+        HttpClient.HttpPostAsyncTask task = new HttpClient.HttpPostAsyncTask();
+        List<AbstractMap.SimpleEntry> params = new ArrayList<>();
+        params.add(new AbstractMap.SimpleEntry("Email", "test@test.com"));
+        params.add(new AbstractMap.SimpleEntry("PhoneNumber", "07123432"));
+        params.add(new AbstractMap.SimpleEntry("Name", "hehehe"));
+        params.add(new AbstractMap.SimpleEntry("Website", "http://shite.com"));
+        params.add(new AbstractMap.SimpleEntry("Description", "fuck ytou"));
+        params.add(new AbstractMap.SimpleEntry("Location", "farfir"));
+        PostData postData = new PostData("c=seller&a=create", params);
+
+        try {
+            String result = task.execute(postData).get();
+            System.out.println(result);
+        } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
 

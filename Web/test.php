@@ -2,7 +2,15 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
-update_test();
+advert_getall_test();
+
+function advert_getall_test()
+{
+    $result = file_get_contents('http://localhost/~michael/cartrader/carshare/Web/index.php?c=advert&a=readall');
+
+    header('Content-Type: application/json');
+    echo $result;
+}
 
 function update_test()
 {

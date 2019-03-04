@@ -1,5 +1,7 @@
 package com.mickmelon.carshare.database;
 
+import android.os.AsyncTask;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -15,59 +17,47 @@ import java.util.AbstractMap;
 import java.util.List;
 
 public class HttpClient {
-    static URL url;
-    static HttpURLConnection conn = null;
+    protected HttpClient() {}
 
-    public static boolean connect() {
-
-        try {
-            url = new URL("http://localhost/~michael/cartrader/carshare/Web/index.php");
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setConnectTimeout(15000);
-            conn.setReadTimeout(10000);
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-        } catch (Exception ex) {
-            return false;
-        } finally {
-            if (conn != null) conn.disconnect();
-        }
-
-        return true;
-    }
-
-    public static String post(List<AbstractMap.SimpleEntry> params) {
+    private static String post(String action, List<AbstractMap.SimpleEntry> params) {
         if (params == null || params.size() < 1) {
             return "ERROR: No parameters";
         }
 
-        String response = "ERROR: No response"; // Value gets assigned to if there is response
-
-        String request = generateRequest(params);
-        conn.setFixedLengthStreamingMode(request.getBytes().length);
+        String result = null;
 
         try {
-            OutputStream stream = conn.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(stream, "UTF-8"));
-            writer.write(request);
-            writer.close();
-            stream.close();
+            URL url = new URL("http://192.168.1.8/~michael/cartrader/carshare/Web/index.php?" + action);
+            HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+            httpConn.setRequestMethod("POST");
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            response = readResult(reader);
-        } catch (IOException e) {
+            String request = generateRequest(params);
+            httpConn.setFixedLengthStreamingMode(request.getBytes().length);
+
+            // Send to API
+            OutputStream outputStream = httpConn.getOutputStream();
+            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+            bufferedWriter.write(request);
+            bufferedWriter.flush();
+            bufferedWriter.close();
+            outputStream.close();
+
+            // Get response
+            InputStreamReader inputStreamReader = new InputStreamReader(httpConn.getInputStream());
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            result = readResult(bufferedReader);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return response;
+        return result;
     }
 
-    public static String get(String request) {
-        String result = "ERROR: Could not get a result.";
+    private static String get(String action) {
+        String result = null;
 
         try {
-            URL url = new URL("http://192.168.1.8/~michael/cartrader/carshare/Web/index.php?" + request);
+            URL url = new URL("http://192.168.1.8/~michael/cartrader/carshare/Web/index.php?" + action);
             HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
             httpConn.setRequestMethod("GET");
             InputStream inputStream = httpConn.getInputStream();
@@ -113,5 +103,23 @@ public class HttpClient {
         }
 
         return result.toString();
+    }
+
+    public static class HttpGetAsyncTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            String result = HttpClient.get(params[0]);
+
+            return result;
+        }
+    }
+
+    public static class HttpPostAsyncTask extends AsyncTask<PostData, Void, String> {
+        @Override
+        protected String doInBackground(PostData... params) {
+            PostData postData = params[0];
+            String result = HttpClient.post(postData.getAction(), postData.getParams());
+            return result;
+        }
     }
 }
