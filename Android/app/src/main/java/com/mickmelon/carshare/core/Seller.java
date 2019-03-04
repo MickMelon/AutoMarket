@@ -8,8 +8,9 @@ public class Seller {
     private String _website;
     private String _description;
     private String _location;
+    private String _password;
 
-    public Seller(int sellerId, String email, String phoneNumber, String name, String website, String description, String location) {
+    public Seller(int sellerId, String email, String phoneNumber, String name, String website, String description, String location, String password) {
         _sellerId = sellerId;
         _email = email;
         _phoneNumber = phoneNumber;
@@ -17,6 +18,7 @@ public class Seller {
         _website = website;
         _description = description;
         _location = location;
+        _password = password;
     }
 
     public int getSellerId() { return _sellerId; }
@@ -32,4 +34,6 @@ public class Seller {
     public String getDescription() { return _description; }
 
     public String getLocation() { return _location; }
+
+    public String getPassword() { return _password; }
 }

@@ -10,8 +10,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import cz.msebera.android.httpclient.entity.mime.Header;
-
 public class RemoteAdvertRepository implements IAdvertRepository {
     public List<Advert> getAllAdverts() {
         final List<Advert> adverts = new ArrayList<Advert>();

@@ -3,11 +3,11 @@ package com.mickmelon.carshare.database;
 public class DataAccess {
     private static DataAccess _instance;
 
-    private AdvertRepository _advertRepository;
+    private IAdvertRepository _advertRepository;
     private ISellerRepository _sellerRepository;
 
     protected DataAccess() {
-        _advertRepository = new AdvertRepository();
+        _advertRepository = new RemoteAdvertRepository();
         _sellerRepository = new RemoteSellerRepository();
     }
 
@@ -19,7 +19,7 @@ public class DataAccess {
         return _instance;
     }
 
-    public AdvertRepository adverts() { return _advertRepository; }
+    public IAdvertRepository adverts() { return _advertRepository; }
 
     public ISellerRepository sellers() { return _sellerRepository; }
 }
