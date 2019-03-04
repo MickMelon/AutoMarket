@@ -10,10 +10,10 @@ public class SellerRepository {
 
     public SellerRepository() {
         _sellers = new ArrayList<Seller>();
-
+/*
         _sellers.add(new Seller(1, "1@1.com", "01", "Seller1", "www.1.com", "Description1", "Forfar"));
         _sellers.add(new Seller(2, "2@2.com", "02", "Seller2", "www.2.com", "Description2", "Arbroath"));
-        _sellers.add(new Seller(3, "3@3.com", "03", "Seller3", "www.3.com", "Description3", "Dundee"));
+        _sellers.add(new Seller(3, "3@3.com", "03", "Seller3", "www.3.com", "Description3", "Dundee"));*/
     }
 
     public Seller getSellerById(int sellerId) {

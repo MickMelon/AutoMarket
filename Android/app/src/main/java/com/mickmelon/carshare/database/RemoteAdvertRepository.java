@@ -7,12 +7,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RemoteAdvertRepository implements IAdvertRepository {
     public List<Advert> getAllAdverts() {
-        final List<Advert> adverts = new ArrayList<Advert>();
+        /*final List<Advert> adverts = new ArrayList<Advert>();
 
         RestClient.get("c=advert&a=readall", null, new JsonHttpResponseHandler() {
             @Override
@@ -36,7 +35,9 @@ public class RemoteAdvertRepository implements IAdvertRepository {
             }
         });
 
-        return adverts;
+        return adverts;*/
+
+        return null;
     }
 
     public Advert getAdvertById(int id) {

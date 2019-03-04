@@ -34,7 +34,7 @@ public class RemoteSellerRepository implements ISellerRepository {
                     String description = firstEvent.getString("Description");
                     String location = firstEvent.getString("Location");
 
-                    seller[0] = new Seller(id, email, phoneNumber, name, website, description, location);
+                    seller[0] = new Seller(id, email, phoneNumber, name, website, description, location, "");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -42,6 +42,11 @@ public class RemoteSellerRepository implements ISellerRepository {
         });
 
         return seller[0];
+    }
+
+    @Override
+    public Seller getSellerByEmail(String email) {
+        return null;
     }
 
     public boolean addSeller(Seller seller) {
