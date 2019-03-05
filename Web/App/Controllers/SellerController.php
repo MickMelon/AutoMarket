@@ -20,7 +20,8 @@ class SellerController
             !empty($_POST['Name']) &&
             !empty($_POST['Website']) &&
             !empty($_POST['Description']) &&
-            !empty($_POST['Location']))
+            !empty($_POST['Location']) &&
+            !empty($_POST['Password']))
         {
             $email = $_POST['Email'];
             $phoneNumber = $_POST['PhoneNumber'];
@@ -28,8 +29,9 @@ class SellerController
             $website = $_POST['Website'];
             $description = $_POST['Description'];
             $location = $_POST['Location'];
+            $password = $_POST['Password'];
             
-            $this->sellerModel->create($email, $phoneNumber, $name, $website, $description, $location);
+            $this->sellerModel->create($email, $phoneNumber, $name, $website, $description, $location, $password);
             return new Results\JsonResult("Seller was created successfully.");
         }
 
@@ -71,7 +73,8 @@ class SellerController
             !empty($_POST['Name']) &&
             !empty($_POST['Website']) &&
             !empty($_POST['Description']) &&
-            !empty($_POST['Location']))
+            !empty($_POST['Location']) &&
+            !empty($_POST['Password']))
         {
             $id = $_POST['ID'];
             $email = $_POST['Email'];
@@ -80,8 +83,9 @@ class SellerController
             $website = $_POST['Website'];
             $description = $_POST['Description'];
             $location = $_POST['Location'];
+            $password = $_POST['Password'];
 
-            $this->sellerModel->update($id, $email, $phoneNumber, $name, $website, $description, $location);
+            $this->sellerModel->update($id, $email, $phoneNumber, $name, $website, $description, $location, $password);
             return new Results\JsonResult("Seller updated successfully.");
         }
 

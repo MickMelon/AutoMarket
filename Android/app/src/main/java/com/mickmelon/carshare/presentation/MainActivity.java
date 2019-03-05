@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.mickmelon.carshare.R;
+import com.mickmelon.carshare.util.FragmentHelper;
 
 /**
  * This class is the container for all the fragments. It holds the navigation drawer.
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-        showFragment();
+        FragmentHelper.showFragment(this, new AdvertBrowserFragment());
     }
 
     @Override

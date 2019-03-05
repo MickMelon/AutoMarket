@@ -72,6 +72,7 @@ public class RemoteSellerRepository implements ISellerRepository {
         params.add(new AbstractMap.SimpleEntry("Website", seller.getWebsite()));
         params.add(new AbstractMap.SimpleEntry("Description", seller.getDescription()));
         params.add(new AbstractMap.SimpleEntry("Location", seller.getLocation()));
+        params.add(new AbstractMap.SimpleEntry("Password", seller.getPassword()));
         PostData postData = new PostData("c=seller&a=create", params);
 
         try {
@@ -95,6 +96,7 @@ public class RemoteSellerRepository implements ISellerRepository {
         params.add(new AbstractMap.SimpleEntry("Website", seller.getWebsite()));
         params.add(new AbstractMap.SimpleEntry("Description", seller.getDescription()));
         params.add(new AbstractMap.SimpleEntry("Location", seller.getLocation()));
+        params.add(new AbstractMap.SimpleEntry("Password", seller.getPassword()));
         PostData postData = new PostData("c=seller&a=update", params);
 
         try {

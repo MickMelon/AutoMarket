@@ -49,8 +49,9 @@ public class Seller {
             String website = json.getString("Website");
             String description = json.getString("Description");
             String location = json.getString("Location");
+            String password = json.getString("Password");
 
-            return new Seller(sellerId, email, phoneNumber, name, website, description, location, "");
+            return new Seller(sellerId, email, phoneNumber, name, website, description, location, password);
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
