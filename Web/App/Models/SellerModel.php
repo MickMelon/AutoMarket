@@ -6,13 +6,36 @@ use PDO;
 
 class SellerModel
 {
-    public function get($id)
+    public function getAll()
+    {
+        $db = Database::getInstance();
+
+        $sql = "SELECT * FROM `Seller`";
+        $query = $db->prepare($sql);
+        $query->execute();
+
+        return $query->fetchAll();
+    }
+
+    public function getById($id)
     {
         $db = Database::getInstance();
 
         $sql = "SELECT * FROM `Seller` WHERE `ID` = :id LIMIT 1";
         $query = $db->prepare($sql);
         $query->bindParam(':id', $id, PDO::PARAM_INT);
+        $query->execute();
+
+        return $query->fetch();
+    }
+
+    public function getByEmail($email)
+    {
+        $db = Database::getInstance();
+
+        $sql = "SELECT * FROM `Seller` WHERE `Email` = :email LIMIT 1";
+        $query = $db->prepare($sql);
+        $query->bindParam(':email', $id, PDO::PARAM_STR);
         $query->execute();
 
         return $query->fetch();

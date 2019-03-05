@@ -5,11 +5,10 @@ import android.os.Bundle;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.mickmelon.carshare.core.Seller;
 import com.mickmelon.carshare.database.HttpClient;
 import com.mickmelon.carshare.database.PostData;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.mickmelon.carshare.database.RemoteSellerRepository;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class StartupActivity extends AppCompatActivity {
             System.out.println("NAME: " + name);
         } catch (JSONException e) {
             e.printStackTrace();
-        }*/
+        }
 
         HttpClient.HttpPostAsyncTask task = new HttpClient.HttpPostAsyncTask();
         List<AbstractMap.SimpleEntry> params = new ArrayList<>();
@@ -56,8 +55,13 @@ public class StartupActivity extends AppCompatActivity {
             System.out.println(result);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
 
+        RemoteSellerRepository repo = new RemoteSellerRepository();
+        Seller seller = repo.getSellerById(1);
+        System.out.println(seller.getName());
+        List<Seller> sellers = repo.getAllSellers();
+        System.out.println(sellers.size());
     }
 
     @Override

@@ -38,17 +38,29 @@ class SellerController
 
     public function read()
     {
+        // Read by ID
         if (isset($_GET['id'])) 
         {
             $id = $_GET['id'];
-            $seller = $this->sellerModel->get($id);
+            $seller = $this->sellerModel->getById($id);
             if (!$seller)
                 return new Results\JsonResult("No Seller found for the specified ID.");
             return new Results\JsonResult($seller);
         }
 
-        // View Error
-        return Results\ViewResult::error();
+        // Read by Email
+        if (isset($_GET['email']))
+        {
+            $email = $_GET['email'];
+            $seller = $this->sellerModel->getByEmail($email);
+            if (!$seller)
+                return new Results\JsonResult("No Seller found for the specified Email.");
+            return new Results\JsonResult($seller);
+        }
+
+        // Read all
+        $sellers = $this->sellerModel->getAll();
+        return new Results\JsonResult($sellers);
     }
 
     public function update()

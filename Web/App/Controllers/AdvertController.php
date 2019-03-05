@@ -30,7 +30,7 @@ class AdvertController
             $location = $_POST['Location'];
             
             $this->sellerModel->create($email, $phoneNumber, $name, $website, $description, $location);
-            return new Results\JsonResult("Seller was created successfully.");
+            return new Results\JsonResult("Advert was created successfully.");
         }
 
         return new Results\JsonResult("Unable to create the Seller.");

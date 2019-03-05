@@ -1,5 +1,8 @@
 package com.mickmelon.carshare.core;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Advert {
     private int _advertId;
     private String _vehicleReg;
@@ -30,4 +33,19 @@ public class Advert {
     public double getPrice() { return _price; }
 
     public void setPrice(double price) { _price = price; }
+
+    public static Advert fromJson(JSONObject json) {
+        try {
+            int advertId = json.getInt("ID");
+            String vehicleReg = json.getString("VehicleReg");
+            String description = json.getString("Description");
+            double price = json.getDouble("Price");
+            int sellerId = json.getInt("SellerID");
+
+            return new Advert(advertId, vehicleReg, description, price, sellerId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

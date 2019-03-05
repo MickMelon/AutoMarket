@@ -1,5 +1,8 @@
 package com.mickmelon.carshare.core;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Seller {
     private int _sellerId;
     private String _email;
@@ -36,4 +39,21 @@ public class Seller {
     public String getLocation() { return _location; }
 
     public String getPassword() { return _password; }
+
+    public static Seller fromJson(JSONObject json) {
+        try {
+            int sellerId = json.getInt("ID");
+            String email = json.getString("Email");
+            String phoneNumber = json.getString("PhoneNumber");
+            String name = json.getString("Name");
+            String website = json.getString("Website");
+            String description = json.getString("Description");
+            String location = json.getString("Location");
+
+            return new Seller(sellerId, email, phoneNumber, name, website, description, location, "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

@@ -1,52 +1,64 @@
 package com.mickmelon.carshare.database;
 
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.mickmelon.carshare.core.Seller;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import cz.msebera.android.httpclient.Header;
+import java.util.concurrent.ExecutionException;
 
 public class RemoteSellerRepository implements ISellerRepository {
 
     public List<Seller> getAllSellers() {
-        return null;
+        HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
+
+        try {
+            List<Seller> sellers = new ArrayList<>();
+
+            String result = task.execute("c=seller&a=read").get();
+            JSONArray jsonAllSellers = new JSONArray(result);
+
+            for (int i = 0; i < jsonAllSellers.length(); i++) {
+                JSONObject jsonSeller = (JSONObject) jsonAllSellers.get(i);
+                sellers.add(Seller.fromJson(jsonSeller));
+            }
+
+            return sellers;
+        } catch (InterruptedException | ExecutionException | JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Seller getSellerById(int id) {
-        final Seller[] seller = {null};
+        HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
 
-        RestClient.get("c=seller&a=read&id=" + id, null, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray timeline) {
-                JSONObject firstEvent = null;
-                try {
-                    firstEvent = (JSONObject) timeline.get(0);
-                    int id = firstEvent.getInt("ID");
-                    String email = firstEvent.getString("Email");
-                    String phoneNumber = firstEvent.getString("PhoneNumber");
-                    String name = firstEvent.getString("Name");
-                    String website = firstEvent.getString("Website");
-                    String description = firstEvent.getString("Description");
-                    String location = firstEvent.getString("Location");
-
-                    seller[0] = new Seller(id, email, phoneNumber, name, website, description, location, "");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        return seller[0];
+        try {
+            String result = task.execute("c=seller&a=read&id=" + id).get();
+            JSONObject jsonSeller = new JSONObject(result);
+            Seller seller = Seller.fromJson(jsonSeller);
+            return seller;
+        } catch (InterruptedException | ExecutionException | JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    @Override
     public Seller getSellerByEmail(String email) {
-        return null;
+        HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
+
+        try {
+            String result = task.execute("c=seller&a=read&email=" + email).get();
+            JSONObject jsonSeller = new JSONObject(result);
+            Seller seller = Seller.fromJson(jsonSeller);
+            return seller;
+        } catch (InterruptedException | ExecutionException | JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public boolean addSeller(Seller seller) {

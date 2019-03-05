@@ -1,72 +1,75 @@
 package com.mickmelon.carshare.database;
 
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.mickmelon.carshare.core.Advert;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class RemoteAdvertRepository implements IAdvertRepository {
     public List<Advert> getAllAdverts() {
-        /*final List<Advert> adverts = new ArrayList<Advert>();
+        HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
 
-        RestClient.get("c=advert&a=readall", null, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray timeline) {
-                JSONObject event = null;
-                try {
-                    for (int i = 0; i < timeline.length(); i++) {
-                        event = (JSONObject) timeline.get(i);
+        try {
+            List<Advert> adverts = new ArrayList<>();
 
-                        int id = event.getInt("ID");
-                        String vehicleReg = event.getString("VehicleReg");
-                        String description = event.getString("Description");
-                        double price = event.getDouble("Price");
-                        int sellerId = event.getInt("SellerID");
+            String result = task.execute("c=advert&a=read").get();
+            JSONArray jsonAllAdverts = new JSONArray(result);
 
-                        adverts.add(new Advert(id, vehicleReg, description, price, sellerId));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            for (int i = 0; i < jsonAllAdverts.length(); i++) {
+                JSONObject jsonAdvert = (JSONObject) jsonAllAdverts.get(i);
+                adverts.add(Advert.fromJson(jsonAdvert));
             }
-        });
 
-        return adverts;*/
-
-        return null;
+            return adverts;
+        } catch (InterruptedException | ExecutionException | JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Advert getAdvertById(int id) {
-        final Advert[] advert = {null};
+        HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
 
-        RestClient.get("c=advert&a=get&id=" + id, null, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, JSONArray timeline) {
-                JSONObject firstEvent = null;
-                try {
-                    firstEvent = (JSONObject) timeline.get(0);
-                    int id = firstEvent.getInt("ID");
-                    String vehicleReg = firstEvent.getString("VehicleReg");
-                    String description = firstEvent.getString("Description");
-                    double price = firstEvent.getDouble("Price");
-                    int sellerId = firstEvent.getInt("SellerID");
-
-                    advert[0] = new Advert(id, vehicleReg, description, price, sellerId);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        return advert[0];
+        try {
+            String result = task.execute("c=advert&a=read&id=" + id).get();
+            JSONObject jsonAdvert = new JSONObject(result);
+            Advert advert = Advert.fromJson(jsonAdvert);
+            return advert;
+        } catch (InterruptedException | ExecutionException | JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public boolean addAdvert(Advert advert) {
-        return false;
+        HttpClient.HttpPostAsyncTask task = new HttpClient.HttpPostAsyncTask();
+
+        List<AbstractMap.SimpleEntry> params = new ArrayList<>();
+        params.add(new AbstractMap.SimpleEntry("ID", advert.getAdvertId()));
+        params.add(new AbstractMap.SimpleEntry("VehicleReg", advert.getVehicleReg()));
+        params.add(new AbstractMap.SimpleEntry("Description", advert.getDescription()));
+        params.add(new AbstractMap.SimpleEntry("Price", advert.getPrice()));
+        params.add(new AbstractMap.SimpleEntry("SellerID", advert.getSellerId()));
+        PostData postData = new PostData("c=advert&a=create", params);
+
+        try {
+            String result = task.execute(postData).get();
+
+            if (result.equals("Advert was created successfully.")) {
+                return true;
+            }
+
+            return false;
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean removeAdvert(Advert advert) {
