@@ -39,6 +39,7 @@ public class AdvertBrowserFragment extends Fragment {
 
     public void populateAdverts() {
         List<Advert> adverts = _dataAccess.adverts().getAllAdverts();
+        if (adverts == null || adverts.size() == 0) System.out.println("It's fucked");
 
         for (Advert advert : adverts) {
             final int advertId = advert.getAdvertId();

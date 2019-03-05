@@ -51,7 +51,6 @@ public class RemoteAdvertRepository implements IAdvertRepository {
         HttpClient.HttpPostAsyncTask task = new HttpClient.HttpPostAsyncTask();
 
         List<AbstractMap.SimpleEntry> params = new ArrayList<>();
-        params.add(new AbstractMap.SimpleEntry("ID", advert.getAdvertId()));
         params.add(new AbstractMap.SimpleEntry("VehicleReg", advert.getVehicleReg()));
         params.add(new AbstractMap.SimpleEntry("Description", advert.getDescription()));
         params.add(new AbstractMap.SimpleEntry("Price", advert.getPrice()));
@@ -61,7 +60,28 @@ public class RemoteAdvertRepository implements IAdvertRepository {
         try {
             String result = task.execute(postData).get();
 
-            if (result.equals("Advert was created successfully.")) {
+            return result.equals("Advert was created successfully.");
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateAdvert(Advert advert) {
+        HttpClient.HttpPostAsyncTask task = new HttpClient.HttpPostAsyncTask();
+
+        List<AbstractMap.SimpleEntry> params = new ArrayList<>();
+        params.add(new AbstractMap.SimpleEntry("ID", advert.getAdvertId()));
+        params.add(new AbstractMap.SimpleEntry("VehicleReg", advert.getVehicleReg()));
+        params.add(new AbstractMap.SimpleEntry("Description", advert.getDescription()));
+        params.add(new AbstractMap.SimpleEntry("Price", advert.getPrice()));
+        params.add(new AbstractMap.SimpleEntry("SellerID", advert.getSellerId()));
+        PostData postData = new PostData("c=advert&a=update", params);
+
+        try {
+            String result = task.execute(postData).get();
+
+            if (result.equals("Advert was updated successfully.")) {
                 return true;
             }
 
@@ -73,10 +93,6 @@ public class RemoteAdvertRepository implements IAdvertRepository {
     }
 
     public boolean removeAdvert(Advert advert) {
-        return false;
-    }
-
-    public boolean updateAdvert(Advert advert) {
         return false;
     }
 }

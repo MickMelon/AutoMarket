@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -62,11 +63,48 @@ public class RemoteSellerRepository implements ISellerRepository {
     }
 
     public boolean addSeller(Seller seller) {
-        return false;
+        HttpClient.HttpPostAsyncTask task = new HttpClient.HttpPostAsyncTask();
+
+        List<AbstractMap.SimpleEntry> params = new ArrayList<>();
+        params.add(new AbstractMap.SimpleEntry("Email", seller.getEmail()));
+        params.add(new AbstractMap.SimpleEntry("PhoneNumber", seller.getPhoneNumber()));
+        params.add(new AbstractMap.SimpleEntry("Name", seller.getName()));
+        params.add(new AbstractMap.SimpleEntry("Website", seller.getWebsite()));
+        params.add(new AbstractMap.SimpleEntry("Description", seller.getDescription()));
+        params.add(new AbstractMap.SimpleEntry("Location", seller.getLocation()));
+        PostData postData = new PostData("c=seller&a=create", params);
+
+        try {
+            String result = task.execute(postData).get();
+
+            return result.equals("Seller was created successfully.");
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean updateSeller(Seller seller) {
-        return false;
+        HttpClient.HttpPostAsyncTask task = new HttpClient.HttpPostAsyncTask();
+
+        List<AbstractMap.SimpleEntry> params = new ArrayList<>();
+        params.add(new AbstractMap.SimpleEntry("ID", seller.getSellerId()));
+        params.add(new AbstractMap.SimpleEntry("Email", seller.getEmail()));
+        params.add(new AbstractMap.SimpleEntry("PhoneNumber", seller.getPhoneNumber()));
+        params.add(new AbstractMap.SimpleEntry("Name", seller.getName()));
+        params.add(new AbstractMap.SimpleEntry("Website", seller.getWebsite()));
+        params.add(new AbstractMap.SimpleEntry("Description", seller.getDescription()));
+        params.add(new AbstractMap.SimpleEntry("Location", seller.getLocation()));
+        PostData postData = new PostData("c=seller&a=update", params);
+
+        try {
+            String result = task.execute(postData).get();
+
+            return result.equals("Seller was updated successfully.");
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public boolean removeSeller(Seller seller) {

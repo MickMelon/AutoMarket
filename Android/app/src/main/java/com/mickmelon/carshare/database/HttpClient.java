@@ -27,7 +27,7 @@ public class HttpClient {
         String result = null;
 
         try {
-            URL url = new URL("http://192.168.1.8/~michael/cartrader/carshare/Web/index.php?" + action);
+            URL url = new URL("http://192.168.1.13/~michael/cartrader/carshare/Web/index.php?" + action);
             HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
             httpConn.setRequestMethod("POST");
 
@@ -46,6 +46,8 @@ public class HttpClient {
             InputStreamReader inputStreamReader = new InputStreamReader(httpConn.getInputStream());
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             result = readResult(bufferedReader);
+
+            httpConn.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,7 +59,7 @@ public class HttpClient {
         String result = null;
 
         try {
-            URL url = new URL("http://192.168.1.8/~michael/cartrader/carshare/Web/index.php?" + action);
+            URL url = new URL("http://192.168.1.13/~michael/cartrader/carshare/Web/index.php?" + action);
             HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
             httpConn.setRequestMethod("GET");
             InputStream inputStream = httpConn.getInputStream();
@@ -65,6 +67,11 @@ public class HttpClient {
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             result = readResult(bufferedReader);
+
+            bufferedReader.close();
+            inputStreamReader.close();
+            inputStream.close();
+            httpConn.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -108,6 +115,9 @@ public class HttpClient {
     public static class HttpGetAsyncTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
+            if(android.os.Debug.isDebuggerConnected())
+                android.os.Debug.waitForDebugger();
+
             String result = HttpClient.get(params[0]);
 
             return result;
@@ -117,6 +127,9 @@ public class HttpClient {
     public static class HttpPostAsyncTask extends AsyncTask<PostData, Void, String> {
         @Override
         protected String doInBackground(PostData... params) {
+            if(android.os.Debug.isDebuggerConnected())
+                android.os.Debug.waitForDebugger();
+
             PostData postData = params[0];
             String result = HttpClient.post(postData.getAction(), postData.getParams());
             return result;
