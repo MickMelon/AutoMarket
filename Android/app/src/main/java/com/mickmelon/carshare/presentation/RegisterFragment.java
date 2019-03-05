@@ -1,9 +1,11 @@
 package com.mickmelon.carshare.presentation;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -11,7 +13,7 @@ import com.mickmelon.carshare.Identity;
 import com.mickmelon.carshare.R;
 import com.mickmelon.carshare.util.ToastHelper;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterFragment extends Fragment {
     private EditText _email;
     private EditText _name;
     private EditText _password;
@@ -22,18 +24,20 @@ public class RegisterActivity extends AppCompatActivity {
     private Button _registerButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_register);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_register, container, false);
+    }
 
-        _email = findViewById(R.id.editText_Email);
-        _name = findViewById(R.id.editText_Name);
-        _password = findViewById(R.id.editText_Password);
-        _phoneNumber = findViewById(R.id.editText_PhoneNumber);
-        _website = findViewById(R.id.editText_Website);
-        _location = findViewById(R.id.editText_Location);
-        _description = findViewById(R.id.editText_Description);
-        _registerButton = findViewById(R.id.button_Register);
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        _email = view.findViewById(R.id.editText_Email);
+        _name = view.findViewById(R.id.editText_Name);
+        _password = view.findViewById(R.id.editText_Password);
+        _phoneNumber = view.findViewById(R.id.editText_PhoneNumber);
+        _website = view.findViewById(R.id.editText_Website);
+        _location = view.findViewById(R.id.editText_Location);
+        _description = view.findViewById(R.id.editText_Description);
+        _registerButton = view.findViewById(R.id.button_Register);
 
         _registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,11 +59,11 @@ public class RegisterActivity extends AppCompatActivity {
         boolean success = Identity.register(email, name, password, phoneNumber, website, location, description);
         if (success) {
             // Show the login fragment
-            ToastHelper.showToast(this, "Account registered successfully.");
-            startActivity(new Intent(this, LoginActivity.class));
+            ToastHelper.showToast(getContext(), "Account registered successfully.");
+            //startActivity(new Intent(this, LoginActivity.class));
         } else {
             // Already a user with that email
-            ToastHelper.showToast(this, "That email address is already in use.");
+            ToastHelper.showToast(getContext(), "That email address is already in use.");
         }
     }
 }

@@ -9,6 +9,7 @@ import android.widget.Button;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.mickmelon.carshare.presentation.LoginActivity;
+import com.mickmelon.carshare.presentation.MainActivity;
 import com.mickmelon.carshare.presentation.RegisterActivity;
 
 public class StartupActivity extends AppCompatActivity {
@@ -26,7 +27,7 @@ public class StartupActivity extends AppCompatActivity {
 
             setContentView(R.layout.activity_startup);
 
-            Button loginButton = findViewById(R.id.button_Login);
+            /*Button loginButton = findViewById(R.id.button_Login);
             Button registerButton = findViewById(R.id.button_Register);
 
             loginButton.setOnClickListener(new View.OnClickListener() {
@@ -41,7 +42,9 @@ public class StartupActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
                 }
-            });
+            });*/
+
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
         } else System.out.println("NOT VERIFIED");
     }
 

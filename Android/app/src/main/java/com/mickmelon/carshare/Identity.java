@@ -29,6 +29,12 @@ public class Identity {
         return false;
     }
 
+    public static void logout() {
+        if (isLoggedIn()) {
+            _currentUser = null;
+        }
+    }
+
     public static boolean isLoggedIn() {
         return (_currentUser != null);
     }
