@@ -52,6 +52,16 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
         transaction.commit();
     }
 
+    public void showFragment(Fragment fragment) {
+        if (fragment == null) return;
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.addToBackStack(null);
+
+        transaction.commit();
+    }
+
     @Override
     public void onAdvertSelected(int position) {
         ViewAdvertFragment viewAdvert = new ViewAdvertFragment();

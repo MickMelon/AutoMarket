@@ -9,6 +9,7 @@ public class Identity {
 
     public static boolean login(String email, String password) {
         Seller seller = _dataAccess.sellers().getSellerByEmail(email);
+
         if (seller != null && seller.getPassword().equalsIgnoreCase(password)) {
             _currentUser = seller;
             return true;
@@ -18,8 +19,8 @@ public class Identity {
     }
 
     public static boolean register(String email, String name, String password, String phoneNumber, String website, String location, String description) {
-        // Call dataaccess to add the seller
         Seller existingSeller = _dataAccess.sellers().getSellerByEmail(email);
+
         if (existingSeller == null) {
             _dataAccess.sellers().addSeller(new Seller(-1, email, phoneNumber, name, website, description, location, password));
             return true;
@@ -29,6 +30,8 @@ public class Identity {
     }
 
     public static boolean isLoggedIn() {
-        return (_currentUser == null);
+        return (_currentUser != null);
     }
+
+    public static Seller getCurrentUser() { return _currentUser; }
 }

@@ -19,6 +19,30 @@ import java.util.List;
 public class HttpClient {
     protected HttpClient() {}
 
+    public static class HttpGetAsyncTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+            if(android.os.Debug.isDebuggerConnected())
+                android.os.Debug.waitForDebugger();
+
+            String result = HttpClient.get(params[0]);
+
+            return result;
+        }
+    }
+
+    public static class HttpPostAsyncTask extends AsyncTask<PostData, Void, String> {
+        @Override
+        protected String doInBackground(PostData... params) {
+            if(android.os.Debug.isDebuggerConnected())
+                android.os.Debug.waitForDebugger();
+
+            PostData postData = params[0];
+            String result = HttpClient.post(postData.getAction(), postData.getParams());
+            return result;
+        }
+    }
+
     private static String post(String action, List<AbstractMap.SimpleEntry> params) {
         if (params == null || params.size() < 1) {
             return "ERROR: No parameters";
@@ -110,29 +134,5 @@ public class HttpClient {
         }
 
         return result.toString();
-    }
-
-    public static class HttpGetAsyncTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-            if(android.os.Debug.isDebuggerConnected())
-                android.os.Debug.waitForDebugger();
-
-            String result = HttpClient.get(params[0]);
-
-            return result;
-        }
-    }
-
-    public static class HttpPostAsyncTask extends AsyncTask<PostData, Void, String> {
-        @Override
-        protected String doInBackground(PostData... params) {
-            if(android.os.Debug.isDebuggerConnected())
-                android.os.Debug.waitForDebugger();
-
-            PostData postData = params[0];
-            String result = HttpClient.post(postData.getAction(), postData.getParams());
-            return result;
-        }
     }
 }

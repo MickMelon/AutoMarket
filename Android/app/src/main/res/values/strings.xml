@@ -19,7 +19,11 @@
     <string name="viewadvert_button_email">Email</string>
     <string name="viewadvert_button_website">Website</string>
 
-    <!-- RegisterFragment -->
+    <!-- StartupActivity -->
+    <string name="startup_button_login">Login</string>
+    <string name="startup_button_register">Register</string>
+
+    <!-- RegisterActivity -->
     <string name="register_edittext_email">Email</string>
     <string name="register_edittext_password">Password</string>
     <string name="register_edittext_website">Website</string>
@@ -28,4 +32,9 @@
     <string name="register_edittext_description">Description</string>
     <string name="register_edittext_phonenumber">Phone Number</string>
     <string name="register_button_register">Register</string>
+
+    <!-- LoginActivity -->
+    <string name="login_edittext_email">Email</string>
+    <string name="login_edittext_password">Password</string>
+    <string name="login_button_login">Login</string>
 </resources>
