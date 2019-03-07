@@ -7,6 +7,11 @@ import android.support.v7.app.AppCompatActivity;
 import com.mickmelon.carshare.R;
 
 public class FragmentHelper {
+    /**
+     * Shows a fragment.
+     * @param activity The calling activity.
+     * @param fragment The fragment to be shown.
+     */
     public static void showFragment(AppCompatActivity activity, Fragment fragment) {
         if (activity == null || fragment == null) return;
 

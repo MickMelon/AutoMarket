@@ -13,6 +13,10 @@ import java.util.concurrent.ExecutionException;
 
 public class RemoteSellerRepository implements ISellerRepository {
 
+    /**
+     * Gets all the Sellers from the database.
+     * @return A list of all the sellers.
+     */
     public List<Seller> getAllSellers() {
         HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
 
@@ -34,6 +38,11 @@ public class RemoteSellerRepository implements ISellerRepository {
         }
     }
 
+    /**
+     * Get a single seller by its ID.
+     * @param id the Seller ID
+     * @return The seller or null if none found.
+     */
     public Seller getSellerById(int id) {
         HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
 
@@ -48,6 +57,11 @@ public class RemoteSellerRepository implements ISellerRepository {
         }
     }
 
+    /**
+     * Get a single seller by its email.
+     * @param email The seller email
+     * @return The seller or null if none found.
+     */
     public Seller getSellerByEmail(String email) {
         HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
 
@@ -62,6 +76,11 @@ public class RemoteSellerRepository implements ISellerRepository {
         }
     }
 
+    /**
+     * Adds a new seller to the database.
+     * @param seller The seller to be added.
+     * @return Whether the seller was added successfully.
+     */
     public boolean addSeller(Seller seller) {
         HttpClient.HttpPostAsyncTask task = new HttpClient.HttpPostAsyncTask();
 
@@ -85,6 +104,11 @@ public class RemoteSellerRepository implements ISellerRepository {
         }
     }
 
+    /**
+     * Updates a seller in the database.
+     * @param seller The seller to be updated with the new values.
+     * @return Whether the seller was updated successfully.
+     */
     public boolean updateSeller(Seller seller) {
         HttpClient.HttpPostAsyncTask task = new HttpClient.HttpPostAsyncTask();
 
@@ -109,6 +133,11 @@ public class RemoteSellerRepository implements ISellerRepository {
         }
     }
 
+    /**
+     * Removes a seller from the database.
+     * @param seller The seller to be removed.
+     * @return Whether the seller was removed successfully.
+     */
     public boolean removeSeller(Seller seller) {
         return false;
     }

@@ -19,6 +19,9 @@ import java.util.List;
 public class HttpClient {
     protected HttpClient() {}
 
+    /**
+     * Used to make a HttpGet request.
+     */
     public static class HttpGetAsyncTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
@@ -31,6 +34,9 @@ public class HttpClient {
         }
     }
 
+    /**
+     * Used to make a HttpPost request.
+     */
     public static class HttpPostAsyncTask extends AsyncTask<PostData, Void, String> {
         @Override
         protected String doInBackground(PostData... params) {
@@ -43,6 +49,12 @@ public class HttpClient {
         }
     }
 
+    /**
+     * Makes a Post request.
+     * @param action The action (i.e. c=seller&a=create)
+     * @param params The POST parameters to be sent with the request.
+     * @return The request response.
+     */
     private static String post(String action, List<AbstractMap.SimpleEntry> params) {
         if (params == null || params.size() < 1) {
             return "ERROR: No parameters";
@@ -79,6 +91,11 @@ public class HttpClient {
         return result;
     }
 
+    /**
+     * Makes a GET request.
+     * @param action The action (i.e. c=seller&a=read&id=1)
+     * @return The request response.
+     */
     private static String get(String action) {
         String result = null;
 
@@ -103,6 +120,11 @@ public class HttpClient {
         return result;
     }
 
+    /**
+     * Generates a request for the given params.
+     * @param params the POST params.
+     * @return The request string ready to send in POST.
+     */
     private static String generateRequest(List<AbstractMap.SimpleEntry> params) {
         StringBuilder request = new StringBuilder();
 
@@ -126,6 +148,11 @@ public class HttpClient {
         return request.toString();
     }
 
+    /**
+     * Reads a request result.
+     * @param reader The BufferedReader from the request.
+     * @return The request result.
+     */
     private static String readResult(BufferedReader reader) throws IOException {
         StringBuilder result = new StringBuilder();
         String line;

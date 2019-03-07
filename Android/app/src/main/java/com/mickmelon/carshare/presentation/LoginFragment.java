@@ -38,6 +38,9 @@ public class LoginFragment extends Fragment {
         });
     }
 
+    /**
+     * Called when the login form is submitted.
+     */
     private void submitLoginForm() {
         String email = _email.getText().toString();
         String password = _password.getText().toString();

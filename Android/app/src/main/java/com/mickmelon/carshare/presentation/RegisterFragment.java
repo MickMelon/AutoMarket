@@ -47,6 +47,9 @@ public class RegisterFragment extends Fragment {
         });
     }
 
+    /**
+     * Called when the register form has been submitted.
+     */
     private void submitRegisterForm() {
         String email = _email.getText().toString();
         String name = _name.getText().toString();

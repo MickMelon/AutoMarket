@@ -45,6 +45,10 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
         setupMenu();
     }
 
+    /**
+     * Sets up the navigation menu by assigning all the menu options depending on whether the user
+     * is logged in or not.
+     */
     private void setupMenu() {
         NavigationView navigationView = findViewById(R.id.nav_view);
         Menu menu = navigationView.getMenu();

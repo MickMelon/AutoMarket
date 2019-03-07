@@ -11,6 +11,10 @@ public class DataAccess {
         _sellerRepository = new RemoteSellerRepository();
     }
 
+    /**
+     * Gets the singleton DataAccess object.
+     * @return The DataAccess object.
+     */
     public static DataAccess getInstance() {
         if (_instance == null) {
             _instance = new DataAccess();
@@ -19,7 +23,13 @@ public class DataAccess {
         return _instance;
     }
 
+    /**
+     * The Adverts repository.
+     */
     public IAdvertRepository adverts() { return _advertRepository; }
 
+    /**
+     * The Sellers repository.
+     */
     public ISellerRepository sellers() { return _sellerRepository; }
 }

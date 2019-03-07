@@ -33,10 +33,17 @@ public class AdvertBrowserFragment extends Fragment {
         populateAdverts();
     }
 
+    /**
+     * Sets the OnAdvertSelectedListener.
+     * @param listener The OnAdvertSelectedListener.
+     */
     public void setOnAdvertSelectedListener(OnAdvertSelectedListener listener) {
         _advertSelectedListener = listener;
     }
 
+    /**
+     * Populates the list of adverts with those from the database.
+     */
     public void populateAdverts() {
         List<Advert> adverts = _dataAccess.adverts().getAllAdverts();
         if (adverts == null || adverts.size() == 0) System.out.println("It's fucked");
@@ -62,7 +69,7 @@ public class AdvertBrowserFragment extends Fragment {
             _linearLayout.addView(layout);
         }
     }
-
+    
     public interface OnAdvertSelectedListener {
         void onAdvertSelected(int position);
     }

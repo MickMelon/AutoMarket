@@ -12,6 +12,10 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class RemoteAdvertRepository implements IAdvertRepository {
+    /**
+     * Gets all the adverts from the database.
+     * @return A list of all the adverts.
+     */
     public List<Advert> getAllAdverts() {
         HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
 
@@ -33,6 +37,11 @@ public class RemoteAdvertRepository implements IAdvertRepository {
         }
     }
 
+    /**
+     * Gets a single advert by its ID.
+     * @param id The Advert ID
+     * @return The Advert or null if none found.
+     */
     public Advert getAdvertById(int id) {
         HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
 
@@ -47,6 +56,11 @@ public class RemoteAdvertRepository implements IAdvertRepository {
         }
     }
 
+    /**
+     * Adds a new advert to the database.
+     * @param advert The Advert to be added.
+     * @return Whether the advert was added successfully.
+     */
     public boolean addAdvert(Advert advert) {
         HttpClient.HttpPostAsyncTask task = new HttpClient.HttpPostAsyncTask();
 
@@ -67,6 +81,11 @@ public class RemoteAdvertRepository implements IAdvertRepository {
         }
     }
 
+    /**
+     * Updates an advert in the database.
+     * @param advert The Advert to be updated containing the updated values.
+     * @return Whether the advert was updated successfully.
+     */
     public boolean updateAdvert(Advert advert) {
         HttpClient.HttpPostAsyncTask task = new HttpClient.HttpPostAsyncTask();
 
@@ -92,6 +111,11 @@ public class RemoteAdvertRepository implements IAdvertRepository {
         }
     }
 
+    /**
+     * Removes an advert from the database.
+     * @param advert The Advert to be removed.
+     * @return Whether the advert was removed successfully.
+     */
     public boolean removeAdvert(Advert advert) {
         return false;
     }

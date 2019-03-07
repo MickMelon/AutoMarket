@@ -89,6 +89,11 @@ public class ViewAdvertFragment extends Fragment {
         });
     }
 
+    /**
+     * Sends an email.
+     * @param address The email address to sent to.
+     * @param subject The subject of the email.
+     */
     private void composeEmail(String address, String subject) {
         String[] addresses = new String[] {address};
         Intent intent = new Intent(Intent.ACTION_SENDTO);
@@ -101,6 +106,10 @@ public class ViewAdvertFragment extends Fragment {
         }
     }
 
+    /**
+     * Makes a phone call to the given number.
+     * @param phoneNumber The number to call.
+     */
     private void makePhoneCall(String phoneNumber) {
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse("tel:" + phoneNumber));
@@ -109,6 +118,10 @@ public class ViewAdvertFragment extends Fragment {
         }
     }
 
+    /**
+     * Opens a web page with the given URL.
+     * @param url The URL of the web page to be loaded.
+     */
     private void openWebPage(String url) {
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
 
@@ -120,6 +133,11 @@ public class ViewAdvertFragment extends Fragment {
         }
     }
 
+    /**
+     * Populates the advert view with all the required details.
+     * @param advert The Advert.
+     * @param seller The Seller that posted the Advert.
+     */
     private void populateView(Advert advert, Seller seller) {
         _name.setText(advert.getVehicleReg());
         _description.setText(advert.getDescription());

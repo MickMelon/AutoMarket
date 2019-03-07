@@ -12,7 +12,13 @@ public class PostData {
         _params = params;
     }
 
+    /**
+     * Gets the action string.
+     */
     public String getAction() { return _action; }
 
+    /**
+     * Gets the POST parameters to be sent with the request.
+     */
     public List<AbstractMap.SimpleEntry> getParams() { return _params; }
 }
