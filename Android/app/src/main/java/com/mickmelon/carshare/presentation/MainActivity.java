@@ -1,5 +1,6 @@
 package com.mickmelon.carshare.presentation;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-        FragmentHelper.showFragment(this, new AdvertBrowserFragment());
+        FragmentHelper.showFragment(this, new AdvertBrowserFragment(), true);
 
         setupMenu();
     }
@@ -75,19 +76,21 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
 
                 switch (itemName) {
                     case BROWSE_VEHICLES:
-                        FragmentHelper.showFragment(MainActivity.this, new AdvertBrowserFragment());
+                        FragmentHelper.showFragment(MainActivity.this, new AdvertBrowserFragment(), true);
                         break;
 
                     case LOGIN:
-                        FragmentHelper.showFragment(MainActivity.this, new LoginFragment());
+                        FragmentHelper.showFragment(MainActivity.this, new LoginFragment(), true);
                         break;
 
                     case LOGOUT:
                         ToastHelper.showToast(getApplicationContext(), "Logout");
+                        Identity.logout();
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                         break;
 
                     case REGISTER:
-                        FragmentHelper.showFragment(MainActivity.this, new RegisterFragment());
+                        FragmentHelper.showFragment(MainActivity.this, new RegisterFragment(), true);
                         break;
 
                     case POST_ADVERT:
@@ -125,12 +128,7 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
         args.putInt("Position", position);
         viewAdvert.setArguments(args);
 
-        FragmentTransaction transaction = getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, viewAdvert)
-                .addToBackStack(null);
-
-        transaction.commit();
+        FragmentHelper.showFragment(this, viewAdvert, false);
     }
 
     @Override

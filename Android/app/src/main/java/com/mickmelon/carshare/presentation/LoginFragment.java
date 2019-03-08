@@ -47,7 +47,7 @@ public class LoginFragment extends Fragment {
 
         boolean success = Identity.login(email, password);
         if (success) {
-            //startActivity(new Intent(this, MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+            startActivity(new Intent(getContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
         } else {
             ToastHelper.showToast(getContext(), "Incorrect email or password.");
         }
