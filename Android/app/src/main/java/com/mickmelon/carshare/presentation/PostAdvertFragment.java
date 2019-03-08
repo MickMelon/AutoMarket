@@ -14,6 +14,7 @@ import com.mickmelon.carshare.Identity;
 import com.mickmelon.carshare.R;
 import com.mickmelon.carshare.core.Advert;
 import com.mickmelon.carshare.database.DataAccess;
+import com.mickmelon.carshare.util.ActivityHelper;
 import com.mickmelon.carshare.util.FragmentHelper;
 import com.mickmelon.carshare.util.ToastHelper;
 
@@ -31,6 +32,11 @@ public class PostAdvertFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        if (!Identity.isLoggedIn()) {
+            ActivityHelper.showMainActivity(getContext());
+            return;
+        }
+
         _dataAccess = DataAccess.getInstance();
 
         _vehicleReg = view.findViewById(R.id.editText_VehicleReg);

@@ -35,7 +35,7 @@ class SellerController
             return new Results\JsonResult("Seller was created successfully.");
         }
 
-        return new Results\JsonResult("Unable to create the Seller.");
+        return new Results\JsonResult("Unable to create the Seller.", Response::BAD_REQUEST);
     }
 
     public function read()
@@ -89,7 +89,7 @@ class SellerController
             return new Results\JsonResult("Seller updated successfully.");
         }
 
-        return new Results\JsonResult("Unable to update the Seller.");
+        return new Results\JsonResult("Unable to update the Seller.", Response::BAD_REQUEST);
     }
 
     public function delete()

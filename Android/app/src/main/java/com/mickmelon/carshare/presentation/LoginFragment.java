@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.mickmelon.carshare.Identity;
 import com.mickmelon.carshare.R;
+import com.mickmelon.carshare.util.ActivityHelper;
 import com.mickmelon.carshare.util.ToastHelper;
 
 public class LoginFragment extends Fragment {
@@ -26,6 +27,11 @@ public class LoginFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        if (Identity.isLoggedIn()) {
+            ActivityHelper.showMainActivity(getContext());
+            return;
+        }
+
         _email = view.findViewById(R.id.editText_Email);
         _password = view.findViewById(R.id.editText_Password);
         _loginButton = view.findViewById(R.id.button_Login);
@@ -47,7 +53,7 @@ public class LoginFragment extends Fragment {
 
         boolean success = Identity.login(email, password);
         if (success) {
-            startActivity(new Intent(getContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+            ActivityHelper.showMainActivity(getContext());
         } else {
             ToastHelper.showToast(getContext(), "Incorrect email or password.");
         }

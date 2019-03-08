@@ -12,6 +12,7 @@ import android.widget.EditText;
 
 import com.mickmelon.carshare.Identity;
 import com.mickmelon.carshare.R;
+import com.mickmelon.carshare.util.ActivityHelper;
 import com.mickmelon.carshare.util.FragmentHelper;
 import com.mickmelon.carshare.util.ToastHelper;
 
@@ -32,6 +33,11 @@ public class RegisterFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        if (Identity.isLoggedIn()) {
+            ActivityHelper.showMainActivity(getContext());
+            return;
+        }
+
         _email = view.findViewById(R.id.editText_Email);
         _name = view.findViewById(R.id.editText_Name);
         _password = view.findViewById(R.id.editText_Password);
