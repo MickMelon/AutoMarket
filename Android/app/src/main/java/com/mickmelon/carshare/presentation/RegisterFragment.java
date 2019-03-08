@@ -3,6 +3,7 @@ package com.mickmelon.carshare.presentation;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 
 import com.mickmelon.carshare.Identity;
 import com.mickmelon.carshare.R;
+import com.mickmelon.carshare.util.FragmentHelper;
 import com.mickmelon.carshare.util.ToastHelper;
 
 public class RegisterFragment extends Fragment {
@@ -63,7 +65,7 @@ public class RegisterFragment extends Fragment {
         if (success) {
             // Show the login fragment
             ToastHelper.showToast(getContext(), "Account registered successfully.");
-            //startActivity(new Intent(this, LoginActivity.class));
+            FragmentHelper.showFragment((AppCompatActivity) getActivity(), new LoginFragment(), true);
         } else {
             // Already a user with that email
             ToastHelper.showToast(getContext(), "That email address is already in use.");

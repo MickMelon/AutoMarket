@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
                         break;
 
                     case POST_ADVERT:
-                        ToastHelper.showToast(getApplicationContext(), "Post Advert");
+                        FragmentHelper.showFragment(MainActivity.this, new PostAdvertFragment(), true);
                         break;
 
                     case YOUR_PROFILE:

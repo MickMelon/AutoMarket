@@ -72,9 +72,9 @@ public class RemoteAdvertRepository implements IAdvertRepository {
         PostData postData = new PostData("c=advert&a=create", params);
 
         try {
-            String result = task.execute(postData).get();
+            HttpResult httpResult = task.execute(postData).get();
 
-            return result.equals("Advert was created successfully.");
+            return httpResult.getResponseCode() == 200;
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             return false;
@@ -98,13 +98,9 @@ public class RemoteAdvertRepository implements IAdvertRepository {
         PostData postData = new PostData("c=advert&a=update", params);
 
         try {
-            String result = task.execute(postData).get();
+            HttpResult httpResult = task.execute(postData).get();
 
-            if (result.equals("Advert was updated successfully.")) {
-                return true;
-            }
-
-            return false;
+            return httpResult.getResponseCode() == 200;
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             return false;

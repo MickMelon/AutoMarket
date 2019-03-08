@@ -95,9 +95,9 @@ public class RemoteSellerRepository implements ISellerRepository {
         PostData postData = new PostData("c=seller&a=create", params);
 
         try {
-            String result = task.execute(postData).get();
+            HttpResult httpResult = task.execute(postData).get();
 
-            return result.equals("Seller was created successfully.");
+            return httpResult.getResponseCode() == 200;
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             return false;
@@ -124,9 +124,9 @@ public class RemoteSellerRepository implements ISellerRepository {
         PostData postData = new PostData("c=seller&a=update", params);
 
         try {
-            String result = task.execute(postData).get();
+            HttpResult httpResult = task.execute(postData).get();
 
-            return result.equals("Seller was updated successfully.");
+            return httpResult.getResponseCode() == 200;
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             return false;

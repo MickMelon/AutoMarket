@@ -17,7 +17,7 @@ import java.util.AbstractMap;
 import java.util.List;
 
 public class HttpClient {
-    protected HttpClient() {}
+    private HttpClient() {}
 
     /**
      * Used to make a HttpGet request.
@@ -37,15 +37,15 @@ public class HttpClient {
     /**
      * Used to make a HttpPost request.
      */
-    public static class HttpPostAsyncTask extends AsyncTask<PostData, Void, String> {
+    public static class HttpPostAsyncTask extends AsyncTask<PostData, Void, HttpResult> {
         @Override
-        protected String doInBackground(PostData... params) {
+        protected HttpResult doInBackground(PostData... params) {
             if(android.os.Debug.isDebuggerConnected())
                 android.os.Debug.waitForDebugger();
 
             PostData postData = params[0];
-            String result = HttpClient.post(postData.getAction(), postData.getParams());
-            return result;
+            HttpResult httpResult = HttpClient.post(postData.getAction(), postData.getParams());
+            return httpResult;
         }
     }
 
@@ -55,12 +55,13 @@ public class HttpClient {
      * @param params The POST parameters to be sent with the request.
      * @return The request response.
      */
-    private static String post(String action, List<AbstractMap.SimpleEntry> params) {
+    private static HttpResult post(String action, List<AbstractMap.SimpleEntry> params) {
         if (params == null || params.size() < 1) {
-            return "ERROR: No parameters";
+            return new HttpResult("ERROR: No parameters", 400);
         }
 
-        String result = null;
+        //String result = null;
+        HttpResult httpResult = null;
 
         try {
             URL url = new URL("http://192.168.1.13/~michael/cartrader/carshare/Web/index.php?" + action);
@@ -81,14 +82,16 @@ public class HttpClient {
             // Get response
             InputStreamReader inputStreamReader = new InputStreamReader(httpConn.getInputStream());
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            result = readResult(bufferedReader);
+            String result = readResult(bufferedReader);
+            int responseCode = httpConn.getResponseCode();
+            httpResult = new HttpResult(result, responseCode);
 
             httpConn.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return result;
+        return httpResult;
     }
 
     /**
@@ -137,9 +140,9 @@ public class HttpClient {
             }
 
             try {
-                request.append(URLEncoder.encode((String)param.getKey(), "UTF-8"));
+                request.append(URLEncoder.encode(param.getKey().toString(), "UTF-8"));
                 request.append("=");
-                request.append(URLEncoder.encode((String)param.getValue(), "UTF-8"));
+                request.append(URLEncoder.encode(param.getValue().toString(), "UTF-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }

@@ -14,16 +14,16 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <!-- StartupActivity -->
+    <string name="startup_button_login">Login</string>
+    <string name="startup_button_register">Register</string>
+
     <!-- ViewAdvertFragment -->
     <string name="viewadvert_button_call">Call</string>
     <string name="viewadvert_button_email">Email</string>
     <string name="viewadvert_button_website">Website</string>
 
-    <!-- StartupActivity -->
-    <string name="startup_button_login">Login</string>
-    <string name="startup_button_register">Register</string>
-
-    <!-- RegisterActivity -->
+    <!-- RegisterFragment -->
     <string name="register_edittext_email">Email</string>
     <string name="register_edittext_password">Password</string>
     <string name="register_edittext_website">Website</string>
@@ -33,8 +33,14 @@
     <string name="register_edittext_phonenumber">Phone Number</string>
     <string name="register_button_register">Register</string>
 
-    <!-- LoginActivity -->
+    <!-- LoginFragment -->
     <string name="login_edittext_email">Email</string>
     <string name="login_edittext_password">Password</string>
     <string name="login_button_login">Login</string>
+
+    <!-- PostAdvertFragment -->
+    <string name="postadvert_edittext_vehiclereg">Vehicle Registration</string>
+    <string name="postadvert_edittext_description">Description</string>
+    <string name="postadvert_edittext_price">Price</string>
+    <string name="postadvert_button_postadvert">Post Advert</string>
 </resources>

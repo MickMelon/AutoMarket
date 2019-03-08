@@ -2,7 +2,9 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
-advert_getall_test();
+//advert_getall_test();
+http_response_code(418);
+var_dump(http_response_code());
 
 function advert_getall_test()
 {

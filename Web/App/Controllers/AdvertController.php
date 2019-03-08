@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Models;
 use App\Results;
+use App\Response;
 
 class AdvertController
 {
@@ -29,7 +30,7 @@ class AdvertController
             return new Results\JsonResult("Advert was created successfully.");
         }
 
-        return new Results\JsonResult("Unable to create the Advert.");
+        return new Results\JsonResult("Unable to create the Advert.", Response::BAD_REQUEST);
     }
 
     public function read()
@@ -67,6 +68,6 @@ class AdvertController
             return new Results\JsonResult("Advert was updated successfully.");
         }
 
-        return new Results\JsonResult("Unable to update the Advert.");
+        return new Results\JsonResult("Unable to update the Advert.", Response::BAD_REQUEST);
     }
 }

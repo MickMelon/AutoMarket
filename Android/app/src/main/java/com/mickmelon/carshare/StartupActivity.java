@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.mickmelon.carshare.core.Advert;
+import com.mickmelon.carshare.database.DataAccess;
 import com.mickmelon.carshare.presentation.MainActivity;
 
 public class StartupActivity extends AppCompatActivity {
@@ -17,12 +19,24 @@ public class StartupActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        boolean hijack = false;
+
+        if (hijack) {
+            hijack();
+            return;
+        }
+
         if (verifyGooglePlayServices()) {
             // We can safely start the app
             System.out.println("Verified");
             setContentView(R.layout.activity_startup);
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         } else System.out.println("NOT VERIFIED");
+    }
+
+    private void hijack() {
+        boolean success = DataAccess.getInstance().adverts().addAdvert(new Advert(-1, "TEST", "TEST", 3453, 1));
     }
 
     /*
