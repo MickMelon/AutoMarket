@@ -41,7 +41,9 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-        FragmentHelper.showFragment(this, new AdvertBrowserFragment(), true);
+        if (!FragmentHelper.isInitialised()) {
+            FragmentHelper.showFragment(this, new AdvertBrowserFragment(), true);
+        }
 
         setupMenu();
     }
@@ -54,8 +56,7 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
         NavigationView navigationView = findViewById(R.id.nav_view);
         Menu menu = navigationView.getMenu();
 
-        MenuItem item;
-        item = menu.add(0, MenuItemName.BROWSE_VEHICLES.ordinal(), 0, "Browse Vehicles").setCheckable(true);
+        menu.add(0, MenuItemName.BROWSE_VEHICLES.ordinal(), 0, "Browse Vehicles").setCheckable(true);
 
         if (Identity.isLoggedIn()) {
             menu.add(0, MenuItemName.POST_ADVERT.ordinal(), 0, "Post Advert").setCheckable(true);

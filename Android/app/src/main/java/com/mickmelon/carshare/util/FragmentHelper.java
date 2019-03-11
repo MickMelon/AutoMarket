@@ -8,6 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import com.mickmelon.carshare.R;
 
 public class FragmentHelper {
+    private static boolean _initialised = false;
+
+    public static boolean isInitialised() { return _initialised; }
+
     /**
      * Shows a fragment.
      * @param activity The calling activity.
@@ -20,11 +24,15 @@ public class FragmentHelper {
             closeCurrentFragment(activity, "CurrentFragment");
         }
 
+        fragment.setRetainInstance(true);
+
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment, "CurrentFragment");
         transaction.addToBackStack(null);
 
         transaction.commit();
+
+        _initialised = true;
     }
 
     /**
@@ -38,5 +46,7 @@ public class FragmentHelper {
         if (oldFragment != null) {
             fragmentManager.beginTransaction().remove(oldFragment).commit();
         }
+
+        _initialised = false;
     }
 }

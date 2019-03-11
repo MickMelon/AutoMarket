@@ -1,5 +1,6 @@
 package com.mickmelon.carshare.presentation;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.mickmelon.carshare.R;
 import com.mickmelon.carshare.core.Advert;
 import com.mickmelon.carshare.core.Seller;
 import com.mickmelon.carshare.database.DataAccess;
+import com.mickmelon.carshare.presentation.viewmodels.ViewAdvertViewModel;
 
 public class ViewAdvertFragment extends Fragment {
     private DataAccess _dataAccess;
@@ -48,43 +50,52 @@ public class ViewAdvertFragment extends Fragment {
         Bundle args = getArguments();
         int advertId = args.getInt("Position");
 
-        Advert advert = _dataAccess.adverts().getAdvertById(advertId);
-        Seller seller = _dataAccess.sellers().getSellerById(advert.getSellerId());
-        if (advert == null || seller == null) {
-            // Show error or something
-            return;
-        }
+        final String[] emailAddress = new String[1];
+        final String[] reg = new String[1];
+        final String[] phoneNumber = new String[1];
+        final String[] websiteUrl = new String[1];
 
-        populateView(advert, seller);
+        ViewAdvertViewModel viewModel = ViewModelProviders.of(this).get(ViewAdvertViewModel.class);
+        viewModel.getAdvert(advertId).observe(this, advert -> {
+            _name.setText(advert.getVehicleReg());
+            _description.setText(advert.getDescription());
+            _price.setText(String.valueOf(advert.getPrice()));
+
+            reg[0] = advert.getVehicleReg();
+        });
+
+        viewModel.getSeller().observe(this, seller -> {
+            _sellerName.setText(seller.getName());
+            _sellerDescription.setText(seller.getDescription());
+
+            emailAddress[0] = seller.getEmail();
+            phoneNumber[0] = seller.getPhoneNumber();
+            websiteUrl[0] = seller.getWebsite();
+        });
 
         // Do buttons for email, call, website intents
         Button call = view.findViewById(R.id.button_Call);
         Button email = view.findViewById(R.id.button_Email);
         Button website = view.findViewById(R.id.button_Website);
 
-        final String emailAddress = seller.getEmail();
-        final String reg = advert.getVehicleReg();
-        final String phoneNumber = seller.getPhoneNumber();
-        final String websiteUrl = seller.getWebsite();
-
         call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makePhoneCall(phoneNumber);
+                makePhoneCall(phoneNumber[0]);
             }
         });
 
         email.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                composeEmail(emailAddress, "Enquiry for " + reg);
+                composeEmail(emailAddress[0], "Enquiry for " + reg[0]);
             }
         });
 
         website.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openWebPage(websiteUrl);
+                openWebPage(websiteUrl[0]);
             }
         });
     }

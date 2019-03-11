@@ -1,5 +1,6 @@
 package com.mickmelon.carshare.presentation;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,8 +14,7 @@ import android.widget.TextView;
 import com.mickmelon.carshare.R;
 import com.mickmelon.carshare.core.Advert;
 import com.mickmelon.carshare.database.DataAccess;
-
-import java.util.List;
+import com.mickmelon.carshare.presentation.viewmodels.AdvertBrowserViewModel;
 
 public class AdvertBrowserFragment extends Fragment {
     private OnAdvertSelectedListener _advertSelectedListener;
@@ -30,7 +30,25 @@ public class AdvertBrowserFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         _linearLayout = view.findViewById(R.id.linear_layout);
-        populateAdverts();
+
+        AdvertBrowserViewModel viewModel = ViewModelProviders.of(this).get(AdvertBrowserViewModel.class);
+        viewModel.getAdverts().observe(this, adverts -> {
+            for (Advert advert : adverts) {
+                final int advertId = advert.getAdvertId();
+                LinearLayout layout = new LinearLayout(getContext());
+
+                TextView textView = new TextView(getContext());
+                textView.setText(advert.getVehicleReg());
+
+                Button button = new Button(getContext());
+                button.setText("View " + advert.getAdvertId());
+                button.setOnClickListener(v -> _advertSelectedListener.onAdvertSelected(advertId));
+
+                layout.addView(textView);
+                layout.addView(button);
+                _linearLayout.addView(layout);
+            }
+        });
     }
 
     /**
@@ -39,35 +57,6 @@ public class AdvertBrowserFragment extends Fragment {
      */
     public void setOnAdvertSelectedListener(OnAdvertSelectedListener listener) {
         _advertSelectedListener = listener;
-    }
-
-    /**
-     * Populates the list of adverts with those from the database.
-     */
-    public void populateAdverts() {
-        List<Advert> adverts = _dataAccess.adverts().getAllAdverts();
-        if (adverts == null || adverts.size() == 0) System.out.println("It's fucked");
-
-        for (Advert advert : adverts) {
-            final int advertId = advert.getAdvertId();
-            LinearLayout layout = new LinearLayout(getContext());
-
-            TextView textView = new TextView(getContext());
-            textView.setText(advert.getVehicleReg());
-
-            Button button = new Button(getContext());
-            button.setText("View " + advert.getAdvertId());
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    _advertSelectedListener.onAdvertSelected(advertId);
-                }
-            });
-
-            layout.addView(textView);
-            layout.addView(button);
-            _linearLayout.addView(layout);
-        }
     }
     
     public interface OnAdvertSelectedListener {

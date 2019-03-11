@@ -64,7 +64,7 @@ public class HttpClient {
         HttpResult httpResult = null;
 
         try {
-            URL url = new URL("http://192.168.1.13/~michael/cartrader/carshare/Web/index.php?" + action);
+            URL url = new URL("http://192.168.1.9/~michael/cartrader/carshare/Web/index.php?" + action);
             HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
             httpConn.setRequestMethod("POST");
 
@@ -103,7 +103,7 @@ public class HttpClient {
         String result = null;
 
         try {
-            URL url = new URL("http://192.168.1.13/~michael/cartrader/carshare/Web/index.php?" + action);
+            URL url = new URL("http://192.168.1.9/~michael/cartrader/carshare/Web/index.php?" + action);
             HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
             httpConn.setRequestMethod("GET");
             InputStream inputStream = httpConn.getInputStream();
