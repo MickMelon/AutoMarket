@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">CarShare</string>
-    <string name="title_activity_maps">Map</string>
+    <string name="app_name">Auto Market</string>
 
     <!-- Navigation -->
     <string name="nav_search">Search</string>
@@ -43,4 +42,5 @@
     <string name="postadvert_edittext_description">Description</string>
     <string name="postadvert_edittext_price">Price</string>
     <string name="postadvert_button_postadvert">Post Advert</string>
+    <string name="title_activity_maps">Map</string>
 </resources>
