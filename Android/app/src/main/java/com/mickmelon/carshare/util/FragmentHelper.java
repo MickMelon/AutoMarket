@@ -6,11 +6,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.mickmelon.carshare.R;
+import com.mickmelon.carshare.presentation.MainActivity;
 
 public class FragmentHelper {
-    private static boolean _initialised = false;
+    private static boolean _fragmentShown = false;
 
-    public static boolean isInitialised() { return _initialised; }
+    public static boolean isFragmentShown() { return _fragmentShown; }
 
     /**
      * Shows a fragment.
@@ -21,7 +22,7 @@ public class FragmentHelper {
         if (activity == null || fragment == null) return;
 
         if (closeOldFragment) {
-            closeCurrentFragment(activity, "CurrentFragment");
+            closeCurrentFragment(activity);
         }
 
         fragment.setRetainInstance(true);
@@ -32,21 +33,29 @@ public class FragmentHelper {
 
         transaction.commit();
 
-        _initialised = true;
+        _fragmentShown = true;
     }
 
     /**
      * Closes the currently open fragment that is identified by the tag parameter.
      * @param activity The calling activity.
-     * @param tag The fragment tag. Usually "CurrentFragment".
      */
-    public static void closeCurrentFragment(AppCompatActivity activity, String tag) {
+    public static void closeCurrentFragment(AppCompatActivity activity) {
+        closeFragment(activity, "CurrentFragment");
+    }
+
+    /**
+     * Closes a fragment that is identified by the tag parameter.
+     * @param activity The calling activity.
+     * @param tag The fragment tag.
+     */
+    public static void closeFragment(AppCompatActivity activity, String tag) {
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         Fragment oldFragment = fragmentManager.findFragmentByTag(tag);
         if (oldFragment != null) {
             fragmentManager.beginTransaction().remove(oldFragment).commit();
         }
 
-        _initialised = false;
+        _fragmentShown = false;
     }
 }

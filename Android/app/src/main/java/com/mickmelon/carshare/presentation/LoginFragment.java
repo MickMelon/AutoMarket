@@ -1,9 +1,9 @@
 package com.mickmelon.carshare.presentation;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +12,7 @@ import android.widget.EditText;
 
 import com.mickmelon.carshare.Identity;
 import com.mickmelon.carshare.R;
-import com.mickmelon.carshare.util.ActivityHelper;
+import com.mickmelon.carshare.util.FragmentHelper;
 import com.mickmelon.carshare.util.ToastHelper;
 
 public class LoginFragment extends Fragment {
@@ -28,7 +28,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         if (Identity.isLoggedIn()) {
-            ActivityHelper.showMainActivity(getContext());
+            FragmentHelper.showFragment((AppCompatActivity) getActivity(), new AdvertBrowserFragment(), true);
             return;
         }
 
@@ -36,12 +36,7 @@ public class LoginFragment extends Fragment {
         _password = view.findViewById(R.id.editText_Password);
         _loginButton = view.findViewById(R.id.button_Login);
 
-        _loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submitLoginForm();
-            }
-        });
+        _loginButton.setOnClickListener(v -> submitLoginForm());
     }
 
     /**
@@ -53,7 +48,11 @@ public class LoginFragment extends Fragment {
 
         boolean success = Identity.login(email, password);
         if (success) {
-            ActivityHelper.showMainActivity(getContext());
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            FragmentHelper.showFragment((AppCompatActivity) getActivity(), new AdvertBrowserFragment(), true);
+            if (activity instanceof MainActivity) {
+                ((MainActivity) activity).setupMenu();
+            }
         } else {
             ToastHelper.showToast(getContext(), "Incorrect email or password.");
         }

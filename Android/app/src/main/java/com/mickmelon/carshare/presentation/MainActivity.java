@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -41,7 +42,10 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-        if (!FragmentHelper.isInitialised()) {
+        // Only change the fragment if there isn't one shown. This is to accommodate for this
+        // onCreate function being called every time the orientation is changed. The Fragments
+        // use ViewModels to support orientation changes within themselves.
+        if (!FragmentHelper.isFragmentShown()) {
             FragmentHelper.showFragment(this, new AdvertBrowserFragment(), true);
         }
 
@@ -52,64 +56,65 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
      * Sets up the navigation menu by assigning all the menu options depending on whether the user
      * is logged in or not.
      */
-    private void setupMenu() {
+    public void setupMenu() {
         NavigationView navigationView = findViewById(R.id.nav_view);
         Menu menu = navigationView.getMenu();
+
+        menu.clear();
 
         menu.add(0, MenuItemName.BROWSE_VEHICLES.ordinal(), 0, "Browse Vehicles").setCheckable(true);
 
         if (Identity.isLoggedIn()) {
-            menu.add(0, MenuItemName.POST_ADVERT.ordinal(), 0, "Post Advert").setCheckable(true);
-            menu.add(0, MenuItemName.YOUR_PROFILE.ordinal(), 0, "Your Profile").setCheckable(true);
-            menu.add(0, MenuItemName.LOGOUT.ordinal(), 0, "Logout").setCheckable(true);
+            menu.add(2, MenuItemName.POST_ADVERT.ordinal(), 0, "Post Advert").setCheckable(true);
+            menu.add(2, MenuItemName.YOUR_PROFILE.ordinal(), 0, "Your Profile").setCheckable(true);
+            menu.add(1, MenuItemName.LOGOUT.ordinal(), 0, "Logout").setCheckable(true);
         } else {
-            menu.add(0, MenuItemName.LOGIN.ordinal(), 0, "Login").setCheckable(true);
-            menu.add(0, MenuItemName.REGISTER.ordinal(), 0, "Register").setCheckable(true);
+            menu.add(1, MenuItemName.LOGIN.ordinal(), 0, "Login").setCheckable(true);
+            menu.add(1, MenuItemName.REGISTER.ordinal(), 0, "Register").setCheckable(true);
         }
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                int id = menuItem.getItemId();
-                MenuItemName itemName = getNameFromInt(id);
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            int id = menuItem.getItemId();
+            MenuItemName itemName = getNameFromInt(id);
 
-                menuItem.setChecked(true);
+            menuItem.setChecked(true);
 
-                switch (itemName) {
-                    case BROWSE_VEHICLES:
-                        FragmentHelper.showFragment(MainActivity.this, new AdvertBrowserFragment(), true);
-                        break;
+            switch (itemName) {
+                case BROWSE_VEHICLES:
+                    FragmentHelper.showFragment(this, new AdvertBrowserFragment(), true);
+                    break;
 
-                    case LOGIN:
-                        FragmentHelper.showFragment(MainActivity.this, new LoginFragment(), true);
-                        break;
+                case LOGIN:
+                    FragmentHelper.showFragment(this, new LoginFragment(), true);
+                    break;
 
-                    case LOGOUT:
-                        ToastHelper.showToast(getApplicationContext(), "Logout");
-                        Identity.logout();
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
-                        break;
+                case LOGOUT:
+                    ToastHelper.showToast(getApplicationContext(), "Logout");
+                    Identity.logout();
+                    //startActivity(new Intent(getApplicationContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
+                    FragmentHelper.showFragment(this, new AdvertBrowserFragment(), true);
+                    setupMenu();
+                    break;
 
-                    case REGISTER:
-                        FragmentHelper.showFragment(MainActivity.this, new RegisterFragment(), true);
-                        break;
+                case REGISTER:
+                    FragmentHelper.showFragment(this, new RegisterFragment(), true);
+                    break;
 
-                    case POST_ADVERT:
-                        FragmentHelper.showFragment(MainActivity.this, new PostAdvertFragment(), true);
-                        break;
+                case POST_ADVERT:
+                    FragmentHelper.showFragment(this, new PostAdvertFragment(), true);
+                    break;
 
-                    case YOUR_PROFILE:
-                        ToastHelper.showToast(getApplicationContext(), "Your Profile");
-                        break;
+                case YOUR_PROFILE:
+                    ToastHelper.showToast(getApplicationContext(), "Your Profile");
+                    break;
 
-                    default:
-                        break;
-                }
-
-                _drawerLayout.closeDrawers();
-
-                return true;
+                default:
+                    break;
             }
+
+            _drawerLayout.closeDrawers();
+
+            return true;
         });
 
     }
@@ -140,6 +145,25 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        FragmentHelper.showFragment(this, new AdvertBrowserFragment(), true);
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        Menu menu = navigationView.getMenu();
+
+        _drawerLayout.closeDrawers();
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            if (item.getItemId() == MenuItemName.BROWSE_VEHICLES.ordinal()) {
+                item.setChecked(true);
+            } else {
+                item.setChecked(false);
+            }
+        }
     }
 
     enum MenuItemName {
