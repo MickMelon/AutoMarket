@@ -44,18 +44,18 @@ public class HttpClient {
                 android.os.Debug.waitForDebugger();
 
             PostData postData = params[0];
-            HttpResult httpResult = HttpClient.post(postData.getAction(), postData.getParams());
+            HttpResult httpResult = HttpClient.post(postData.getUrl(), postData.getParams());
             return httpResult;
         }
     }
 
     /**
      * Makes a Post request.
-     * @param action The action (i.e. c=seller&a=create)
+     * @param textUrl The action (i.e. c=seller&a=create)
      * @param params The POST parameters to be sent with the request.
      * @return The request response.
      */
-    private static HttpResult post(String action, List<AbstractMap.SimpleEntry> params) {
+    private static HttpResult post(String textUrl, List<AbstractMap.SimpleEntry> params) {
         if (params == null || params.size() < 1) {
             return new HttpResult("ERROR: No parameters", 400);
         }
@@ -64,7 +64,7 @@ public class HttpClient {
         HttpResult httpResult = null;
 
         try {
-            URL url = new URL("http://192.168.1.9/~michael/cartrader/carshare/Web/index.php?" + action);
+            URL url = new URL(textUrl);
             HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
             httpConn.setRequestMethod("POST");
 
@@ -96,14 +96,14 @@ public class HttpClient {
 
     /**
      * Makes a GET request.
-     * @param action The action (i.e. c=seller&a=read&id=1)
+     * @param textUrl The action (i.e. c=seller&a=read&id=1)
      * @return The request response.
      */
-    private static String get(String action) {
+    private static String get(String textUrl) {
         String result = null;
 
         try {
-            URL url = new URL("http://192.168.1.9/~michael/cartrader/carshare/Web/index.php?" + action);
+            URL url = new URL(textUrl);
             HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
             httpConn.setRequestMethod("GET");
             InputStream inputStream = httpConn.getInputStream();

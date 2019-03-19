@@ -9,6 +9,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.mickmelon.carshare.core.Advert;
 import com.mickmelon.carshare.database.DataAccess;
 import com.mickmelon.carshare.presentation.MainActivity;
+import com.mickmelon.carshare.presentation.MapsActivity;
 
 public class StartupActivity extends AppCompatActivity {
     @Override
@@ -31,7 +32,7 @@ public class StartupActivity extends AppCompatActivity {
             // We can safely start the app
             System.out.println("Verified");
             setContentView(R.layout.activity_startup);
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            startActivity(new Intent(getApplicationContext(), MapsActivity.class));
         } else System.out.println("NOT VERIFIED");
     }
 

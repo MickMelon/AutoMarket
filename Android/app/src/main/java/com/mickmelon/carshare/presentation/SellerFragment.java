@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.mickmelon.carshare.R;
 import com.mickmelon.carshare.core.Seller;
 import com.mickmelon.carshare.presentation.viewmodels.SellerViewModel;
+import com.mickmelon.carshare.util.ActivityHelper;
 import com.mickmelon.carshare.util.FragmentHelper;
 
 public class SellerFragment extends Fragment {
@@ -57,15 +58,17 @@ public class SellerFragment extends Fragment {
         Button callButton = view.findViewById(R.id.button_Call);
         Button emailButton = view.findViewById(R.id.button_Email);
         Button websiteButton = view.findViewById(R.id.button_Website);
+        Button mapButton = view.findViewById(R.id.button_Map);
 
         callButton.setOnClickListener(v -> makePhoneCall(sellerLiveData.getValue().getPhoneNumber()));
         emailButton.setOnClickListener(v -> composeEmail(sellerLiveData.getValue().getEmail(), "Enquiry"));
         websiteButton.setOnClickListener(v -> openWebPage(sellerLiveData.getValue().getWebsite()));
+        mapButton.setOnClickListener(v -> ActivityHelper.showActivity(getContext(), MapsActivity.class));
     }
 
     /**
-     * Sends an email.
-     * @param address The email address to sent to.
+     * Composes an email and opens the email client ready to be sent.
+     * @param address The email address to send to.
      * @param subject The subject of the email.
      */
     private void composeEmail(String address, String subject) {

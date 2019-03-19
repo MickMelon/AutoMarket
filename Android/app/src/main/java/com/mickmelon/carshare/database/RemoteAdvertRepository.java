@@ -1,6 +1,7 @@
 package com.mickmelon.carshare.database;
 
 import com.mickmelon.carshare.core.Advert;
+import com.mickmelon.carshare.core.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,7 +23,7 @@ public class RemoteAdvertRepository implements IAdvertRepository {
         try {
             List<Advert> adverts = new ArrayList<>();
 
-            String result = task.execute("c=advert&a=read").get();
+            String result = task.execute(Constants.PHP_SERVER_URL + "?c=advert&a=read").get();
             JSONArray jsonAllAdverts = new JSONArray(result);
 
             for (int i = 0; i < jsonAllAdverts.length(); i++) {
@@ -46,7 +47,7 @@ public class RemoteAdvertRepository implements IAdvertRepository {
         HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
 
         try {
-            String result = task.execute("c=advert&a=read&id=" + id).get();
+            String result = task.execute(Constants.PHP_SERVER_URL + "?c=advert&a=read&id=" + id).get();
             JSONObject jsonAdvert = new JSONObject(result);
             Advert advert = Advert.fromJson(jsonAdvert);
             return advert;
