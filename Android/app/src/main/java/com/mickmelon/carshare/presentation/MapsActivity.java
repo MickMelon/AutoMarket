@@ -1,16 +1,18 @@
 package com.mickmelon.carshare.presentation;
 
+import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.SupportMapFragment;;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.PolyUtil;
 import com.mickmelon.carshare.R;
 import com.mickmelon.carshare.database.HttpClient;
 
@@ -50,13 +52,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        List<LatLng> list = getRoute("", "");
-        List<LatLng> newList = getRoadSnappedRoute(list);
+        List<LatLng> list = getPolyRoute("", "");
+        //List<LatLng> newList = getRoadSnappedRoute(list);
 
         Polyline polyline = mMap.addPolyline(new PolylineOptions()
-            .clickable(true).addAll(newList));
+            .clickable(true)
+            .width(5)
+            .color(Color.BLUE)
+            .geodesic(true)
+            .addAll(list));
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(list.get(0)));
+
+        /*for (LatLng latLng : list) {
+            mMap.addMarker(new MarkerOptions()
+                .position(latLng)
+                .title("Marker for " + latLng.latitude + ", " + latLng.longitude));
+        }*/
     }
 
     private List<LatLng> getRoadSnappedRoute(List<LatLng> route) {
@@ -90,13 +102,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return list;
     }
 
+    private List<LatLng> getPolyRoute(String startAddress, String endAddress) {
+        HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
+        List<LatLng> list = new ArrayList();
+
+        try {
+            String result = task.execute("https://maps.googleapis.com/maps/api/directions/json?origin=43+Ivy+Road+Forfar&destination=Cortachy&key=AIzaSyB1IZZQIp_KVXDBYFHP2ZNlinY34Igt6nk").get();
+            JSONObject json = new JSONObject(result);
+            JSONArray routesArray = json.getJSONArray("routes");
+            JSONObject routes = routesArray.getJSONObject(0);
+            JSONObject overviewPolylines = routes.getJSONObject("overview_polyline");
+            String encodedString = overviewPolylines.getString("points");
+            list = PolyUtil.decode(encodedString);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
     private List<LatLng> getRoute(String startAddress, String endAddress) {
         List<LatLng> list = new ArrayList();
 
         HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
 
         try {
-            String result = task.execute("https://maps.googleapis.com/maps/api/directions/json?origin=43+Ivy+Road+Forfar&destination=Balfield+Road+Dundee&key=AIzaSyB1IZZQIp_KVXDBYFHP2ZNlinY34Igt6nk").get();
+            String result = task.execute("https://maps.googleapis.com/maps/api/directions/json?origin=43+Ivy+Road+Forfar&destination=London&key=AIzaSyB1IZZQIp_KVXDBYFHP2ZNlinY34Igt6nk").get();
             JSONObject json = new JSONObject(result);
             JSONArray routes = json.getJSONArray("routes");
             JSONObject route = routes.getJSONObject(0);
@@ -105,10 +140,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             JSONArray steps = leg.getJSONArray("steps");
             for (int i = 0; i < steps.length(); i++) {
                 JSONObject step = steps.getJSONObject(i);
-                JSONObject location = step.getJSONObject("start_location");
-                Double lat = (Double) location.get("lat");
-                Double lng = (Double) location.get("lng");
-                list.add(new LatLng(lat, lng));
+                JSONObject startLocation = step.getJSONObject("start_location");
+                Double startLat = (Double) startLocation.get("lat");
+                Double startLng = (Double) startLocation.get("lng");
+
+                JSONObject endLocation = step.getJSONObject("end_location");
+                Double endLat = (Double) endLocation.get("lat");
+                Double endLng = (Double) endLocation.get("lng");
+                list.add(new LatLng(startLat, startLng));
+                list.add(new LatLng(endLat, endLng));
             }
 
         } catch (InterruptedException | ExecutionException | JSONException e) {
