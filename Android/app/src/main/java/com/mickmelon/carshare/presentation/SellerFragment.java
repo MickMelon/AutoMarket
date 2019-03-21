@@ -14,13 +14,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.mickmelon.carshare.R;
 import com.mickmelon.carshare.core.Seller;
 import com.mickmelon.carshare.presentation.viewmodels.SellerViewModel;
 import com.mickmelon.carshare.util.ActivityHelper;
 import com.mickmelon.carshare.util.FragmentHelper;
 
-public class SellerFragment extends Fragment {
+public class SellerFragment extends Fragment implements OnMapReadyCallback {
+    private MapView _mapView;
+    private GoogleMap _googleMap;
+
+    private static final String MAPVIEW_BUNDLE_KEY = "AIzaSyB1IZZQIp_KVXDBYFHP2ZNlinY34Igt6nk";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_seller, container, false);
@@ -64,6 +74,16 @@ public class SellerFragment extends Fragment {
         emailButton.setOnClickListener(v -> composeEmail(sellerLiveData.getValue().getEmail(), "Enquiry"));
         websiteButton.setOnClickListener(v -> openWebPage(sellerLiveData.getValue().getWebsite()));
         mapButton.setOnClickListener(v -> ActivityHelper.showActivity(getContext(), MapsActivity.class));
+
+        Bundle mapViewBundle = null;
+        if (savedInstanceState != null) {
+            mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
+        }
+
+        _mapView = view.findViewById(R.id.mapView);
+        _mapView.onCreate(mapViewBundle);
+        _mapView.getMapAsync(this);
+
     }
 
     /**
@@ -108,5 +128,59 @@ public class SellerFragment extends Fragment {
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Bundle mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
+        if (mapViewBundle == null) {
+            mapViewBundle = new Bundle();
+            outState.putBundle(MAPVIEW_BUNDLE_KEY, mapViewBundle);
+        }
+
+        _mapView.onSaveInstanceState(mapViewBundle);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        _mapView.onResume();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        _mapView.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        _mapView.onStop();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        map.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+    }
+
+    @Override
+    public void onPause() {
+        _mapView.onPause();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        _mapView.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        _mapView.onLowMemory();
     }
 }

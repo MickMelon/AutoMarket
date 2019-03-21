@@ -1,5 +1,6 @@
 package com.mickmelon.carshare.database;
 
+import com.mickmelon.carshare.core.Constants;
 import com.mickmelon.carshare.core.Seller;
 
 import org.json.JSONArray;
@@ -23,7 +24,7 @@ public class RemoteSellerRepository implements ISellerRepository {
         try {
             List<Seller> sellers = new ArrayList<>();
 
-            String result = task.execute("c=seller&a=read").get();
+            String result = task.execute(Constants.PHP_SERVER_URL + "?c=seller&a=read").get();
             JSONArray jsonAllSellers = new JSONArray(result);
 
             for (int i = 0; i < jsonAllSellers.length(); i++) {
@@ -47,7 +48,7 @@ public class RemoteSellerRepository implements ISellerRepository {
         HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
 
         try {
-            String result = task.execute("c=seller&a=read&id=" + id).get();
+            String result = task.execute(Constants.PHP_SERVER_URL + "?c=seller&a=read&id=" + id).get();
             JSONObject jsonSeller = new JSONObject(result);
             Seller seller = Seller.fromJson(jsonSeller);
             return seller;
@@ -66,7 +67,7 @@ public class RemoteSellerRepository implements ISellerRepository {
         HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
 
         try {
-            String result = task.execute("c=seller&a=read&email=" + email).get();
+            String result = task.execute(Constants.PHP_SERVER_URL + "?c=seller&a=read&email=" + email).get();
             JSONObject jsonSeller = new JSONObject(result);
             Seller seller = Seller.fromJson(jsonSeller);
             return seller;
@@ -92,7 +93,7 @@ public class RemoteSellerRepository implements ISellerRepository {
         params.add(new AbstractMap.SimpleEntry("Description", seller.getDescription()));
         params.add(new AbstractMap.SimpleEntry("Location", seller.getLocation()));
         params.add(new AbstractMap.SimpleEntry("Password", seller.getPassword()));
-        PostData postData = new PostData("c=seller&a=create", params);
+        PostData postData = new PostData(Constants.PHP_SERVER_URL + "?c=seller&a=create", params);
 
         try {
             HttpResult httpResult = task.execute(postData).get();
@@ -121,7 +122,7 @@ public class RemoteSellerRepository implements ISellerRepository {
         params.add(new AbstractMap.SimpleEntry("Description", seller.getDescription()));
         params.add(new AbstractMap.SimpleEntry("Location", seller.getLocation()));
         params.add(new AbstractMap.SimpleEntry("Password", seller.getPassword()));
-        PostData postData = new PostData("c=seller&a=update", params);
+        PostData postData = new PostData(Constants.PHP_SERVER_URL + "?c=seller&a=update", params);
 
         try {
             HttpResult httpResult = task.execute(postData).get();
