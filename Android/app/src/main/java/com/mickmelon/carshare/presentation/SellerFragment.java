@@ -2,8 +2,10 @@ package com.mickmelon.carshare.presentation;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -45,7 +47,7 @@ public class SellerFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap _googleMap;
     private String _address;
 
-    private static final String MAPVIEW_BUNDLE_KEY = "AIzaSyB1IZZQIp_KVXDBYFHP2ZNlinY34Igt6nk";
+    private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
