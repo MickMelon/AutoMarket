@@ -3,6 +3,7 @@ package com.mickmelon.carshare.presentation;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,20 +15,35 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.PolyUtil;
 import com.mickmelon.carshare.R;
+import com.mickmelon.carshare.core.Route;
 import com.mickmelon.carshare.core.Seller;
+import com.mickmelon.carshare.database.HttpClient;
 import com.mickmelon.carshare.presentation.viewmodels.SellerViewModel;
 import com.mickmelon.carshare.util.ActivityHelper;
 import com.mickmelon.carshare.util.FragmentHelper;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 public class SellerFragment extends Fragment implements OnMapReadyCallback {
     private MapView _mapView;
     private GoogleMap _googleMap;
+    private String _address;
 
     private static final String MAPVIEW_BUNDLE_KEY = "AIzaSyB1IZZQIp_KVXDBYFHP2ZNlinY34Igt6nk";
 
@@ -64,6 +80,8 @@ public class SellerFragment extends Fragment implements OnMapReadyCallback {
             phoneNumber.setText(seller.getPhoneNumber());
             email.setText(seller.getEmail());
         });
+
+        _address = sellerLiveData.getValue().getLocation();
 
         Button callButton = view.findViewById(R.id.button_Call);
         Button emailButton = view.findViewById(R.id.button_Email);
@@ -163,7 +181,24 @@ public class SellerFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap map) {
-        map.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+        Route route = getPolyRoute("43 Ivy Road Forfar", _address);
+
+        Polyline polyline = map.addPolyline(new PolylineOptions()
+                .clickable(true)
+                .width(5)
+                .color(Color.BLUE)
+                .geodesic(true)
+                .addAll(route.getLatLng()));
+
+
+        map.moveCamera(CameraUpdateFactory.newLatLng(route.getLatLng().get(0)));
+        map.setTrafficEnabled(true);
+
+        Marker marker = map.addMarker(new MarkerOptions()
+                .position(route.getLatLng().get(route.getLatLng().size() - 1))
+                .title("Destination is " + route.getDistanceMiles() + " miles away.")
+                .snippet("It will take around " + route.getDurationMinutes() + " minutes."));
+        marker.showInfoWindow();
     }
 
     @Override
@@ -182,5 +217,44 @@ public class SellerFragment extends Fragment implements OnMapReadyCallback {
     public void onLowMemory() {
         super.onLowMemory();
         _mapView.onLowMemory();
+    }
+
+    private Route getPolyRoute(String startAddress, String endAddress) {
+        HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
+        Route route = null;
+
+        startAddress = startAddress.replace(" ", "+");
+        endAddress = endAddress.replace(" ", "+");
+        try {
+            String result = task.execute("https://maps.googleapis.com/maps/api/directions/json?origin="
+                    + startAddress + "&destination="
+                    + endAddress + "&key=AIzaSyB1IZZQIp_KVXDBYFHP2ZNlinY34Igt6nk").get();
+
+            // Get the polyline data
+            JSONObject json = new JSONObject(result);
+            JSONArray routesArray = json.getJSONArray("routes");
+            JSONObject routes = routesArray.getJSONObject(0);
+            JSONObject overviewPolylines = routes.getJSONObject("overview_polyline");
+            String encodedString = overviewPolylines.getString("points");
+            List<LatLng> latLngList = PolyUtil.decode(encodedString);
+
+            // Get the route time and distance
+            JSONArray legsArray = routes.getJSONArray("legs");
+            JSONObject leg = legsArray.getJSONObject(0);
+            JSONObject distance = leg.getJSONObject("distance");
+            int distanceMetres = distance.getInt("value");
+            JSONObject duration = leg.getJSONObject("duration");
+            int durationSeconds = duration.getInt("value");
+
+            route = new Route(latLngList, distanceMetres, durationSeconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return route;
     }
 }
