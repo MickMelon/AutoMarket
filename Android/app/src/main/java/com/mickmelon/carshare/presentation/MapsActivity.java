@@ -9,12 +9,14 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.PolyUtil;
 import com.mickmelon.carshare.R;
 import com.mickmelon.carshare.database.HttpClient;
+import com.mickmelon.carshare.core.Route;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +40,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -52,68 +53,54 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        List<LatLng> list = getPolyRoute("", "");
-        //List<LatLng> newList = getRoadSnappedRoute(list);
+        Route route = getPolyRoute("43 Ivy Road Forfar", "Keptie Road Arbroath");
 
         Polyline polyline = mMap.addPolyline(new PolylineOptions()
             .clickable(true)
             .width(5)
             .color(Color.BLUE)
             .geodesic(true)
-            .addAll(list));
+            .addAll(route.getLatLng()));
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(list.get(0)));
 
-        /*for (LatLng latLng : list) {
-            mMap.addMarker(new MarkerOptions()
-                .position(latLng)
-                .title("Marker for " + latLng.latitude + ", " + latLng.longitude));
-        }*/
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(route.getLatLng().get(0)));
+        mMap.setTrafficEnabled(true);
+
+        Marker marker = mMap.addMarker(new MarkerOptions()
+            .position(route.getLatLng().get(route.getLatLng().size() - 1))
+            .title("Destination is " + route.getDistanceMiles() + " miles away.")
+            .snippet("It will take around " + route.getDurationMinutes() + " minutes."));
+        marker.showInfoWindow();
     }
 
-    private List<LatLng> getRoadSnappedRoute(List<LatLng> route) {
+    private Route getPolyRoute(String startAddress, String endAddress) {
         HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
-        List<LatLng> list = new ArrayList();
+        Route route = null;
 
-        String path = "";
-
-        for (int i = 0; i < route.size(); i++) {
-            path += route.get(i).latitude + "," + route.get(i).longitude;
-            if ((i + 1) != route.size()) path += "|";
-        }
-
-        System.out.println(path +"\n\n\n\n");
-
+        startAddress = startAddress.replace(" ", "+");
+        endAddress = endAddress.replace(" ", "+");
         try {
-            String result = task.execute("https://roads.googleapis.com/v1/snapToRoads?path=" + path + "%20&interpolate=true&key=AIzaSyB1IZZQIp_KVXDBYFHP2ZNlinY34Igt6nk").get();
-            JSONObject json = new JSONObject(result);
-            JSONArray jsonArray = json.getJSONArray("snappedPoints");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject point = jsonArray.getJSONObject(i);
-                JSONObject location = point.getJSONObject("location");
-                Double lat = (Double) location.get("latitude");
-                Double lon = (Double) location.get("longitude");
-                list.add(new LatLng(lat, lon));
-            }
-        } catch (InterruptedException | ExecutionException | JSONException e) {
-            e.printStackTrace();
-        }
+            String result = task.execute("https://maps.googleapis.com/maps/api/directions/json?origin="
+                    + startAddress + "&destination="
+                    + endAddress + "&key=AIzaSyB1IZZQIp_KVXDBYFHP2ZNlinY34Igt6nk").get();
 
-        return list;
-    }
-
-    private List<LatLng> getPolyRoute(String startAddress, String endAddress) {
-        HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
-        List<LatLng> list = new ArrayList();
-
-        try {
-            String result = task.execute("https://maps.googleapis.com/maps/api/directions/json?origin=43+Ivy+Road+Forfar&destination=Cortachy&key=AIzaSyB1IZZQIp_KVXDBYFHP2ZNlinY34Igt6nk").get();
+            // Get the polyline data
             JSONObject json = new JSONObject(result);
             JSONArray routesArray = json.getJSONArray("routes");
             JSONObject routes = routesArray.getJSONObject(0);
             JSONObject overviewPolylines = routes.getJSONObject("overview_polyline");
             String encodedString = overviewPolylines.getString("points");
-            list = PolyUtil.decode(encodedString);
+            List<LatLng> latLngList = PolyUtil.decode(encodedString);
+
+            // Get the route time and distance
+            JSONArray legsArray = routes.getJSONArray("legs");
+            JSONObject leg = legsArray.getJSONObject(0);
+            JSONObject distance = leg.getJSONObject("distance");
+            int distanceMetres = distance.getInt("value");
+            JSONObject duration = leg.getJSONObject("duration");
+            int durationSeconds = duration.getInt("value");
+
+            route = new Route(latLngList, distanceMetres, durationSeconds);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -122,39 +109,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             e.printStackTrace();
         }
 
-        return list;
-    }
-
-    private List<LatLng> getRoute(String startAddress, String endAddress) {
-        List<LatLng> list = new ArrayList();
-
-        HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
-
-        try {
-            String result = task.execute("https://maps.googleapis.com/maps/api/directions/json?origin=43+Ivy+Road+Forfar&destination=London&key=AIzaSyB1IZZQIp_KVXDBYFHP2ZNlinY34Igt6nk").get();
-            JSONObject json = new JSONObject(result);
-            JSONArray routes = json.getJSONArray("routes");
-            JSONObject route = routes.getJSONObject(0);
-            JSONArray legs = route.getJSONArray("legs");
-            JSONObject leg = legs.getJSONObject(0);
-            JSONArray steps = leg.getJSONArray("steps");
-            for (int i = 0; i < steps.length(); i++) {
-                JSONObject step = steps.getJSONObject(i);
-                JSONObject startLocation = step.getJSONObject("start_location");
-                Double startLat = (Double) startLocation.get("lat");
-                Double startLng = (Double) startLocation.get("lng");
-
-                JSONObject endLocation = step.getJSONObject("end_location");
-                Double endLat = (Double) endLocation.get("lat");
-                Double endLng = (Double) endLocation.get("lng");
-                list.add(new LatLng(startLat, startLng));
-                list.add(new LatLng(endLat, endLng));
-            }
-
-        } catch (InterruptedException | ExecutionException | JSONException e) {
-            e.printStackTrace();
-        }
-
-        return list;
+        return route;
     }
 }
