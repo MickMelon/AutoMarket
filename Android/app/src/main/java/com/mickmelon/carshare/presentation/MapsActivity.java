@@ -26,6 +26,7 @@ import com.google.maps.android.PolyUtil;
 import com.mickmelon.carshare.R;
 import com.mickmelon.carshare.database.HttpClient;
 import com.mickmelon.carshare.core.Route;
+import com.mickmelon.carshare.util.ToastHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,13 +63,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            // TODO: Handle this
-            return;
-        }
-
-        LocationListener locationListener = new MyLocationListener();
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -78,33 +72,48 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            ActivityCompat.requestPermissions(this, new String[] {
-                    android.
-            });
-            return;
+            ToastHelper.showToast(getApplicationContext(), "No permissions granted");
+
+            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        } else {
+            ToastHelper.showToast(getApplicationContext(), "Permissions granted.");
+
+            // Location Manager
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                // TODO: Handle this
+                return;
+            }
+
+            LocationListener locationListener = new MyLocationListener();
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, locationListener);
+
+            if (_userAddress == null) {
+                Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                setAddressFromLocation(lastLocation);
+            }
+
+            mMap = googleMap;
+
+            Route route = getPolyRoute(_userAddress, "Keptie Road Arbroath");
+
+            Polyline polyline = mMap.addPolyline(new PolylineOptions()
+                    .clickable(true)
+                    .width(5)
+                    .color(Color.BLUE)
+                    .geodesic(true)
+                    .addAll(route.getLatLng()));
+
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(route.getLatLng().get(0)));
+            mMap.setTrafficEnabled(true);
+
+            Marker marker = mMap.addMarker(new MarkerOptions()
+                    .position(route.getLatLng().get(route.getLatLng().size() - 1))
+                    .title("Destination is " + route.getDistanceMiles() + " miles away.")
+                    .snippet("It will take around " + route.getDurationMinutes() + " minutes."));
+            marker.showInfoWindow();
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
-
-        mMap = googleMap;
-
-        Route route = getPolyRoute(_userAddress, "Keptie Road Arbroath");
-
-        Polyline polyline = mMap.addPolyline(new PolylineOptions()
-            .clickable(true)
-            .width(5)
-            .color(Color.BLUE)
-            .geodesic(true)
-            .addAll(route.getLatLng()));
-
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(route.getLatLng().get(0)));
-        mMap.setTrafficEnabled(true);
-
-        Marker marker = mMap.addMarker(new MarkerOptions()
-            .position(route.getLatLng().get(route.getLatLng().size() - 1))
-            .title("Destination is " + route.getDistanceMiles() + " miles away.")
-            .snippet("It will take around " + route.getDurationMinutes() + " minutes."));
-        marker.showInfoWindow();
     }
 
     private Route getPolyRoute(String startAddress, String endAddress) {
@@ -112,6 +121,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Route route = null;
 
         startAddress = startAddress.replace(" ", "+");
+        startAddress = startAddress.replace(",", "");
         endAddress = endAddress.replace(" ", "+");
         try {
             String result = task.execute("https://maps.googleapis.com/maps/api/directions/json?origin="
@@ -146,22 +156,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         return route;
     }
 
+    private void setAddressFromLocation(Location location) {
+        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+        System.out.println(location.getLatitude());
+        System.out.println(location.getLongitude());
+        List<Address> addresses = null;
+        try {
+            addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String address = addresses.get(0).getAddressLine(0);
+        String city = addresses.get(0).getLocality();
+
+        _userAddress = address + " " + city;
+    }
+
     private class MyLocationListener implements LocationListener {
 
         @Override
         public void onLocationChanged(Location location) {
-            Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-            List<Address> addresses = null;
-            try {
-                addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            String address = addresses.get(0).getAddressLine(0);
-            String city = addresses.get(0).getLocality();
-
-            _userAddress = address + " " + city;
+            setAddressFromLocation(location);
         }
 
         @Override
