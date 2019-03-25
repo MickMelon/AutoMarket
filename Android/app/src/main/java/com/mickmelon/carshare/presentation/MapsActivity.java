@@ -33,19 +33,26 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    private GoogleMap _map;
     private String _userAddress;
+    private String _sellerAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        // Set the arguments
+        Bundle args = getIntent().getExtras();
+        _sellerAddress = args.getString("SellerAddress");
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -63,63 +70,93 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        _map = googleMap;
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            ToastHelper.showToast(getApplicationContext(), "No permissions granted");
-
-            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+            handlePermissionsNotGranted();
         } else {
             ToastHelper.showToast(getApplicationContext(), "Permissions granted.");
 
             // Location Manager
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                // TODO: Handle this
+                handleGpsNotEnabled();
                 return;
             }
 
+            // Setup LocationListener
             LocationListener locationListener = new MyLocationListener();
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, locationListener);
 
+            // If there has been no location updates, get the cached location.
             if (_userAddress == null) {
                 Location lastLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 setAddressFromLocation(lastLocation);
             }
 
-            mMap = googleMap;
-
-            Route route = getPolyRoute(_userAddress, "Keptie Road Arbroath");
-
-            Polyline polyline = mMap.addPolyline(new PolylineOptions()
-                    .clickable(true)
-                    .width(5)
-                    .color(Color.BLUE)
-                    .geodesic(true)
-                    .addAll(route.getLatLng()));
-
-
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(route.getLatLng().get(0)));
-            mMap.setTrafficEnabled(true);
-
-            Marker marker = mMap.addMarker(new MarkerOptions()
-                    .position(route.getLatLng().get(route.getLatLng().size() - 1))
-                    .title("Destination is " + route.getDistanceMiles() + " miles away.")
-                    .snippet("It will take around " + route.getDurationMinutes() + " minutes."));
-            marker.showInfoWindow();
+            displayRouteFromUserToSeller();
         }
     }
 
+    /**
+     * Called when the location permissions have not been granted by the user.
+     */
+    private void handlePermissionsNotGranted() {
+        // TODO: Consider calling
+        //    ActivityCompat#requestPermissions
+        // here to request the missing permissions, and then overriding
+        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+        //                                          int[] grantResults)
+        // to handle the case where the user grants the permission. See the documentation
+        // for ActivityCompat#requestPermissions for more details.
+        ToastHelper.showToast(getApplicationContext(), "No permissions granted");
+        ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+    }
+
+    /**
+     * Called when GPS is not enabled on the user's device.
+     */
+    private void handleGpsNotEnabled() {
+
+    }
+
+    /**
+     * Displays the route from the user to seller.
+     */
+    private void displayRouteFromUserToSeller() {
+        Route route = getPolyRoute(_userAddress, _sellerAddress);
+
+        Polyline polyline = _map.addPolyline(new PolylineOptions()
+                .clickable(true)
+                .width(5)
+                .color(Color.BLUE)
+                .geodesic(true)
+                .addAll(route.getLatLng()));
+
+
+        _map.moveCamera(CameraUpdateFactory.newLatLng(route.getLatLng().get(0)));
+        _map.setTrafficEnabled(true);
+
+        Marker marker = _map.addMarker(new MarkerOptions()
+                .position(route.getLatLng().get(route.getLatLng().size() - 1))
+                .title("Destination is " + route.getDistanceMiles() + " miles away.")
+                .snippet("It will take around " + route.getDurationMinutes() + " minutes."));
+        marker.showInfoWindow();
+    }
+
+    /**
+     * Generates the PolyRoute for displaying on the Google Map.
+     * @param startAddress The starting address.
+     * @param endAddress The ending address.
+     * @return Route or null if none could be created.
+     */
     private Route getPolyRoute(String startAddress, String endAddress) {
         HttpClient.HttpGetAsyncTask task = new HttpClient.HttpGetAsyncTask();
         Route route = null;
 
+        // Make sure the start and end addresses are in valid format for adding into URL.
+        // Google maps doesn't like spaces or commas in the address.
         startAddress = startAddress.replace(" ", "+");
         startAddress = startAddress.replace(",", "");
         endAddress = endAddress.replace(" ", "+");
@@ -145,17 +182,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             int durationSeconds = duration.getInt("value");
 
             route = new Route(latLngList, distanceMetres, durationSeconds);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (InterruptedException | ExecutionException | JSONException e) {
             e.printStackTrace();
         }
 
         return route;
     }
 
+    /**
+     * Sets the useraddress depending on GPS location.
+     * @param location
+     */
     private void setAddressFromLocation(Location location) {
         Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
         System.out.println(location.getLatitude());
@@ -173,6 +210,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         _userAddress = address + " " + city;
     }
 
+    /**
+     * The custom implementation of the LocationListener used to make updates to the user address
+     * variable every time the user changes location.
+     */
     private class MyLocationListener implements LocationListener {
 
         @Override
