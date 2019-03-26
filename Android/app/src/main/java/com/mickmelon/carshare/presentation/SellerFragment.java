@@ -87,7 +87,7 @@ public class SellerFragment extends Fragment implements OnMapReadyCallback {
         mapButton.setOnClickListener(v -> {
             Bundle mapArgs = new Bundle();
             mapArgs.putString("SellerAddress", _address);
-            ActivityHelper.showActivity(getContext(), MapsActivity.class, mapArgs);
+            ActivityHelper.showActivity(getContext(), MapsActivity.class, false, mapArgs);
         });
 
         Bundle mapViewBundle = null;
