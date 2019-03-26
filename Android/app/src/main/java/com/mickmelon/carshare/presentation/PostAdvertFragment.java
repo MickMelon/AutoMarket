@@ -18,20 +18,44 @@ import com.mickmelon.carshare.util.ActivityHelper;
 import com.mickmelon.carshare.util.FragmentHelper;
 import com.mickmelon.carshare.util.ToastHelper;
 
+/**
+ * The fragment used to control the post advert layout.
+ */
 public class PostAdvertFragment extends Fragment {
+    /**
+     * The instance of DataAccess used to interact with the database.
+     */
     private DataAccess _dataAccess;
 
+    /**
+     * The input vehicle reg.
+     */
     private EditText _vehicleReg;
+
+    /**
+     * The input description.
+     */
     private EditText _description;
+
+    /**
+     * The input price.
+     */
     private EditText _price;
 
+    /**
+     * Called when the fragment is about to be created.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_postadvert, container, false);
     }
 
+    /**
+     * Called after the fragment has been created.
+     */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // If the user is logged in then they shouldn't be able to view this.
         if (!Identity.isLoggedIn()) {
             ActivityHelper.showMainActivity(getContext());
             return;
@@ -44,14 +68,12 @@ public class PostAdvertFragment extends Fragment {
         _price = view.findViewById(R.id.editText_Price);
 
         Button postAdvertButton = view.findViewById(R.id.button_PostAdvert);
-        postAdvertButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submitPostAdvertForm();
-            }
-        });
+        postAdvertButton.setOnClickListener(v -> submitPostAdvertForm());
     }
 
+    /**
+     * Submits the post advert form.
+     */
     private void submitPostAdvertForm() {
         String vehicleReg = _vehicleReg.getText().toString();
         String description = _description.getText().toString();

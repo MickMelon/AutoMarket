@@ -8,9 +8,19 @@ import android.support.v7.app.AppCompatActivity;
 import com.mickmelon.carshare.R;
 import com.mickmelon.carshare.presentation.MainActivity;
 
+/**
+ * Helpful functions to show and close fragments.
+ */
 public class FragmentHelper {
+    /**
+     * Indicates whether a fragment has been shown.
+     */
     private static boolean _fragmentShown = false;
 
+    /**
+     * Checks whether a fragment has been shown.
+     * @return Whether a fragment has been shown.
+     */
     public static boolean isFragmentShown() { return _fragmentShown; }
 
     /**

@@ -3,10 +3,8 @@ package com.mickmelon.carshare.presentation;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,24 +27,51 @@ import com.mickmelon.carshare.core.Seller;
 import com.mickmelon.carshare.presentation.viewmodels.SellerViewModel;
 import com.mickmelon.carshare.util.ActivityHelper;
 import com.mickmelon.carshare.util.FragmentHelper;
+import com.mickmelon.carshare.util.IntentHelper;
 
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * The fragment for controlling the Seller layout.
+ */
 public class SellerFragment extends Fragment implements OnMapReadyCallback {
+    /**
+     * The MapView that the Google maps will be displayed on with the seller address.
+     */
     private MapView _mapView;
-    private GoogleMap _googleMap;
+
+    /**
+     * The seller's address.
+     */
     private String _address;
 
+    /**
+     * The name of the MapView bundle key.
+     */
     private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
+    /**
+     * Called when the fragment is created.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_seller, container, false);
     }
 
+    /**
+     * Called after the fragment is created.
+     */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        populateView(view, savedInstanceState);
+    }
+
+    /**
+     * Populates the layout with the details from the seller that should be specified by the
+     * bundle arguments.
+     */
+    private void populateView(View view, @Nullable Bundle savedInstanceState) {
         TextView sellerName = view.findViewById(R.id.textView_SellerName);
         TextView location = view.findViewById(R.id.textView_Address);
         TextView phoneNumber = view.findViewById(R.id.textView_PhoneNumber);
@@ -74,22 +99,40 @@ public class SellerFragment extends Fragment implements OnMapReadyCallback {
             email.setText(seller.getEmail());
         });
 
+        // Set the address used for displaying seller location on the map.
         _address = sellerLiveData.getValue().getLocation();
 
+        setupButtons(view, sellerLiveData);
+        setupMapView(view ,savedInstanceState);
+    }
+
+    /**
+     * Sets up the buttons used on the layout.
+     * @param view The view passed to onViewCreated
+     * @param sellerLiveData The live data from the seller view model.
+     */
+    private void setupButtons(View view, LiveData<Seller> sellerLiveData) {
         Button callButton = view.findViewById(R.id.button_Call);
         Button emailButton = view.findViewById(R.id.button_Email);
         Button websiteButton = view.findViewById(R.id.button_Website);
         Button mapButton = view.findViewById(R.id.button_Map);
 
-        callButton.setOnClickListener(v -> makePhoneCall(sellerLiveData.getValue().getPhoneNumber()));
-        emailButton.setOnClickListener(v -> composeEmail(sellerLiveData.getValue().getEmail(), "Enquiry"));
-        websiteButton.setOnClickListener(v -> openWebPage(sellerLiveData.getValue().getWebsite()));
+        callButton.setOnClickListener(v -> IntentHelper.makePhoneCall(getActivity(), sellerLiveData.getValue().getPhoneNumber()));
+        emailButton.setOnClickListener(v -> IntentHelper.composeEmail(getActivity(), sellerLiveData.getValue().getEmail(), "Enquiry", "I am interested in buying your vehicle."));
+        websiteButton.setOnClickListener(v -> IntentHelper.openWebPage(getActivity(), sellerLiveData.getValue().getWebsite()));
         mapButton.setOnClickListener(v -> {
             Bundle mapArgs = new Bundle();
             mapArgs.putString("SellerAddress", _address);
             ActivityHelper.showActivity(getContext(), MapsActivity.class, false, mapArgs);
         });
+    }
 
+    /**
+     * Sets up the google maps view.
+     * @param view The view passed to onViewCreated.
+     * @param savedInstanceState The bundle passed to onViewCreated.
+     */
+    private void setupMapView(View view, @Nullable Bundle savedInstanceState) {
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
@@ -98,53 +141,11 @@ public class SellerFragment extends Fragment implements OnMapReadyCallback {
         _mapView = view.findViewById(R.id.mapView);
         _mapView.onCreate(mapViewBundle);
         _mapView.getMapAsync(this);
-
     }
 
     /**
-     * Composes an email and opens the email client ready to be sent.
-     * @param address The email address to send to.
-     * @param subject The subject of the email.
+     * Called after onCreate and after onStart.
      */
-    private void composeEmail(String address, String subject) {
-        String[] addresses = new String[] {address};
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto:"));
-        intent.putExtra(Intent.EXTRA_EMAIL, addresses);
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_TEXT, "I am interested in buying your vehicle.");
-        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivity(intent);
-        }
-    }
-
-    /**
-     * Makes a phone call to the given number.
-     * @param phoneNumber The number to call.
-     */
-    private void makePhoneCall(String phoneNumber) {
-        Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:" + phoneNumber));
-        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivity(intent);
-        }
-    }
-
-    /**
-     * Opens a web page with the given URL.
-     * @param url The URL of the web page to be loaded.
-     */
-    private void openWebPage(String url) {
-        if (!url.startsWith("http://") && !url.startsWith("https://")) {
-
-        }
-        Uri webPage = Uri.parse("http://" + url);
-        Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
-        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
-            startActivity(intent);
-        }
-    }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -158,24 +159,37 @@ public class SellerFragment extends Fragment implements OnMapReadyCallback {
         _mapView.onSaveInstanceState(mapViewBundle);
     }
 
+    /**
+     * Called when the fragment has resumed.
+     */
     @Override
     public void onResume() {
         super.onResume();
         _mapView.onResume();
     }
 
+    /**
+     * Called when the fragment has started, after onCreate.
+     */
     @Override
     public void onStart() {
         super.onStart();
         _mapView.onStart();
     }
 
+    /**
+     * Called when the fragment has stopped.
+     */
     @Override
     public void onStop() {
         super.onStop();
         _mapView.onStop();
     }
 
+    /**
+     * Called when the GoogleMap is ready.
+     * @param map The GoogleMap.
+     */
     @Override
     public void onMapReady(GoogleMap map) {
         LatLng location = getLocationFromAddress(getContext(), _address);
@@ -187,24 +201,39 @@ public class SellerFragment extends Fragment implements OnMapReadyCallback {
         map.moveCamera(CameraUpdateFactory.newLatLng(location));
     }
 
+    /**
+     * Called when the fragment is paused.
+     */
     @Override
     public void onPause() {
         _mapView.onPause();
         super.onPause();
     }
 
+    /**
+     * Called when the fragment is destroyed.
+     */
     @Override
     public void onDestroy() {
         _mapView.onDestroy();
         super.onDestroy();
     }
 
+    /**
+     * Called when low on memory.
+     */
     @Override
     public void onLowMemory() {
         super.onLowMemory();
         _mapView.onLowMemory();
     }
 
+    /**
+     * Gets the co-ordinates for the given address.
+     * @param context The application context.
+     * @param address The address.
+     * @return The co-ordinates for the given address.
+     */
     private LatLng getLocationFromAddress(Context context, String address) {
         Geocoder coder = new Geocoder(context);
         List<Address> addresses = null;

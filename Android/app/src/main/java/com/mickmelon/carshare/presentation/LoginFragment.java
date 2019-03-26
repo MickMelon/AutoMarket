@@ -15,16 +15,36 @@ import com.mickmelon.carshare.R;
 import com.mickmelon.carshare.util.FragmentHelper;
 import com.mickmelon.carshare.util.ToastHelper;
 
+/**
+ * The login fragment used to control the login layout.
+ */
 public class LoginFragment extends Fragment {
+    /**
+     * The input email.
+     */
     private EditText _email;
+
+    /**
+     * The input password.
+     */
     private EditText _password;
+
+    /**
+     * The login button view.
+     */
     private Button _loginButton;
 
+    /**
+     * Called when the fragment is about to be created.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_login, container, false);
     }
 
+    /**
+     * Called after the fragment has been created.
+     */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         if (Identity.isLoggedIn()) {

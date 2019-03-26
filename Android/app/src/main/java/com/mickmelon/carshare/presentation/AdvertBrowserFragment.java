@@ -16,17 +16,37 @@ import com.mickmelon.carshare.core.Advert;
 import com.mickmelon.carshare.database.DataAccess;
 import com.mickmelon.carshare.presentation.viewmodels.AdvertBrowserViewModel;
 
+/**
+ * The fragment for controlling the advert browser layout.
+ */
 public class AdvertBrowserFragment extends Fragment {
+    /**
+     * The advert selected listener used to handle the case when an advert is selected.
+     */
     private OnAdvertSelectedListener _advertSelectedListener;
+
+    /**
+     * The instance of DataAccess used to interact with the database.
+     */
     private DataAccess _dataAccess;
+
+    /**
+     * The linear layout that contains the populated adverts.
+     */
     private LinearLayout _linearLayout;
 
+    /**
+     * Called when the fragment is about to be created.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         _dataAccess = DataAccess.getInstance();
         return inflater.inflate(R.layout.fragment_advertbrowser, container, false);
     }
 
+    /**
+     * Called after the fragment has been created.
+     */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         _linearLayout = view.findViewById(R.id.linear_layout);
@@ -58,7 +78,10 @@ public class AdvertBrowserFragment extends Fragment {
     public void setOnAdvertSelectedListener(OnAdvertSelectedListener listener) {
         _advertSelectedListener = listener;
     }
-    
+
+    /**
+     * The interface for the advert selected listener.
+     */
     public interface OnAdvertSelectedListener {
         void onAdvertSelected(int position);
     }

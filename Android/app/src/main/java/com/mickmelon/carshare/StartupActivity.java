@@ -8,12 +8,23 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.mickmelon.carshare.presentation.MainActivity;
 
+/**
+ * This is the starting activity - it is the activity that is created when the application first starts.
+ * Its task is to ensure that it is safe to start the application by doing things like checking
+ * if Google Play services are available.
+ */
 public class StartupActivity extends AppCompatActivity {
+    /**
+     * Called when the activity is created.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Called when the activity is resumed.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -26,7 +37,7 @@ public class StartupActivity extends AppCompatActivity {
         } else System.out.println("NOT VERIFIED");
     }
 
-    /*
+    /**
      * Verify whether the user has Google play services on their device. This is required to use
      * things like Google Maps.
      */

@@ -3,6 +3,9 @@ package com.mickmelon.carshare.util;
 import android.content.Context;
 import android.widget.Toast;
 
+/**
+ * Helpful functions related to Toasts.
+ */
 public class ToastHelper {
     /**
      * Shows a toast.

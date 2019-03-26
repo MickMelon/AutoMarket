@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * Used to interact with the advert table in the database through the PHP API.
+ */
 public class RemoteAdvertRepository implements IAdvertRepository {
     /**
      * Gets all the adverts from the database.

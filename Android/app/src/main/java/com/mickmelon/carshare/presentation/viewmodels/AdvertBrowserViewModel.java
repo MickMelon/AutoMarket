@@ -9,9 +9,19 @@ import com.mickmelon.carshare.database.DataAccess;
 
 import java.util.List;
 
+/**
+ * The ViewModel for the AdvertBrowser layout.
+ */
 public class AdvertBrowserViewModel extends ViewModel {
+    /**
+     * The list of adverts.
+     */
     private MutableLiveData<List<Advert>> _adverts;
 
+    /**
+     * Gets the list of adverts.
+     * @return The adverts.
+     */
     public LiveData<List<Advert>> getAdverts() {
         if (_adverts == null) {
             _adverts = new MutableLiveData<>();
@@ -21,6 +31,9 @@ public class AdvertBrowserViewModel extends ViewModel {
         return _adverts;
     }
 
+    /**
+     * Loads the adverts from the database.
+     */
     private void loadAdverts() {
         DataAccess dataAccess = DataAccess.getInstance();
         _adverts.setValue(dataAccess.adverts().getAllAdverts());

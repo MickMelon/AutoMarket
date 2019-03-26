@@ -16,23 +16,64 @@ import com.mickmelon.carshare.util.ActivityHelper;
 import com.mickmelon.carshare.util.FragmentHelper;
 import com.mickmelon.carshare.util.ToastHelper;
 
+/**
+ * The fragment used for controlling the register layout.
+ */
 public class RegisterFragment extends Fragment {
+    /**
+     * The input email.
+     */
     private EditText _email;
+
+    /**
+     * The input name.
+     */
     private EditText _name;
+
+    /**
+     * The input password.
+     */
     private EditText _password;
+
+    /**
+     * The input phone number.
+     */
     private EditText _phoneNumber;
+
+    /**
+     * The input website.
+     */
     private EditText _website;
+
+    /**
+     * The input location.
+     */
     private EditText _location;
+
+    /**
+     * The input description.
+     */
     private EditText _description;
+
+    /**
+     * The register button view.
+     */
     private Button _registerButton;
 
+    /**
+     * Called when the fragment is created.
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_register, container, false);
     }
 
+    /**
+     * Called after the fragment has been created.
+     */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        // If the user is logged in then they shouldn't be able to view this.
         if (Identity.isLoggedIn()) {
             ActivityHelper.showMainActivity(getContext());
             return;
@@ -47,12 +88,7 @@ public class RegisterFragment extends Fragment {
         _description = view.findViewById(R.id.editText_Description);
         _registerButton = view.findViewById(R.id.button_Register);
 
-        _registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submitRegisterForm();
-            }
-        });
+        _registerButton.setOnClickListener(v -> submitRegisterForm());
     }
 
     /**

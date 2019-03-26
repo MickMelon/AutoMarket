@@ -3,8 +3,18 @@ package com.mickmelon.carshare;
 import com.mickmelon.carshare.core.Seller;
 import com.mickmelon.carshare.database.DataAccess;
 
+/**
+ * Used for user authentication purposes.
+ */
 public class Identity {
+    /**
+     * The DataAccess instance used to interact with the database.
+     */
     private static DataAccess _dataAccess = DataAccess.getInstance();
+
+    /**
+     * The currently logged in user. This will be null if the user isn't logged in.
+     */
     private static Seller _currentUser;
 
     /**

@@ -38,12 +38,29 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * The activity used to display the route from the user to a seller.
+ */
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    /**
+     * The instance of GoogleMap.
+     */
     private GoogleMap _map;
+
+    /**
+     * The user's address.
+     */
     private String _userAddress;
+
+    /**
+     * The seller's address.
+     */
     private String _sellerAddress;
 
+    /**
+     * Called when the activity is created.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

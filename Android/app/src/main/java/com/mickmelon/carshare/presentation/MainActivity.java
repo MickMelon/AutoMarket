@@ -1,17 +1,13 @@
 package com.mickmelon.carshare.presentation;
 
-import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -26,8 +22,14 @@ import cz.msebera.android.httpclient.impl.conn.LoggingSessionOutputBuffer;
  * This class is the container for all the fragments. It holds the navigation drawer.
  */
 public class MainActivity extends AppCompatActivity implements AdvertBrowserFragment.OnAdvertSelectedListener {
+    /**
+     * The navigation drawer.
+     */
     private DrawerLayout _drawerLayout;
 
+    /**
+     * Called when the activity is about to be created.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
                 case LOGOUT:
                     ToastHelper.showToast(getApplicationContext(), "Logout");
                     Identity.logout();
-                    //startActivity(new Intent(getApplicationContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK));
                     FragmentHelper.showFragment(this, new AdvertBrowserFragment(), true);
                     setupMenu();
                     break;
@@ -119,6 +120,9 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
 
     }
 
+    /**
+     * Called when a fragment has been attached to the activity.
+     */
     @Override
     public void onAttachFragment(Fragment fragment) {
         if (fragment instanceof AdvertBrowserFragment) {
@@ -127,6 +131,9 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
         }
     }
 
+    /**
+     * Called when an advert has been selected.
+     */
     @Override
     public void onAdvertSelected(int position) {
         ViewAdvertFragment viewAdvert = new ViewAdvertFragment();
@@ -137,6 +144,9 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
         FragmentHelper.showFragment(this, viewAdvert, false);
     }
 
+    /**
+     * Called when an item has been selected on the navigation drawer menu.
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -147,6 +157,9 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Called when the back button has been pressed.
+     */
     @Override
     public void onBackPressed() {
         FragmentHelper.showFragment(this, new AdvertBrowserFragment(), true);
@@ -166,6 +179,9 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
         }
     }
 
+    /**
+     * Enum used to indicate the names of the menu items.
+     */
     enum MenuItemName {
         LOGIN,
         LOGOUT,
@@ -175,6 +191,9 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
         YOUR_PROFILE
     }
 
+    /**
+     * Gets the menu item name corresponding to the specified id.
+     */
     public static MenuItemName getNameFromInt(int itemId) {
         return MenuItemName.values()[itemId];
     }

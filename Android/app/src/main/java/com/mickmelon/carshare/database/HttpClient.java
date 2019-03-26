@@ -16,6 +16,9 @@ import java.net.URLEncoder;
 import java.util.AbstractMap;
 import java.util.List;
 
+/**
+ * The HttpClient used to make Http requests.
+ */
 public class HttpClient {
     private HttpClient() {}
 
