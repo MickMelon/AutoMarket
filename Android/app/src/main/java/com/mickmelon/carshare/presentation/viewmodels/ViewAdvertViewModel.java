@@ -48,13 +48,20 @@ public class ViewAdvertViewModel extends ViewModel {
     public LiveData<Seller> getSeller() {
         if (_advert != null) {
             int advertSellerId = _advert.getValue().getSellerId();
+
+            // If the current seller is not null, check to see if the ID matches the advert.sellerID
             if (_seller != null) {
                 int currentSellerId = _seller.getValue().getSellerId();
+
+                // If it doesn't match, load the seller from the database.
+                // If it did match, the code will return the currently stored seller.
                 if (advertSellerId != currentSellerId) {
                     _seller = new MutableLiveData<>();
                     loadSeller(advertSellerId);
                 }
             } else {
+                // If the seller is null, it hasn't been loaded yet, so load the one corresponding
+                // to the advert.sellerID
                 _seller = new MutableLiveData<>();
                 loadSeller(advertSellerId);
             }

@@ -73,6 +73,7 @@ public class RemoteAdvertRepository implements IAdvertRepository {
         params.add(new AbstractMap.SimpleEntry("Description", advert.getDescription()));
         params.add(new AbstractMap.SimpleEntry("Price", advert.getPrice()));
         params.add(new AbstractMap.SimpleEntry("SellerID", advert.getSellerId()));
+        params.add(new AbstractMap.SimpleEntry("ImageURL", advert.getImageUrl()));
         PostData postData = new PostData(Constants.PHP_SERVER_URL + "?c=advert&a=create", params);
 
         try {
@@ -99,6 +100,7 @@ public class RemoteAdvertRepository implements IAdvertRepository {
         params.add(new AbstractMap.SimpleEntry("Description", advert.getDescription()));
         params.add(new AbstractMap.SimpleEntry("Price", advert.getPrice()));
         params.add(new AbstractMap.SimpleEntry("SellerID", advert.getSellerId()));
+        params.add(new AbstractMap.SimpleEntry("ImageURL", advert.getImageUrl()));
         PostData postData = new PostData(Constants.PHP_SERVER_URL + "?c=advert&a=update", params);
 
         try {

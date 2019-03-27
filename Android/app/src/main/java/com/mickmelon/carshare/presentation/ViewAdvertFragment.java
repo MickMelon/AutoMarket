@@ -2,6 +2,7 @@ package com.mickmelon.carshare.presentation;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,12 +11,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mickmelon.carshare.R;
 import com.mickmelon.carshare.core.Advert;
+import com.mickmelon.carshare.database.HttpClient;
 import com.mickmelon.carshare.presentation.viewmodels.ViewAdvertViewModel;
 import com.mickmelon.carshare.util.FragmentHelper;
+import com.mickmelon.carshare.util.ToastHelper;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * The fragment for controlling the ViewAdvert layout.
@@ -75,6 +81,22 @@ public class ViewAdvertFragment extends Fragment {
         });
 
         setupSellerButton(view, advertLiveData.getValue().getSellerId());
+
+        HttpClient.HttpGetImageAsyncTask imageTask = new HttpClient.HttpGetImageAsyncTask();
+        Bitmap bitmap = null;
+        try {
+            bitmap = imageTask.execute("https://cdn.pixabay.com/photo/2016/06/18/17/42/image-1465348_960_720.jpg").get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        if (bitmap != null) {
+            ImageView imageView = view.findViewById(R.id.imageView_Car);
+            imageView.setImageBitmap(bitmap);
+            ToastHelper.showToast(getContext(), "Yup, it's being called again");
+        } else {
+            ToastHelper.showToast(getContext(), "Didn't load mate.");
+        }
     }
 
     /**

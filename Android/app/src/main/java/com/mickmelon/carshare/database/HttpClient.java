@@ -1,5 +1,7 @@
 package com.mickmelon.carshare.database;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
@@ -11,6 +13,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.AbstractMap;
@@ -50,6 +53,30 @@ public class HttpClient {
             HttpResult httpResult = HttpClient.post(postData.getUrl(), postData.getParams());
             return httpResult;
         }
+    }
+
+    public static class HttpGetImageAsyncTask extends AsyncTask<String, Void, Bitmap> {
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            String url = params[0];
+
+            Bitmap bitmap = getImage(url);
+
+            return bitmap;
+        }
+    }
+
+    private static Bitmap getImage(String imageUrl) {
+        Bitmap bitmap = null;
+
+        try {
+            InputStream inputStream = new java.net.URL(imageUrl).openStream();
+            bitmap = BitmapFactory.decodeStream(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return bitmap;
     }
 
     /**
