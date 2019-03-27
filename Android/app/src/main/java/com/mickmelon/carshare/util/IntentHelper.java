@@ -8,6 +8,8 @@ import android.net.Uri;
  * Contains helpful functions for executing intents.
  */
 public class IntentHelper {
+    public static final int SELECT_PHOTO = 1;
+
     /**
      * Composes an email and opens the email client ready to be sent.
      * @param activity The calling activity.
@@ -53,5 +55,11 @@ public class IntentHelper {
         if (intent.resolveActivity(activity.getPackageManager()) != null) {
             activity.startActivity(intent);
         }
+    }
+
+    public static void pickPhoto(Activity activity) {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        activity.startActivityForResult(intent, SELECT_PHOTO);
     }
 }

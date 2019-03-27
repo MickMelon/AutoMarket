@@ -4,8 +4,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,8 +16,10 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.ByteBuffer;
 import java.util.AbstractMap;
 import java.util.List;
 
@@ -66,6 +70,16 @@ public class HttpClient {
         }
     }
 
+    public static class HttpPostImageAsyncTask extends AsyncTask<PostData, Void, HttpResult> {
+        @Override
+        protected HttpResult doInBackground(PostData... params) {
+            PostData postData = params[0];
+            Bitmap bitmap = null;
+            HttpResult httpResult = HttpClient.postImage(postData.getUrl(), (Bitmap) postData.getParams().get(0).getValue());
+            return httpResult;
+        }
+    }
+
     private static Bitmap getImage(String imageUrl) {
         Bitmap bitmap = null;
 
@@ -77,6 +91,67 @@ public class HttpClient {
         }
 
         return bitmap;
+    }
+
+    private static HttpResult postImage(String textUrl, Bitmap bitmap) {
+        HttpResult httpResult = null;
+        String attachmentName = "bitmap";
+        String attachmentFileName = "bitmap.bmp";
+        String crlf = "\r\n";
+        String twoHyphens = "--";
+        String boundary =  "*****";
+
+        try {
+            URL url = new URL(textUrl);
+            HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
+            httpConn.setUseCaches(false);
+            httpConn.setDoOutput(true);
+            httpConn.setRequestMethod("POST");
+            httpConn.setRequestProperty("Connection", "Keep-Alive");
+            httpConn.setRequestProperty("Cache-Control", "no-cache");
+            httpConn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+
+            DataOutputStream outputStream = new DataOutputStream(httpConn.getOutputStream());
+            outputStream.writeBytes(twoHyphens + boundary + crlf);
+            outputStream.writeBytes("Content-Disposition: form-data; name=\"" + attachmentName + "\";filename=\"" + attachmentFileName + "\"" + crlf);
+            outputStream.writeBytes(crlf);
+
+            byte[] pixels = convertBitmapToBytes(null);
+            outputStream.write(pixels);
+
+            outputStream.writeBytes(crlf);
+            outputStream.writeBytes(twoHyphens + boundary + twoHyphens + crlf);
+
+            outputStream.flush();
+            outputStream.close();
+
+            InputStream inputStream = new BufferedInputStream(httpConn.getInputStream());
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+            int responseCode = httpConn.getResponseCode();
+            String result = readResult(bufferedReader);
+            httpResult = new HttpResult(result, responseCode);
+
+            inputStream.close();
+            httpConn.disconnect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return httpResult;
+    }
+
+    private static byte[] convertBitmapToBytes(Bitmap bitmap) {
+        byte[] pixels = new byte[bitmap.getWidth() * bitmap.getHeight()];
+        for (int i = 0; i < bitmap.getWidth(); ++i) {
+            for (int j = 0; j < bitmap.getHeight(); ++j) {
+                //we're interested only in the MSB of the first byte,
+                //since the other 3 bytes are identical for B&W images
+                pixels[i + j] = (byte) ((bitmap.getPixel(i, j) & 0x80) >> 7);
+            }
+        }
+
+        return pixels;
     }
 
     /**

@@ -33,6 +33,11 @@ class AdvertController
         return new Results\JsonResult("Unable to create the Advert.", Response::BAD_REQUEST);
     }
 
+    public function upload_image()
+    {
+        var_dump($_POST);
+    }
+
     public function read()
     {
         // Read by ID

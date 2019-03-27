@@ -1,5 +1,6 @@
 package com.mickmelon.carshare.presentation;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import com.mickmelon.carshare.core.Advert;
 import com.mickmelon.carshare.database.DataAccess;
 import com.mickmelon.carshare.util.ActivityHelper;
 import com.mickmelon.carshare.util.FragmentHelper;
+import com.mickmelon.carshare.util.IntentHelper;
 import com.mickmelon.carshare.util.ToastHelper;
 
 /**
@@ -85,6 +87,13 @@ public class PostAdvertFragment extends Fragment {
             FragmentHelper.showFragment((AppCompatActivity) getActivity(), new AdvertBrowserFragment(), true);
         } else {
             ToastHelper.showToast(getContext(), "There was an issue posting the advert.");
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == IntentHelper.SELECT_PHOTO) {
+
         }
     }
 }
