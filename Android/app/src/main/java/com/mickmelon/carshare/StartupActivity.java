@@ -70,9 +70,19 @@ public class StartupActivity extends AppCompatActivity {
     }
 
     private void test() {
-        HttpClient.HttpPostAsyncTask task = new HttpClient.HttpPostAsyncTask();
+
+
+        HttpClient.HttpGetImageAsyncTask imageTask = new HttpClient.HttpGetImageAsyncTask();
+        Bitmap bitmap = null;
+        try {
+            bitmap = imageTask.execute("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg").get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        HttpClient.HttpPostImageAsyncTask task = new HttpClient.HttpPostImageAsyncTask();
         List<AbstractMap.SimpleEntry> params = new ArrayList<>();
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.image_car);
+
         params.add(new AbstractMap.SimpleEntry("image", bitmap));
         PostData postData = new PostData(Constants.PHP_SERVER_URL + "?c=advert&a=upload_image", params);
         try {

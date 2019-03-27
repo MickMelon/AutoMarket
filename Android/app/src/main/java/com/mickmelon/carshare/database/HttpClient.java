@@ -74,8 +74,8 @@ public class HttpClient {
         @Override
         protected HttpResult doInBackground(PostData... params) {
             PostData postData = params[0];
-            Bitmap bitmap = null;
-            HttpResult httpResult = HttpClient.postImage(postData.getUrl(), (Bitmap) postData.getParams().get(0).getValue());
+            Bitmap bitmap = (Bitmap) postData.getParams().get(0).getValue();
+            HttpResult httpResult = HttpClient.postImage(postData.getUrl(), bitmap);
             return httpResult;
         }
     }
@@ -116,7 +116,7 @@ public class HttpClient {
             outputStream.writeBytes("Content-Disposition: form-data; name=\"" + attachmentName + "\";filename=\"" + attachmentFileName + "\"" + crlf);
             outputStream.writeBytes(crlf);
 
-            byte[] pixels = convertBitmapToBytes(null);
+            byte[] pixels = convertBitmapToBytes(bitmap);
             outputStream.write(pixels);
 
             outputStream.writeBytes(crlf);

@@ -35,7 +35,13 @@ class AdvertController
 
     public function upload_image()
     {
-        var_dump($_POST);
+       // file_put_contents('images/image2.jpg', $_POST['image']);
+       //return new Results\JsonResult(var_dump($_POST));
+
+       $target = 'images/' . basename($_FILES['bitmap']['name']);
+       move_uploaded_file($_FILES['bitmap']['tmp_name'], $target);
+
+       return new Results\JsonResult("Done");
     }
 
     public function read()
