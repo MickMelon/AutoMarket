@@ -80,7 +80,7 @@ public class PostAdvertFragment extends Fragment {
         Double price = Double.parseDouble(_price.getText().toString());
         int sellerId = Identity.getCurrentUser().getSellerId();
 
-        boolean success = _dataAccess.adverts().addAdvert(new Advert(-1, vehicleReg, description, price, sellerId));
+        boolean success = _dataAccess.adverts().addAdvert(new Advert(-1, vehicleReg, description, price, sellerId, ""));
         if (success) {
             FragmentHelper.showFragment((AppCompatActivity) getActivity(), new AdvertBrowserFragment(), true);
         } else {

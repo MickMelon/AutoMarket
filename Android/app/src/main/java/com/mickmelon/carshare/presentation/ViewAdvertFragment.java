@@ -54,6 +54,7 @@ public class ViewAdvertFragment extends Fragment {
         TextView description = view.findViewById(R.id.textView_Description);
         TextView price = view.findViewById(R.id.textView_Price);
         TextView sellerName = view.findViewById(R.id.textView_SellerName);
+        ImageView imageView = view.findViewById(R.id.imageView_Car);
 
         // Get the arguments that should be passed to this fragment.
         Bundle args = getArguments();
@@ -80,23 +81,16 @@ public class ViewAdvertFragment extends Fragment {
             sellerName.setText(seller.getName());
         });
 
+        viewModel.getImageBitmap().observe(this, image -> {
+            if (image != null) {
+                imageView.setImageBitmap(image);
+            } else {
+                // Set the default image
+            }
+
+        });
+
         setupSellerButton(view, advertLiveData.getValue().getSellerId());
-
-        HttpClient.HttpGetImageAsyncTask imageTask = new HttpClient.HttpGetImageAsyncTask();
-        Bitmap bitmap = null;
-        try {
-            bitmap = imageTask.execute("https://cdn.pixabay.com/photo/2016/06/18/17/42/image-1465348_960_720.jpg").get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        if (bitmap != null) {
-            ImageView imageView = view.findViewById(R.id.imageView_Car);
-            imageView.setImageBitmap(bitmap);
-            ToastHelper.showToast(getContext(), "Yup, it's being called again");
-        } else {
-            ToastHelper.showToast(getContext(), "Didn't load mate.");
-        }
     }
 
     /**

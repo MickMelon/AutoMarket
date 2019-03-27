@@ -3,6 +3,7 @@ package com.mickmelon.carshare.presentation.viewmodels;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.graphics.Bitmap;
 
 import com.mickmelon.carshare.core.Advert;
 import com.mickmelon.carshare.core.Seller;
@@ -22,6 +23,8 @@ public class ViewAdvertViewModel extends ViewModel {
      */
     private MutableLiveData<Advert> _advert;
 
+    private MutableLiveData<Bitmap> _imageBitmap;
+
     /**
      * The seller associated with the advert.
      */
@@ -39,6 +42,14 @@ public class ViewAdvertViewModel extends ViewModel {
         }
 
         return _advert;
+    }
+
+    public LiveData<Bitmap> getImageBitmap() {
+        if (_imageBitmap == null) {
+            loadImageBitmap();
+        }
+
+        return _imageBitmap;
     }
 
     /**
@@ -84,5 +95,12 @@ public class ViewAdvertViewModel extends ViewModel {
      */
     private void loadAdvert(int id) {
         _advert.setValue(_dataAccess.adverts().getAdvertById(id));
+    }
+
+    private void loadImageBitmap() {
+        if (_advert != null) {
+            _imageBitmap = new MutableLiveData<>();
+            _imageBitmap.setValue(_dataAccess.adverts().getAdvertImageBitmap(_advert.getValue()));
+        }
     }
 }

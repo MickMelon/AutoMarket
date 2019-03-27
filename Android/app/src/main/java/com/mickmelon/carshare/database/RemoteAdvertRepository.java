@@ -1,5 +1,7 @@
 package com.mickmelon.carshare.database;
 
+import android.graphics.Bitmap;
+
 import com.mickmelon.carshare.core.Advert;
 import com.mickmelon.carshare.core.Constants;
 
@@ -58,6 +60,19 @@ public class RemoteAdvertRepository implements IAdvertRepository {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public Bitmap getAdvertImageBitmap(Advert advert) {
+        HttpClient.HttpGetImageAsyncTask imageTask = new HttpClient.HttpGetImageAsyncTask();
+        Bitmap bitmap = null;
+        try {
+            bitmap = imageTask.execute(advert.getImageUrl()).get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return bitmap;
     }
 
     /**
