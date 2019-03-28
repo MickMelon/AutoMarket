@@ -40,14 +40,14 @@ public class StartupActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        test();
+        //test();
 
-        /*if (verifyGooglePlayServices()) {
+        if (verifyGooglePlayServices()) {
             // We can safely start the app
             System.out.println("Verified");
             setContentView(R.layout.activity_startup);
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
-        } else System.out.println("NOT VERIFIED");*/
+        } else System.out.println("NOT VERIFIED");
     }
 
     /**
@@ -84,6 +84,7 @@ public class StartupActivity extends AppCompatActivity {
         List<AbstractMap.SimpleEntry> params = new ArrayList<>();
 
         params.add(new AbstractMap.SimpleEntry("image", bitmap));
+        params.add(new AbstractMap.SimpleEntry("advertId", 1));
         PostData postData = new PostData(Constants.PHP_SERVER_URL + "?c=advert&a=upload_image", params);
         try {
             HttpResult result = task.execute(postData).get();

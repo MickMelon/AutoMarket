@@ -79,8 +79,20 @@ public class HttpClient {
         @Override
         protected HttpResult doInBackground(PostData... params) {
             PostData postData = params[0];
-            Bitmap bitmap = (Bitmap) postData.getParams().get(0).getValue();
-            HttpResult httpResult = HttpClient.postImage(postData.getUrl(), bitmap);
+            Bitmap bitmap = null;
+            int advertId = -1;
+
+            List<AbstractMap.SimpleEntry> postDataParams = postData.getParams();
+            for (AbstractMap.SimpleEntry param : postDataParams) {
+                String key = param.getKey().toString();
+                if (key.equals("image")) {
+                    bitmap = (Bitmap) param.getValue();
+                } else if (key.equals("advertId")) {
+                    advertId = (int) param.getValue();
+                }
+            }
+
+            HttpResult httpResult = HttpClient.postImage(postData.getUrl(), bitmap, advertId);
             return httpResult;
         }
     }
@@ -98,10 +110,10 @@ public class HttpClient {
         return bitmap;
     }
 
-    private static HttpResult postImage(String textUrl, Bitmap bitmap) {
+    private static HttpResult postImage(String textUrl, Bitmap bitmap, int advertId) {
         HttpResult httpResult = null;
-        String attachmentName = "bitmap";
-        String attachmentFileName = "bitmap.bmp";
+        String attachmentName = "image";
+        String attachmentFileName = advertId + "";
         String crlf = "\r\n";
         String twoHyphens = "--";
         String boundary =  "*****";
@@ -128,7 +140,7 @@ public class HttpClient {
             String encoded = Base64.encodeToString(pixels, 0);
             //byte[] pixels = convertBitmapToBytes(bitmap);
             outputStream.writeBytes(encoded);
-            
+
             outputStream.writeBytes(crlf);
             outputStream.writeBytes(twoHyphens + boundary + twoHyphens + crlf);
 

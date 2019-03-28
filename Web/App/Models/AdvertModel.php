@@ -61,4 +61,15 @@ class AdvertModel
         $query->bindParam(':sellerId', $sellerId, PDO::PARAM_INT);
         $query->execute();
     }
+
+    public function updateImage($id, $imageUrl)
+    {
+        $db = Database::getInstance();
+
+        $sql = "UPDATE `Advert` SET `ImageURL` = :imageUrl WHERE `ID` = :id LIMIT 1";
+        $query = $db->prepare($sql);
+        $query->bindParam(':imageUrl', $imageUrl, PDO::PARAM_STR);
+        $query->bindParam(':id', $id, PDO::PARAM_INT);
+        $query->execute();
+    }
 }

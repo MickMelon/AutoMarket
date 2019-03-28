@@ -35,18 +35,23 @@ class AdvertController
 
     public function upload_image()
     {
-       // file_put_contents('images/image2.jpg', $_POST['image']);
-       //return new Results\JsonResult(var_dump($_POST));
+       var_dump($_FILES['image']); // debug
 
-       var_dump($_FILES['bitmap']);
+       $articleId = $_FILES['image']['name'];
 
-       $data = file_get_contents($_FILES['bitmap']['tmp_name']);
+       // Get the file and decode it
+       $data = file_get_contents($_FILES['image']['tmp_name']);
        $data = base64_decode($data);
        $image = imagecreatefromstring($data);
-       file_put_contents($_FILES['bitmap']['tmp_name'], $data);
+       file_put_contents($_FILES['image']['tmp_name'], $data);
 
-       $target = 'images/te3sfd2t.png';
-       move_uploaded_file($_FILES['bitmap']['tmp_name'], $target);
+       // Upload the file
+       $target = 'images/adverts/' . $articleId . '.png';
+       move_uploaded_file($_FILES['image']['tmp_name'], $target);
+
+       // Add the image url to the database
+       $imageUrl = 'http://localhost/~michael/cartrader/carshare/Web/' . $target;
+       $this->advertModel->updateImage($articleId, $imageUrl);
 
        return new Results\JsonResult("Done");
     }
