@@ -28,7 +28,8 @@ public class RemoteSellerRepository implements ISellerRepository {
             List<Seller> sellers = new ArrayList<>();
 
             String result = task.execute(Constants.PHP_SERVER_URL + "?c=seller&a=read").get();
-            JSONArray jsonAllSellers = new JSONArray(result);
+            JSONObject json = new JSONObject(result);
+            JSONArray jsonAllSellers = json.getJSONArray("Sellers");
 
             for (int i = 0; i < jsonAllSellers.length(); i++) {
                 JSONObject jsonSeller = (JSONObject) jsonAllSellers.get(i);
@@ -52,7 +53,8 @@ public class RemoteSellerRepository implements ISellerRepository {
 
         try {
             String result = task.execute(Constants.PHP_SERVER_URL + "?c=seller&a=read&id=" + id).get();
-            JSONObject jsonSeller = new JSONObject(result);
+            JSONObject json = new JSONObject(result);
+            JSONObject jsonSeller = json.getJSONObject("Seller");
             Seller seller = Seller.fromJson(jsonSeller);
             return seller;
         } catch (InterruptedException | ExecutionException | JSONException e) {
@@ -71,7 +73,8 @@ public class RemoteSellerRepository implements ISellerRepository {
 
         try {
             String result = task.execute(Constants.PHP_SERVER_URL + "?c=seller&a=read&email=" + email).get();
-            JSONObject jsonSeller = new JSONObject(result);
+            JSONObject json = new JSONObject(result);
+            JSONObject jsonSeller = json.getJSONObject("Seller");
             Seller seller = Seller.fromJson(jsonSeller);
             return seller;
         } catch (InterruptedException | ExecutionException | JSONException e) {

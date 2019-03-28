@@ -32,10 +32,10 @@ class SellerController
             $password = $_POST['Password'];
             
             $this->sellerModel->create($email, $phoneNumber, $name, $website, $description, $location, $password);
-            return new Results\JsonResult("Seller was created successfully.");
+            return new Results\JsonResult(array('Message' => 'Seller was created successfully.'));
         }
 
-        return new Results\JsonResult("Unable to create the Seller.", Response::BAD_REQUEST);
+        return new Results\JsonResult(array('Message' => 'Unable to create seller.'), Response::BAD_REQUEST);
     }
 
     public function read()
@@ -46,8 +46,10 @@ class SellerController
             $id = $_GET['id'];
             $seller = $this->sellerModel->getById($id);
             if (!$seller)
-                return new Results\JsonResult("No Seller found for the specified ID.");
-            return new Results\JsonResult($seller);
+                return new Results\JsonResult(array('Message' => 'No seller found for specified ID.'));
+            return new Results\JsonResult(array(
+                'Message' => 'Seller read successfully.',
+                'Seller' => $seller));
         }
 
         // Read by Email
@@ -56,13 +58,17 @@ class SellerController
             $email = $_GET['email'];
             $seller = $this->sellerModel->getByEmail($email);
             if (!$seller)
-                return new Results\JsonResult("No Seller found for the specified Email.");
-            return new Results\JsonResult($seller);
+                return new Results\JsonResult(array('Message' => 'No seller found for specified email.'));
+                return new Results\JsonResult(array(
+                    'Message' => 'Seller read successfully.',
+                    'Seller' => $seller));
         }
 
         // Read all
         $sellers = $this->sellerModel->getAll();
-        return new Results\JsonResult($sellers);
+        return new Results\JsonResult(array(
+            'Message' => 'Sellers read successfully.',
+            'Sellers' => $sellers));
     }
 
     public function update()
@@ -86,10 +92,10 @@ class SellerController
             $password = $_POST['Password'];
 
             $this->sellerModel->update($id, $email, $phoneNumber, $name, $website, $description, $location, $password);
-            return new Results\JsonResult("Seller updated successfully.");
+            return new Results\JsonResult(array('Message' => 'Seller updated successfully.'));
         }
 
-        return new Results\JsonResult("Unable to update the Seller.", Response::BAD_REQUEST);
+        return new Results\JsonResult(array('Message' => 'Unable to update seller.'), Response::BAD_REQUEST);
     }
 
     public function delete()

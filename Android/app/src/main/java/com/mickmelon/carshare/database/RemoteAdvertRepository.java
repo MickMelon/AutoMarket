@@ -29,7 +29,8 @@ public class RemoteAdvertRepository implements IAdvertRepository {
             List<Advert> adverts = new ArrayList<>();
 
             String result = task.execute(Constants.PHP_SERVER_URL + "?c=advert&a=read").get();
-            JSONArray jsonAllAdverts = new JSONArray(result);
+            JSONObject json = new JSONObject(result);
+            JSONArray jsonAllAdverts = json.getJSONArray("Adverts");
 
             for (int i = 0; i < jsonAllAdverts.length(); i++) {
                 JSONObject jsonAdvert = (JSONObject) jsonAllAdverts.get(i);
@@ -53,7 +54,8 @@ public class RemoteAdvertRepository implements IAdvertRepository {
 
         try {
             String result = task.execute(Constants.PHP_SERVER_URL + "?c=advert&a=read&id=" + id).get();
-            JSONObject jsonAdvert = new JSONObject(result);
+            JSONObject json = new JSONObject(result);
+            JSONObject jsonAdvert = json.getJSONObject("Advert");
             Advert advert = Advert.fromJson(jsonAdvert);
             return advert;
         } catch (InterruptedException | ExecutionException | JSONException e) {
@@ -75,20 +77,22 @@ public class RemoteAdvertRepository implements IAdvertRepository {
         return bitmap;
     }
 
-    public boolean addAdvertImageBitmap(Advert advert, Bitmap bitmap) {
+    public boolean addAdvertImageBitmap(int advertId, Bitmap bitmap) {
         HttpClient.HttpPostImageAsyncTask task = new HttpClient.HttpPostImageAsyncTask();
         List<AbstractMap.SimpleEntry> params = new ArrayList<>();
 
         params.add(new AbstractMap.SimpleEntry("image", bitmap));
-        params.add(new AbstractMap.SimpleEntry("advertId", advert.getAdvertId()));
+        params.add(new AbstractMap.SimpleEntry("advertId", advertId));
         PostData postData = new PostData(Constants.PHP_SERVER_URL + "?c=advert&a=upload_image", params);
         try {
             HttpResult result = task.execute(postData).get();
-            System.out.println("** Result ** \n" + result.getResult() + "\n** End-result **\n");
+            return result.getResponseCode() == 200;
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
             System.out.println("It fucked up");
         }
+
+        return false;
     }
 
     /**
@@ -96,7 +100,7 @@ public class RemoteAdvertRepository implements IAdvertRepository {
      * @param advert The Advert to be added.
      * @return Whether the advert was added successfully.
      */
-    public boolean addAdvert(Advert advert) {
+    public int addAdvert(Advert advert) {
         HttpClient.HttpPostAsyncTask task = new HttpClient.HttpPostAsyncTask();
 
         List<AbstractMap.SimpleEntry> params = new ArrayList<>();
@@ -110,11 +114,22 @@ public class RemoteAdvertRepository implements IAdvertRepository {
         try {
             HttpResult httpResult = task.execute(postData).get();
 
-            return httpResult.getResponseCode() == 200;
+            if (httpResult.getResponseCode() == 200) {
+                String result = httpResult.getResult();
+                JSONObject json = new JSONObject(result);
+                int articleId = json.getInt("ArticleID");
+
+                return articleId;
+            }
+
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            return false;
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
+
+        return -1;
     }
 
     /**

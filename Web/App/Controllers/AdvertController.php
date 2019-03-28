@@ -27,10 +27,13 @@ class AdvertController
             $sellerId = $_POST['SellerID'];
             
             $id = $this->advertModel->create($vehicleReg, $description, $price, $sellerId);
-            return new Results\JsonResult($id);
+            return new Results\JsonResult(array(
+                'Message' => 'Advert created successfully.',
+                'ArticleID' => $id
+            ));
         }
 
-        return new Results\JsonResult("Unable to create the Advert.", Response::BAD_REQUEST);
+        return new Results\JsonResult(array('Message' => 'Unable to create advert.'), Response::BAD_REQUEST);
     }
 
     public function upload_image()
@@ -53,25 +56,7 @@ class AdvertController
        $imageUrl = 'http://localhost/~michael/cartrader/carshare/Web/' . $target;
        $this->advertModel->updateImage($articleId, $imageUrl);
 
-       return new Results\JsonResult("Done");
-    }
-
-    function base64_to_jpeg($base64_string, $output_file) {
-        // open the output file for writing
-        $ifp = fopen( $output_file, 'wb' ); 
-    
-        // split the string on commas
-        // $data[ 0 ] == "data:image/png;base64"
-        // $data[ 1 ] == <actual base64 string>
-        $data = explode( ',', $base64_string );
-    
-        // we could add validation here with ensuring count( $data ) > 1
-        fwrite( $ifp, base64_decode( $data[ 1 ] ) );
-    
-        // clean up the file resource
-        fclose( $ifp ); 
-    
-        return $output_file; 
+       return new Results\JsonResult(array('Message' => 'Image uploaded successfully.'));
     }
 
     public function read()
@@ -82,13 +67,17 @@ class AdvertController
             $id = $_GET['id'];
             $advert = $this->advertModel->getById($id);
             if (!$advert)
-                return new Results\JsonResult("No Advert found for the specified ID.");
-            return new Results\JsonResult($advert);
+                return new Results\JsonResult(array('Message' => 'No advert found for specified ID.'), Response::BAD_REQUEST);
+            return new Results\JsonResult(array(
+                'Message' => 'Advert read successfully.',
+                'Advert' => $advert));
         }
 
         // Read all
         $adverts = $this->advertModel->getAll();
-        return new Results\JsonResult($adverts);
+        return new Results\JsonResult(array(
+            'Message' => 'Adverts read successfully.',
+            'Adverts' => $adverts));
     }
 
     public function update()
@@ -106,9 +95,9 @@ class AdvertController
             $sellerId = $_POST['SellerID'];
             
             $this->advertModel->update($id, $vehicleReg, $description, $price, $sellerId);
-            return new Results\JsonResult("Advert was updated successfully.");
+            return new Results\JsonResult(array('Message' => 'Advert updated successfully.'));
         }
 
-        return new Results\JsonResult("Unable to update the Advert.", Response::BAD_REQUEST);
+        return new Results\JsonResult(array('Message' => 'Unable to update the advert.'), Response::BAD_REQUEST);
     }
 }

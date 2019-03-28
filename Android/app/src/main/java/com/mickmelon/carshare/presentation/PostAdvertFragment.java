@@ -86,7 +86,7 @@ public class PostAdvertFragment extends Fragment {
         Button postAdvertButton = view.findViewById(R.id.button_PostAdvert);
         _pickPhotoButton = view.findViewById(R.id.button_PickPhoto);
         postAdvertButton.setOnClickListener(v -> submitPostAdvertForm());
-        _pickPhotoButton.setOnClickListener(v -> IntentHelper.pickPhoto(getActivity()));
+        _pickPhotoButton.setOnClickListener(v -> IntentHelper.pickPhoto(this));
     }
 
     /**
@@ -98,13 +98,16 @@ public class PostAdvertFragment extends Fragment {
         Double price = Double.parseDouble(_price.getText().toString());
         int sellerId = Identity.getCurrentUser().getSellerId();
 
-        boolean success = _dataAccess.adverts().addAdvert(new Advert(-1, vehicleReg, description, price, sellerId, ""));
-        if (success) {
+        Advert advert = new Advert(-1, vehicleReg, description, price, sellerId, "");
+
+        int advertId = _dataAccess.adverts().addAdvert(advert);
+        if (advertId != -1) {
             FragmentHelper.showFragment((AppCompatActivity) getActivity(), new AdvertBrowserFragment(), true);
 
             if (_pickedImage != null) {
-                _dataAccess.adverts().addAdvertImageBitmap(null, _pickedImage);
+                _dataAccess.adverts().addAdvertImageBitmap(advertId, _pickedImage);
             }
+
         } else {
             ToastHelper.showToast(getContext(), "There was an issue posting the advert.");
         }
