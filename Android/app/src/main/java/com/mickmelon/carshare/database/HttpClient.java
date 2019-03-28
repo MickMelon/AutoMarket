@@ -4,9 +4,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
+import com.mickmelon.carshare.util.Base64Encoder;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +25,8 @@ import java.net.URLEncoder;
 import java.nio.ByteBuffer;
 import java.util.AbstractMap;
 import java.util.List;
+
+import cz.msebera.android.httpclient.extras.Base64;
 
 /**
  * The HttpClient used to make Http requests.
@@ -116,9 +121,14 @@ public class HttpClient {
             outputStream.writeBytes("Content-Disposition: form-data; name=\"" + attachmentName + "\";filename=\"" + attachmentFileName + "\"" + crlf);
             outputStream.writeBytes(crlf);
 
-            byte[] pixels = convertBitmapToBytes(bitmap);
-            outputStream.write(pixels);
-
+            // New shit
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, byteArrayOutputStream);
+            byte[] pixels = byteArrayOutputStream.toByteArray();
+            String encoded = Base64.encodeToString(pixels, 0);
+            //byte[] pixels = convertBitmapToBytes(bitmap);
+            outputStream.writeBytes(encoded);
+            
             outputStream.writeBytes(crlf);
             outputStream.writeBytes(twoHyphens + boundary + twoHyphens + crlf);
 

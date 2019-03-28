@@ -41,8 +41,8 @@ public class StartupActivity extends AppCompatActivity {
         super.onResume();
 
         test();
-/*
-        if (verifyGooglePlayServices()) {
+
+        /*if (verifyGooglePlayServices()) {
             // We can safely start the app
             System.out.println("Verified");
             setContentView(R.layout.activity_startup);
@@ -75,7 +75,7 @@ public class StartupActivity extends AppCompatActivity {
         HttpClient.HttpGetImageAsyncTask imageTask = new HttpClient.HttpGetImageAsyncTask();
         Bitmap bitmap = null;
         try {
-            bitmap = imageTask.execute("https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg").get();
+            bitmap = imageTask.execute("https://jira.appcelerator.org/secure/useravatar?fsize=small&avatarId=10174").get();
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -87,9 +87,10 @@ public class StartupActivity extends AppCompatActivity {
         PostData postData = new PostData(Constants.PHP_SERVER_URL + "?c=advert&a=upload_image", params);
         try {
             HttpResult result = task.execute(postData).get();
-            System.out.println(result.getResult());
+            System.out.println("** Result ** \n" + result.getResult() + "\n** End-result **\n");
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
+            System.out.println("It fucked up");
         }
     }
 }
