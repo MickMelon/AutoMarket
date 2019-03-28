@@ -3,6 +3,7 @@ package com.mickmelon.carshare.util;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.Fragment;
 
 /**
  * Contains helpful functions for executing intents.
@@ -61,5 +62,11 @@ public class IntentHelper {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         activity.startActivityForResult(intent, SELECT_PHOTO);
+    }
+
+    public static void pickPhoto(Fragment fragment) {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        fragment.startActivityForResult(intent, SELECT_PHOTO);
     }
 }

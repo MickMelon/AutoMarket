@@ -41,6 +41,8 @@ class AdvertModel
         $query->bindParam(':price', $price, PDO::PARAM_STR);
         $query->bindParam(':sellerId', $sellerId, PDO::PARAM_INT);
         $query->execute();
+
+        return $db->lastInsertId();
     }
 
     public function update($id, $vehicleReg, $description, $price, $sellerId)

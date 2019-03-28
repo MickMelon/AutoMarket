@@ -26,8 +26,8 @@ class AdvertController
             $price = $_POST['Price'];
             $sellerId = $_POST['SellerID'];
             
-            $this->advertModel->create($vehicleReg, $description, $price, $sellerId);
-            return new Results\JsonResult("Advert was created successfully.");
+            $id = $this->advertModel->create($vehicleReg, $description, $price, $sellerId);
+            return new Results\JsonResult($id);
         }
 
         return new Results\JsonResult("Unable to create the Advert.", Response::BAD_REQUEST);

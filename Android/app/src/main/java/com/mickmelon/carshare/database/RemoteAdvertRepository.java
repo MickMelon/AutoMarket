@@ -75,6 +75,22 @@ public class RemoteAdvertRepository implements IAdvertRepository {
         return bitmap;
     }
 
+    public boolean addAdvertImageBitmap(Advert advert, Bitmap bitmap) {
+        HttpClient.HttpPostImageAsyncTask task = new HttpClient.HttpPostImageAsyncTask();
+        List<AbstractMap.SimpleEntry> params = new ArrayList<>();
+
+        params.add(new AbstractMap.SimpleEntry("image", bitmap));
+        params.add(new AbstractMap.SimpleEntry("advertId", advert.getAdvertId()));
+        PostData postData = new PostData(Constants.PHP_SERVER_URL + "?c=advert&a=upload_image", params);
+        try {
+            HttpResult result = task.execute(postData).get();
+            System.out.println("** Result ** \n" + result.getResult() + "\n** End-result **\n");
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            System.out.println("It fucked up");
+        }
+    }
+
     /**
      * Adds a new advert to the database.
      * @param advert The Advert to be added.

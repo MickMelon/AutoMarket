@@ -1,7 +1,13 @@
 package com.mickmelon.carshare.presentation;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +25,10 @@ import com.mickmelon.carshare.util.ActivityHelper;
 import com.mickmelon.carshare.util.FragmentHelper;
 import com.mickmelon.carshare.util.IntentHelper;
 import com.mickmelon.carshare.util.ToastHelper;
+
+import java.io.IOException;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * The fragment used to control the post advert layout.
@@ -43,6 +53,10 @@ public class PostAdvertFragment extends Fragment {
      * The input price.
      */
     private EditText _price;
+
+    private Button _pickPhotoButton;
+
+    private Bitmap _pickedImage;
 
     /**
      * Called when the fragment is about to be created.
@@ -70,7 +84,9 @@ public class PostAdvertFragment extends Fragment {
         _price = view.findViewById(R.id.editText_Price);
 
         Button postAdvertButton = view.findViewById(R.id.button_PostAdvert);
+        _pickPhotoButton = view.findViewById(R.id.button_PickPhoto);
         postAdvertButton.setOnClickListener(v -> submitPostAdvertForm());
+        _pickPhotoButton.setOnClickListener(v -> IntentHelper.pickPhoto(getActivity()));
     }
 
     /**
@@ -85,6 +101,10 @@ public class PostAdvertFragment extends Fragment {
         boolean success = _dataAccess.adverts().addAdvert(new Advert(-1, vehicleReg, description, price, sellerId, ""));
         if (success) {
             FragmentHelper.showFragment((AppCompatActivity) getActivity(), new AdvertBrowserFragment(), true);
+
+            if (_pickedImage != null) {
+                _dataAccess.adverts().addAdvertImageBitmap(null, _pickedImage);
+            }
         } else {
             ToastHelper.showToast(getContext(), "There was an issue posting the advert.");
         }
@@ -92,8 +112,16 @@ public class PostAdvertFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-        if (requestCode == IntentHelper.SELECT_PHOTO) {
+        if (requestCode == IntentHelper.SELECT_PHOTO && resultCode == RESULT_OK && intent != null) {
+            Uri pickedImage = intent.getData();
+            _pickedImage = null;
 
+            try {
+                _pickedImage = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), pickedImage);
+                _pickPhotoButton.setBackgroundColor(Color.GREEN);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

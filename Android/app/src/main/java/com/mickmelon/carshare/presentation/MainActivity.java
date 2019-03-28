@@ -1,5 +1,11 @@
 package com.mickmelon.carshare.presentation;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -14,7 +20,10 @@ import android.view.MenuItem;
 import com.mickmelon.carshare.Identity;
 import com.mickmelon.carshare.R;
 import com.mickmelon.carshare.util.FragmentHelper;
+import com.mickmelon.carshare.util.IntentHelper;
 import com.mickmelon.carshare.util.ToastHelper;
+
+import java.io.IOException;
 
 import cz.msebera.android.httpclient.impl.conn.LoggingSessionOutputBuffer;
 
