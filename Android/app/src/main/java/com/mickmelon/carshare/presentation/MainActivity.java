@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.design.widget.NavigationView;
@@ -52,6 +54,8 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        actionBar.setSubtitle("The official Android app");
+        //actionBar.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
 
         // Only change the fragment if there isn't one shown. This is to accommodate for this
         // onCreate function being called every time the orientation is changed. The Fragments
