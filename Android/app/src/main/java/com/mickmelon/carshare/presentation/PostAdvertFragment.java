@@ -93,9 +93,41 @@ public class PostAdvertFragment extends Fragment {
      * Submits the post advert form.
      */
     private void submitPostAdvertForm() {
+        boolean errors = false;
         String vehicleReg = _vehicleReg.getText().toString();
         String description = _description.getText().toString();
-        Double price = Double.parseDouble(_price.getText().toString());
+        Double price = 0.0;
+
+        try {
+            price = Double.parseDouble(_price.getText().toString());
+        } catch (NumberFormatException ex) {
+            _price.setError("Please enter a price.");
+            errors = true;
+            _price.requestFocus();
+            return;
+        }
+
+        // Carry out form validation
+        if (price <= 0) {
+            _price.setError("Please enter a price.");
+            errors = true;
+            _price.requestFocus();
+        }
+
+        if (description.length() < 3) {
+            _description.setError("Description must be at least 3 characters.");
+            errors = true;
+            _description.requestFocus();
+        }
+
+        if (vehicleReg.length() < 2) {
+            _vehicleReg.setError("Vehicle reg must be at least 2 characters.");
+            errors = true;
+            _vehicleReg.requestFocus();
+        }
+
+        if (errors) return;
+
         int sellerId = Identity.getCurrentUser().getSellerId();
 
         Advert advert = new Advert(-1, vehicleReg, description, price, sellerId, "");
