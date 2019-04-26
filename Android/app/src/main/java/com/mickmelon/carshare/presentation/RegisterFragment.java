@@ -95,6 +95,7 @@ public class RegisterFragment extends Fragment {
      * Called when the register form has been submitted.
      */
     private void submitRegisterForm() {
+        boolean errors = false;
         String email = _email.getText().toString();
         String name = _name.getText().toString();
         String password = _password.getText().toString();
@@ -102,6 +103,50 @@ public class RegisterFragment extends Fragment {
         String website = _website.getText().toString();
         String location = _location.getText().toString();
         String description = _description.getText().toString();
+
+        if (description.length() < 3) {
+            _description.setError("Description must be at least 3 characters.");
+            errors = true;
+            _description.requestFocus();
+        }
+
+        if (location.length() < 3) {
+            _location.setError("Location must be at least 3 characters.");
+            errors = true;
+            _location.requestFocus();
+        }
+
+        if (website.length() < 3) {
+            _website.setError("Website must be at least 3 characters.");
+            errors = true;
+            _website.requestFocus();
+        }
+
+        if (phoneNumber.length() < 8) {
+            _phoneNumber.setError("Phone number must be at least 8 characters.");
+            errors = true;
+            _phoneNumber.requestFocus();
+        }
+
+        if (password.length() < 3) {
+            _password.setError("Password must be at least 3 characters.");
+            errors = true;
+            _password.requestFocus();
+        }
+
+        if (name.length() < 3) {
+            _name.setError("Name must be at least 3 characters.");
+            errors = true;
+            _name.requestFocus();
+        }
+
+        if (email.length() < 3 || !email.contains("@")) {
+            _email.setError("Email must be at least 3 characters and contain @ symbol.");
+            errors = true;
+            _email.requestFocus();
+        }
+
+        if (errors) return;
 
         boolean success = Identity.register(email, name, password, phoneNumber, website, location, description);
         if (success) {
