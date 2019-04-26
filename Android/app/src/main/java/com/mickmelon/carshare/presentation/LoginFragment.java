@@ -63,9 +63,27 @@ public class LoginFragment extends Fragment {
      * Called when the login form is submitted.
      */
     private void submitLoginForm() {
+        boolean errors = false;
         String email = _email.getText().toString();
         String password = _password.getText().toString();
 
+        // Form validation
+        if (password.length() < 3) {
+            _password.setError("Password must be at least 3 characters.");
+            errors = true;
+            _password.requestFocus();
+        }
+
+        if (email.length() < 3 || !email.contains("@")) {
+            _email.setError("Email must be at least 3 characters and contain @ symbol.");
+            errors = true;
+            _email.requestFocus();
+        }
+
+        // If there were errors, do not attempt to login
+        if (errors) return;
+
+        // Form was fine, so attempt to login
         boolean success = Identity.login(email, password);
         if (success) {
             AppCompatActivity activity = (AppCompatActivity) getActivity();

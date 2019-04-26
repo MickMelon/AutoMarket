@@ -25,10 +25,6 @@ public class AdvertBrowserFragment extends Fragment {
      */
     private OnAdvertSelectedListener _advertSelectedListener;
 
-    /**
-     * The instance of DataAccess used to interact with the database.
-     */
-    private DataAccess _dataAccess;
 
     /**
      * The linear layout that contains the populated adverts.
@@ -40,7 +36,6 @@ public class AdvertBrowserFragment extends Fragment {
      */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        _dataAccess = DataAccess.getInstance();
         return inflater.inflate(R.layout.fragment_advertbrowser, container, false);
     }
 
