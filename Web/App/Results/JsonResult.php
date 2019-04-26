@@ -11,6 +11,7 @@ class JsonResult implements IActionResult
     public function __construct($data, $response = 200) 
     {
         $this->data = json_encode($data);
+        //var_dump($data);
         $this->response = $response;
     }
 

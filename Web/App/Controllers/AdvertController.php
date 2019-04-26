@@ -75,6 +75,7 @@ class AdvertController
 
         // Read all
         $adverts = $this->advertModel->getAll();
+        //echo sizeof($adverts);
         return new Results\JsonResult(array(
             'Message' => 'Adverts read successfully.',
             'Adverts' => $adverts));
