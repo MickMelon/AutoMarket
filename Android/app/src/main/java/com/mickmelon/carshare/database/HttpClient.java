@@ -3,6 +3,7 @@ package com.mickmelon.carshare.database;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.webkit.URLUtil;
 
 import com.mickmelon.carshare.util.Base64Encoder;
 
@@ -98,6 +99,8 @@ public class HttpClient {
     }
 
     private static Bitmap getImage(String imageUrl) {
+        if (!URLUtil.isValidUrl(imageUrl)) return null;
+
         Bitmap bitmap = null;
 
         try {

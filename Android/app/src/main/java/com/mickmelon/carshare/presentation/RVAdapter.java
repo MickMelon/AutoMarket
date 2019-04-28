@@ -40,9 +40,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.AdvertViewHolder> 
         advertViewHolder._price.setText(String.format("%s", _adverts.get(i).getPrice()));
 
         Bitmap bitmap = _adverts.get(i).getImageBitmap();
+
         if (bitmap != null) {
             advertViewHolder._image.setImageBitmap(_adverts.get(i).getImageBitmap());
-        }
+        } else advertViewHolder._image.setImageBitmap(_adverts.get(i).getImageBitmap());
 
         advertViewHolder._advertId = _adverts.get(i).getAdvertId();
     }
