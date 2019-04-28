@@ -27,17 +27,6 @@ import com.mickmelon.carshare.presentation.viewmodels.AdvertBrowserViewModel;
  */
 public class AdvertBrowserFragment extends Fragment {
     /**
-     * The advert selected listener used to handle the case when an advert is selected.
-     */
-    private OnAdvertSelectedListener _advertSelectedListener;
-
-
-    /**
-     * The linear layout that contains the populated adverts.
-     */
-    private LinearLayout _linearLayout;
-
-    /**
      * Called when the fragment is about to be created.
      */
     @Override
@@ -53,70 +42,13 @@ public class AdvertBrowserFragment extends Fragment {
         AdvertBrowserViewModel viewModel = ViewModelProviders.of(this).get(AdvertBrowserViewModel.class);
         viewModel.getAdverts().observe(this, adverts -> {
             RecyclerView recyclerView = view.findViewById(R.id.rv);
+            recyclerView.setHasFixedSize(true);
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             recyclerView.setLayoutManager(layoutManager);
 
             RVAdapter adapter = new RVAdapter(adverts);
             recyclerView.setAdapter(adapter);
-
-           /* for (Advert advert : adverts) {
-                final int advertId = advert.getAdvertId();
-
-                /*TextView textView = new TextView(getContext());
-                textView.setText(advert.getVehicleReg());
-
-                Button button = new Button(getContext());
-                button.setText("View " + advert.getAdvertId());
-                button.setOnClickListener(v -> _advertSelectedListener.onAdvertSelected(advertId));
-
-                layout.addView(textView);
-                layout.addView(button);
-
-
-                CardView cardView = new CardView(getContext());
-                ConstraintLayout constraintLayout = new ConstraintLayout(getContext());
-                ImageView imageView = new ImageView(getContext());
-                TextView price = new TextView(getContext());
-                TextView description = new TextView(getContext());
-
-                // might need check
-                imageView.setImageBitmap(advert.getImageBitmap());
-                price.setText("" + advert.getPrice());
-                description.setText(advert.getDescription());
-
-                cardView.addView(constraintLayout);
-                constraintLayout.addView(imageView);
-                constraintLayout.addView(price);
-                constraintLayout.addView(description);
-
-                ConstraintSet set = new ConstraintSet();
-
-                set.
-
-
-                _linearLayout.addView(cardView);
-
-
-
-            }*/
         });
-    }
-
-
-
-    /**
-     * Sets the OnAdvertSelectedListener.
-     * @param listener The OnAdvertSelectedListener.
-     */
-    public void setOnAdvertSelectedListener(OnAdvertSelectedListener listener) {
-        _advertSelectedListener = listener;
-    }
-
-    /**
-     * The interface for the advert selected listener.
-     */
-    public interface OnAdvertSelectedListener {
-        void onAdvertSelected(int position);
     }
 }

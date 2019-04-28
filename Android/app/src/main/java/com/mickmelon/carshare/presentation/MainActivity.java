@@ -32,7 +32,7 @@ import cz.msebera.android.httpclient.impl.conn.LoggingSessionOutputBuffer;
 /**
  * This class is the container for all the fragments. It holds the navigation drawer.
  */
-public class MainActivity extends AppCompatActivity implements AdvertBrowserFragment.OnAdvertSelectedListener {
+public class MainActivity extends AppCompatActivity {
     /**
      * The navigation drawer.
      */
@@ -138,23 +138,7 @@ public class MainActivity extends AppCompatActivity implements AdvertBrowserFrag
      */
     @Override
     public void onAttachFragment(Fragment fragment) {
-        if (fragment instanceof AdvertBrowserFragment) {
-            AdvertBrowserFragment advertBrowser = (AdvertBrowserFragment) fragment;
-            advertBrowser.setOnAdvertSelectedListener(this);
-        }
-    }
 
-    /**
-     * Called when an advert has been selected.
-     */
-    @Override
-    public void onAdvertSelected(int position) {
-        ViewAdvertFragment viewAdvert = new ViewAdvertFragment();
-        Bundle args = new Bundle();
-        args.putInt("Position", position);
-        viewAdvert.setArguments(args);
-
-        FragmentHelper.showFragment(this, viewAdvert, false);
     }
 
     /**
