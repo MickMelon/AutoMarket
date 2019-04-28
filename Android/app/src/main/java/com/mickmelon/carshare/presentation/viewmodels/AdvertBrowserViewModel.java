@@ -3,6 +3,7 @@ package com.mickmelon.carshare.presentation.viewmodels;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
+import android.graphics.Bitmap;
 
 import com.mickmelon.carshare.core.Advert;
 import com.mickmelon.carshare.database.DataAccess;
@@ -36,6 +37,13 @@ public class AdvertBrowserViewModel extends ViewModel {
      */
     private void loadAdverts() {
         DataAccess dataAccess = DataAccess.getInstance();
-        _adverts.setValue(dataAccess.adverts().getAllAdverts());
+        List<Advert> adverts = dataAccess.adverts().getAllAdverts();
+
+        for (Advert advert : adverts) {
+            Bitmap image = dataAccess.adverts().getAdvertImageBitmap(advert);
+            advert.setImageBitmap(image);
+        }
+
+        _adverts.setValue(adverts);
     }
 }

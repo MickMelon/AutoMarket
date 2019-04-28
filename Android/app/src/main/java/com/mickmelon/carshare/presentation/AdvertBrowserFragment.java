@@ -3,11 +3,17 @@ package com.mickmelon.carshare.presentation;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -44,15 +50,20 @@ public class AdvertBrowserFragment extends Fragment {
      */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        _linearLayout = view.findViewById(R.id.linear_layout);
-
         AdvertBrowserViewModel viewModel = ViewModelProviders.of(this).get(AdvertBrowserViewModel.class);
         viewModel.getAdverts().observe(this, adverts -> {
-            for (Advert advert : adverts) {
-                final int advertId = advert.getAdvertId();
-                LinearLayout layout = new LinearLayout(getContext());
+            RecyclerView recyclerView = view.findViewById(R.id.rv);
 
-                TextView textView = new TextView(getContext());
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(layoutManager);
+
+            RVAdapter adapter = new RVAdapter(adverts);
+            recyclerView.setAdapter(adapter);
+
+           /* for (Advert advert : adverts) {
+                final int advertId = advert.getAdvertId();
+
+                /*TextView textView = new TextView(getContext());
                 textView.setText(advert.getVehicleReg());
 
                 Button button = new Button(getContext());
@@ -61,10 +72,38 @@ public class AdvertBrowserFragment extends Fragment {
 
                 layout.addView(textView);
                 layout.addView(button);
-                _linearLayout.addView(layout);
-            }
+
+
+                CardView cardView = new CardView(getContext());
+                ConstraintLayout constraintLayout = new ConstraintLayout(getContext());
+                ImageView imageView = new ImageView(getContext());
+                TextView price = new TextView(getContext());
+                TextView description = new TextView(getContext());
+
+                // might need check
+                imageView.setImageBitmap(advert.getImageBitmap());
+                price.setText("" + advert.getPrice());
+                description.setText(advert.getDescription());
+
+                cardView.addView(constraintLayout);
+                constraintLayout.addView(imageView);
+                constraintLayout.addView(price);
+                constraintLayout.addView(description);
+
+                ConstraintSet set = new ConstraintSet();
+
+                set.
+
+
+                _linearLayout.addView(cardView);
+
+
+
+            }*/
         });
     }
+
+
 
     /**
      * Sets the OnAdvertSelectedListener.
