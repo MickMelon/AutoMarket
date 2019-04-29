@@ -84,6 +84,7 @@ public class RemoteAdvertRepository implements IAdvertRepository {
         params.add(new AbstractMap.SimpleEntry("image", bitmap));
         params.add(new AbstractMap.SimpleEntry("advertId", advertId));
         PostData postData = new PostData(Constants.PHP_SERVER_URL + "?c=advert&a=upload_image", params);
+        System.out.println("HERE");
         try {
             HttpResult result = task.execute(postData).get();
             return result.getResponseCode() == 200;

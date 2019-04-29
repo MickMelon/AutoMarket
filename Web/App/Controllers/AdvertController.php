@@ -38,9 +38,16 @@ class AdvertController
 
     public function upload_image()
     {
-       var_dump($_FILES['image']); // debug
+        $file = "test.txt";
+        file_put_contents($file, "Test");
+        
+        $current = file_get_contents($file);
+
 
        $articleId = $_FILES['image']['name'];
+
+       $current .= "ArticleID: $articleId \n";
+       file_put_contents($file, $current);
 
        // Get the file and decode it
        $data = file_get_contents($_FILES['image']['tmp_name']);
@@ -48,15 +55,26 @@ class AdvertController
        $image = imagecreatefromstring($data);
        file_put_contents($_FILES['image']['tmp_name'], $data);
 
+       $current .= "Got here\n";
+
        // Upload the file
        $target = 'images/adverts/' . $articleId . '.png';
+
+       $current .= $_FILES['image']['tmp_name'] . "**";
        move_uploaded_file($_FILES['image']['tmp_name'], $target);
 
+       $current .= "Moved file\n";
+
        // Add the image url to the database
-       $imageUrl = 'http://localhost/~michael/cartrader/carshare/Web/' . $target;
+       $imageUrl = 'https://mayar.abertay.ac.uk/~1800833/mobile/' . $target;
        $this->advertModel->updateImage($articleId, $imageUrl);
 
+        $current .= "Last\n";
+        file_put_contents($file, $current);
+
        return new Results\JsonResult(array('Message' => 'Image uploaded successfully.'));
+
+       
     }
 
     public function read()
