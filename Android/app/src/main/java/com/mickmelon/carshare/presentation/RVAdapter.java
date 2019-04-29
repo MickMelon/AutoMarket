@@ -1,5 +1,6 @@
 package com.mickmelon.carshare.presentation;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.mickmelon.carshare.R;
 import com.mickmelon.carshare.core.Advert;
+import com.mickmelon.carshare.database.DataAccess;
 import com.mickmelon.carshare.util.FragmentHelper;
 
 import java.util.List;
@@ -56,8 +58,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.AdvertViewHolder> 
         int price = (int) Math.round(_adverts.get(i).getPrice());
         advertViewHolder._price.setText("£" + price);
 
-        advertViewHolder._image.setImageDrawable(null);
-        advertViewHolder._image.setImageBitmap(_adverts.get(i).getImageBitmap());
+        DataAccess dataAccess = DataAccess.getInstance();
+
+        Bitmap bitmap = dataAccess.adverts().getAdvertImageBitmap(_adverts.get(i));
+        advertViewHolder._image.setImageBitmap(bitmap);
 
         advertViewHolder._advertId = _adverts.get(i).getAdvertId();
     }

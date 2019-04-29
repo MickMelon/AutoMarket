@@ -133,12 +133,9 @@ public class RemoteAdvertRepository implements IAdvertRepository {
                 return articleId;
             }
 
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (InterruptedException | ExecutionException | JSONException e) {
             e.printStackTrace();
         }
-
 
         return -1;
     }

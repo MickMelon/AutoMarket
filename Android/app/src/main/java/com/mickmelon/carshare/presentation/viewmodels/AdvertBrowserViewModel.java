@@ -4,9 +4,11 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 
 import com.mickmelon.carshare.core.Advert;
 import com.mickmelon.carshare.database.DataAccess;
+import com.mickmelon.carshare.database.HttpClient;
 
 import java.util.List;
 
@@ -39,10 +41,10 @@ public class AdvertBrowserViewModel extends ViewModel {
         DataAccess dataAccess = DataAccess.getInstance();
         List<Advert> adverts = dataAccess.adverts().getAllAdverts();
 
-        for (Advert advert : adverts) {
+        /*for (Advert advert : adverts) {
             Bitmap image = dataAccess.adverts().getAdvertImageBitmap(advert);
             advert.setImageBitmap(image);
-        }
+        }*/
 
         _adverts.setValue(adverts);
     }
