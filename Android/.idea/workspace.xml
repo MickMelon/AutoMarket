@@ -58,28 +58,41 @@
       <file leaf-file-name="AdvertBrowserFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/AdvertBrowserFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="48" column="47" selection-start-line="48" selection-start-column="47" selection-end-line="48" selection-end-column="47" />
+            <state relative-caret-position="374">
+              <caret line="47" column="53" lean-forward="true" selection-start-line="47" selection-start-column="53" selection-end-line="47" selection-end-column="53" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AdvertBrowserViewModel.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/viewmodels/AdvertBrowserViewModel.java">
+      <file leaf-file-name="PostAdvertFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/PostAdvertFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="578">
-              <caret line="44" column="9" selection-start-line="44" selection-start-column="9" selection-end-line="44" selection-end-column="9" />
+            <state relative-caret-position="-960">
+              <caret line="62" column="40" selection-start-line="62" selection-start-column="40" selection-end-line="62" selection-end-column="40" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RVAdapter.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RegisterFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/RegisterFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="383">
+              <caret line="152" column="31" selection-start-line="152" selection-start-column="31" selection-end-line="152" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RVAdapter.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/RVAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="42" column="53" selection-start-line="42" selection-start-column="53" selection-end-line="42" selection-end-column="53" />
+            <state relative-caret-position="315">
+              <caret line="112" column="61" selection-start-line="112" selection-start-column="61" selection-end-line="112" selection-end-column="61" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#896#897#0" expanded="true" />
+                <element signature="e#930#931#0" expanded="true" />
+                <element signature="e#2174#2175#0" expanded="true" />
+                <element signature="e#2212#2213#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -88,19 +101,18 @@
       <file leaf-file-name="ViewAdvertFragment.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/ViewAdvertFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="327">
+            <state relative-caret-position="-263">
               <caret line="69" column="67" selection-start-line="69" selection-start-column="67" selection-end-line="69" selection-end-column="67" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="fragment_seller.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/../app/src/main/res/layout/fragment_seller.xml">
-          <provider editor-type-id="text-editor">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="android-designer2">
-            <state />
+      <file leaf-file-name="SellerFragment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/SellerFragment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1819">
+              <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
+            </state>
           </provider>
         </entry>
       </file>
@@ -3603,19 +3615,15 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/viewmodels/ViewAdvertViewModel.java" />
         <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/util/Base64.java" />
         <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/util/Base64Encoder.java" />
         <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/StartupActivity.java" />
         <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/util/IntentHelper.java" />
         <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/RemoteSellerRepository.java" />
         <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/IAdvertRepository.java" />
-        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/core/Constants.java" />
         <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/LoginFragment.java" />
         <option value="$PROJECT_DIR$/../app/src/main/res/layout/fragment_register.xml" />
-        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/RegisterFragment.java" />
         <option value="$PROJECT_DIR$/../app/src/main/res/layout/fragment_postadvert.xml" />
-        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/PostAdvertFragment.java" />
         <option value="$PROJECT_DIR$/../app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/../app/src/main/res/layout/nav_header.xml" />
         <option value="$PROJECT_DIR$/../app/src/main/res/values/colors.xml" />
@@ -3624,17 +3632,25 @@
         <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/viewmodels/AdvertBrowserViewModel.java" />
         <option value="$PROJECT_DIR$/../app/src/main/res/layout/fragment_advertbrowser.xml" />
         <option value="$PROJECT_DIR$/../app/src/main/res/layout/activity_startup.xml" />
-        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/MainActivity.java" />
-        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/HttpClient.java" />
-        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/AdvertBrowserFragment.java" />
         <option value="$PROJECT_DIR$/../app/src/main/res/layout/advertcard.xml" />
         <option value="$PROJECT_DIR$/../app/src/main/res/layout/fragment_viewadvert.xml" />
         <option value="$PROJECT_DIR$/../app/src/main/res/layout/fragment_login.xml" />
-        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/RemoteAdvertRepository.java" />
-        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/RVAdapter.java" />
         <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/ViewAdvertFragment.java" />
         <option value="$PROJECT_DIR$/../app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/../app/src/main/res/layout/fragment_seller.xml" />
+        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/core/Advert.java" />
+        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/core/Constants.java" />
+        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/core/Route.java" />
+        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/core/Seller.java" />
+        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/HttpClient.java" />
+        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/RemoteAdvertRepository.java" />
+        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/viewmodels/ViewAdvertViewModel.java" />
+        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/MainActivity.java" />
+        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/MapsActivity.java" />
+        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/PostAdvertFragment.java" />
+        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/RegisterFragment.java" />
+        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/AdvertBrowserFragment.java" />
+        <option value="$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/RVAdapter.java" />
       </list>
     </option>
   </component>
@@ -3893,49 +3909,10 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/RemoteAdvertRepository.java</url>
-          <line>115</line>
-          <properties />
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-      </breakpoints>
       <option name="time" value="16" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/HttpClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1870">
-          <caret line="131" column="55" lean-forward="true" selection-start-line="131" selection-start-column="55" selection-end-line="131" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/viewmodels/ViewAdvertViewModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1530">
-          <caret line="101" column="51" selection-start-line="101" selection-start-column="51" selection-end-line="101" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/RemoteAdvertRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1003">
-          <caret line="71" column="24" lean-forward="true" selection-start-line="71" selection-start-column="24" selection-end-line="71" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/ViewAdvertFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="29" lean-forward="true" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/core/Advert.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -3953,13 +3930,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/HttpResult.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/util/Base64Encoder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
@@ -3971,13 +3941,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="584">
           <caret line="68" column="34" lean-forward="true" selection-start-line="68" selection-start-column="34" selection-end-line="68" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/PostData.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="17" column="45" selection-start-line="17" selection-start-column="45" selection-end-line="17" selection-end-column="45" />
         </state>
       </provider>
     </entry>
@@ -3995,41 +3958,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/MapsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="185" column="53" selection-start-line="185" selection-start-column="12" selection-end-line="185" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/ISellerRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="6" column="17" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/RemoteSellerRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1122">
-          <caret line="76" column="65" selection-start-line="76" selection-start-column="65" selection-end-line="76" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/IAdvertRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/DataAccess.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-323">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../app/src/main/res/layout/activity_maps.xml">
       <provider editor-type-id="text-editor">
         <state />
@@ -4044,13 +3972,6 @@
       </provider>
       <provider selected="true" editor-type-id="android-designer2">
         <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/LoginFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="376">
-          <caret line="71" column="27" selection-start-line="71" selection-start-column="27" selection-end-line="71" selection-end-column="27" />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../app/src/main/res/layout/fragment_register.xml">
@@ -4075,13 +3996,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="469">
           <caret line="85" column="52" selection-start-line="85" selection-start-column="52" selection-end-line="85" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/RegisterFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="724">
-          <caret line="137" column="66" selection-start-line="137" selection-start-column="66" selection-end-line="137" selection-end-column="66" />
         </state>
       </provider>
     </entry>
@@ -4169,35 +4083,10 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/core/Advert.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4">
-          <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0.aar/782d7626b25a7b7894664cbebaa6f231/jars/classes.jar!/android/support/v4/app/FragmentManagerImpl.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="479">
           <caret line="1154" selection-start-line="1154" selection-end-line="1154" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/viewmodels/ViewAdvertViewModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-608">
-          <caret line="43" selection-start-line="43" selection-end-line="43" />
-          <folding>
-            <element signature="e#2787#2788#0" expanded="true" />
-            <element signature="e#2860#2861#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="34" column="51" selection-start-line="34" selection-start-column="51" selection-end-line="34" selection-end-column="51" />
         </state>
       </provider>
     </entry>
@@ -4231,44 +4120,6 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/HttpClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="89" column="32" selection-start-line="89" selection-start-column="32" selection-end-line="89" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/core/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="86" selection-start-line="3" selection-start-column="86" selection-end-line="3" selection-end-column="86" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/PostAdvertFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-199">
-          <caret line="106" column="19" selection-start-line="106" selection-start-column="19" selection-end-line="106" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/RemoteAdvertRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="73" column="24" lean-forward="true" selection-start-line="73" selection-start-column="24" selection-end-line="73" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/AdvertBrowserFragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="48" column="47" selection-start-line="48" selection-start-column="47" selection-end-line="48" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../app/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="775">
@@ -4284,27 +4135,195 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/ViewAdvertFragment.java">
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/core/Advert.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="69" column="67" selection-start-line="69" selection-start-column="67" selection-end-line="69" selection-end-column="67" />
+        <state relative-caret-position="1139">
+          <caret line="70" column="25" selection-start-line="70" selection-start-column="25" selection-end-line="70" selection-end-column="25" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/RVAdapter.java">
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/core/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="42" column="53" selection-start-line="42" selection-start-column="53" selection-end-line="42" selection-end-column="53" />
+        <state relative-caret-position="119">
+          <caret line="7" column="29" selection-start-line="7" selection-start-column="29" selection-end-line="7" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/core/Route.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="38" column="38" selection-start-line="38" selection-start-column="38" selection-end-line="38" selection-end-column="38" />
+          <folding>
+            <element signature="e#1102#1103#0" expanded="true" />
+            <element signature="e#1169#1170#0" expanded="true" />
+            <element signature="e#1208#1209#0" expanded="true" />
+            <element signature="e#1252#1253#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/core/Seller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1207">
+          <caret line="72" column="25" selection-start-line="72" selection-start-column="25" selection-end-line="72" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/DataAccess.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/ISellerRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="6" column="17" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/IAdvertRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="12" column="11" selection-start-line="12" selection-start-column="11" selection-end-line="12" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/PostData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="17" column="45" selection-start-line="17" selection-start-column="45" selection-end-line="17" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/HttpResult.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/HttpClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2873">
+          <caret line="196" selection-start-line="196" selection-end-line="196" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/RemoteAdvertRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1496">
+          <caret line="88" column="40" selection-start-line="88" selection-start-column="40" selection-end-line="88" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/database/RemoteSellerRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-756">
+          <caret line="76" column="65" selection-start-line="76" selection-start-column="65" selection-end-line="76" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/viewmodels/AdvertBrowserViewModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="578">
-          <caret line="44" column="9" selection-start-line="44" selection-start-column="9" selection-end-line="44" selection-end-column="9" />
+        <state relative-caret-position="153">
+          <caret line="17" column="27" lean-forward="true" selection-start-line="17" selection-start-column="27" selection-end-line="17" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/viewmodels/SellerViewModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-8">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/viewmodels/ViewAdvertViewModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1666">
+          <caret line="107" column="54" selection-start-line="107" selection-start-column="54" selection-end-line="107" selection-end-column="54" />
+          <folding>
+            <element signature="e#2787#2788#0" expanded="true" />
+            <element signature="e#2860#2861#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/LoginFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="71" column="27" selection-start-line="71" selection-start-column="27" selection-end-line="71" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="57" selection-start-line="57" selection-end-line="57" />
+          <folding>
+            <element signature="e#6187#6188#0" expanded="true" />
+            <element signature="e#6239#6240#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/MapsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1632">
+          <caret line="132" lean-forward="true" selection-start-line="132" selection-end-line="132" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/RegisterFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="383">
+          <caret line="152" column="31" selection-start-line="152" selection-start-column="31" selection-end-line="152" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/SellerFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1819">
+          <caret line="37" column="13" selection-start-line="37" selection-start-column="13" selection-end-line="37" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/PostAdvertFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-960">
+          <caret line="62" column="40" selection-start-line="62" selection-start-column="40" selection-end-line="62" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/ViewAdvertFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-263">
+          <caret line="69" column="67" selection-start-line="69" selection-start-column="67" selection-end-line="69" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/AdvertBrowserFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="47" column="53" lean-forward="true" selection-start-line="47" selection-start-column="53" selection-end-line="47" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../app/src/main/java/com/mickmelon/carshare/presentation/RVAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="112" column="61" selection-start-line="112" selection-start-column="61" selection-end-line="112" selection-end-column="61" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#896#897#0" expanded="true" />
+            <element signature="e#930#931#0" expanded="true" />
+            <element signature="e#2174#2175#0" expanded="true" />
+            <element signature="e#2212#2213#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

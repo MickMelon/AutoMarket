@@ -54,8 +54,14 @@ public class PostAdvertFragment extends Fragment {
      */
     private EditText _price;
 
+    /**
+     * The photo picker button.
+     */
     private Button _pickPhotoButton;
 
+    /**
+     * The image picked from the photo picker.
+     */
     private Bitmap _pickedImage;
 
     /**

@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
         actionBar.setSubtitle("The official Android app");
-        //actionBar.setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
 
         // Only change the fragment if there isn't one shown. This is to accommodate for this
         // onCreate function being called every time the orientation is changed. The Fragments
@@ -130,14 +129,6 @@ public class MainActivity extends AppCompatActivity {
 
             return true;
         });
-
-    }
-
-    /**
-     * Called when a fragment has been attached to the activity.
-     */
-    @Override
-    public void onAttachFragment(Fragment fragment) {
 
     }
 

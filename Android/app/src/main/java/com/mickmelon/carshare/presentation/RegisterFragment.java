@@ -104,6 +104,7 @@ public class RegisterFragment extends Fragment {
         String location = _location.getText().toString();
         String description = _description.getText().toString();
 
+        // Carry out form validation
         if (description.length() < 3) {
             _description.setError("Description must be at least 3 characters.");
             errors = true;
@@ -146,8 +147,10 @@ public class RegisterFragment extends Fragment {
             _email.requestFocus();
         }
 
+        // Check if the form was okay
         if (errors) return;
 
+        // Attempt registration
         boolean success = Identity.register(email, name, password, phoneNumber, website, location, description);
         if (success) {
             // Show the login fragment

@@ -64,6 +64,11 @@ public class RemoteAdvertRepository implements IAdvertRepository {
         }
     }
 
+    /**
+     * Gets the bitmap image for the given advert
+     * @param advert The advert
+     * @return Bitmap image
+     */
     public Bitmap getAdvertImageBitmap(Advert advert) {
         HttpClient.HttpGetImageAsyncTask imageTask = new HttpClient.HttpGetImageAsyncTask();
         Bitmap bitmap = null;
@@ -77,6 +82,12 @@ public class RemoteAdvertRepository implements IAdvertRepository {
         return bitmap;
     }
 
+    /**
+     * Adds a bitmap image for an advert
+     * @param advertId The advert ID
+     * @param bitmap The bitmap image to be added to the advert
+     * @return Whether it was successful
+     */
     public boolean addAdvertImageBitmap(int advertId, Bitmap bitmap) {
         HttpClient.HttpPostImageAsyncTask task = new HttpClient.HttpPostImageAsyncTask();
         List<AbstractMap.SimpleEntry> params = new ArrayList<>();
@@ -84,13 +95,12 @@ public class RemoteAdvertRepository implements IAdvertRepository {
         params.add(new AbstractMap.SimpleEntry("image", bitmap));
         params.add(new AbstractMap.SimpleEntry("advertId", advertId));
         PostData postData = new PostData(Constants.PHP_SERVER_URL + "?c=advert&a=upload_image", params);
-        System.out.println("HERE");
+
         try {
             HttpResult result = task.execute(postData).get();
             return result.getResponseCode() == 200;
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
-            System.out.println("It fucked up");
         }
 
         return false;

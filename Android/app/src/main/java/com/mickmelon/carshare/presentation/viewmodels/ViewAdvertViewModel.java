@@ -23,6 +23,9 @@ public class ViewAdvertViewModel extends ViewModel {
      */
     private MutableLiveData<Advert> _advert;
 
+    /**
+     * The image bitmap associated with the advert
+     */
     private MutableLiveData<Bitmap> _imageBitmap;
 
     /**
@@ -44,6 +47,10 @@ public class ViewAdvertViewModel extends ViewModel {
         return _advert;
     }
 
+    /**
+     * Get the advert's image
+     * @return Advert image bitmap
+     */
     public LiveData<Bitmap> getImageBitmap() {
         if (_imageBitmap == null) {
             loadImageBitmap();
@@ -97,6 +104,9 @@ public class ViewAdvertViewModel extends ViewModel {
         _advert.setValue(_dataAccess.adverts().getAdvertById(id));
     }
 
+    /**
+     * Loads the advert image bitmap from the database
+     */
     private void loadImageBitmap() {
         if (_advert != null) {
             _imageBitmap = new MutableLiveData<>();

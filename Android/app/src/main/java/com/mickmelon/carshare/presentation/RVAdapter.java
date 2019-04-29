@@ -1,8 +1,5 @@
 package com.mickmelon.carshare.presentation;
 
-import android.app.Activity;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -20,13 +17,26 @@ import com.mickmelon.carshare.util.FragmentHelper;
 
 import java.util.List;
 
+/**
+ * RecyclerView adapter used for displaying the adverts
+ */
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.AdvertViewHolder> {
+    /**
+     * The list of adverts to be displayed.
+     */
     private List<Advert> _adverts;
 
+    /**
+     * Initializes a new instance of the RVAdapter class.
+     * @param adverts The list of adverts to be displayed.
+     */
     public RVAdapter(List<Advert> adverts) {
         _adverts = adverts;
     }
 
+    /**
+     * Called when the ViewHolder is created.
+     */
     @NonNull
     @Override
     public AdvertViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -35,6 +45,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.AdvertViewHolder> 
         return viewHolder;
     }
 
+    /**
+     * Called when the ViewHolder has been binded to the view. This method assigns the values
+     * to the views within the layout for each advert.
+     */
     @Override
     public void onBindViewHolder(@NonNull AdvertViewHolder advertViewHolder, int i) {
         advertViewHolder._description.setText(_adverts.get(i).getDescription());
@@ -48,18 +62,46 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.AdvertViewHolder> 
         advertViewHolder._advertId = _adverts.get(i).getAdvertId();
     }
 
+    /**
+     * Gets the number of items in the list.
+     */
     @Override
     public int getItemCount() {
         return _adverts.size();
     }
 
+    /**
+     * The ViewHolder class used to hold the adverts information
+     */
     public static class AdvertViewHolder extends RecyclerView.ViewHolder {
+        /**
+         * The CardView
+         */
         CardView _cardView;
+
+        /**
+         * The description TextView
+         */
         TextView _description;
+
+        /**
+         * The price TextView
+         */
         TextView _price;
+
+        /**
+         * The advert image ImageView
+         */
         ImageView _image;
+
+        /**
+         * The advert ID
+         */
         int _advertId;
 
+        /**
+         * Initializes a new instance of the AdvertViewHolder class.
+         */
         AdvertViewHolder(View view) {
             super(view);
             _cardView = view.findViewById(R.id.cardView);
@@ -68,6 +110,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.AdvertViewHolder> 
             _image = view.findViewById(R.id.imageView_Car);
             _advertId = -1;
 
+            // Show the single advert if it has been clicked.
             view.setOnClickListener(v -> {
                 ViewAdvertFragment viewAdvert = new ViewAdvertFragment();
                 Bundle args = new Bundle();

@@ -43,8 +43,8 @@ public class AdvertBrowserFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         AdvertBrowserViewModel viewModel = ViewModelProviders.of(this).get(AdvertBrowserViewModel.class);
 
+        // Use the ReyclerView to generate a list of adverts that are using the cardview layout.
         viewModel.getAdverts().observe(this, adverts -> {
-
             RecyclerView recyclerView = view.findViewById(R.id.rv);
             recyclerView.setHasFixedSize(true);
 

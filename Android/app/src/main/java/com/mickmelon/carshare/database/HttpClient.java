@@ -65,6 +65,9 @@ public class HttpClient {
         }
     }
 
+    /**
+     * Used to make a HttpGet request that gets an image.
+     */
     public static class HttpGetImageAsyncTask extends AsyncTask<String, Void, Bitmap> {
         @Override
         protected Bitmap doInBackground(String... params) {
@@ -76,6 +79,9 @@ public class HttpClient {
         }
     }
 
+    /**
+     * Used to make a Post request that posts an image.
+     */
     public static class HttpPostImageAsyncTask extends AsyncTask<PostData, Void, HttpResult> {
         @Override
         protected HttpResult doInBackground(PostData... params) {
@@ -98,6 +104,11 @@ public class HttpClient {
         }
     }
 
+    /**
+     * Gets a bitmap image from the specified URL
+     * @param imageUrl The URL of the image
+     * @return Bitmap of the image
+     */
     private static Bitmap getImage(String imageUrl) {
         if (!URLUtil.isValidUrl(imageUrl)) return null;
 
@@ -113,6 +124,13 @@ public class HttpClient {
         return bitmap;
     }
 
+    /**
+     * Adds a new image to the server
+     * @param textUrl Web server URL
+     * @param bitmap The bitmap representation of the image
+     * @param advertId The Advert ID associated with the image
+     * @return HttpResult
+     */
     private static HttpResult postImage(String textUrl, Bitmap bitmap, int advertId) {
         HttpResult httpResult = null;
         String attachmentName = "image";
@@ -166,19 +184,6 @@ public class HttpClient {
         return httpResult;
     }
 
-    private static byte[] convertBitmapToBytes(Bitmap bitmap) {
-        byte[] pixels = new byte[bitmap.getWidth() * bitmap.getHeight()];
-        for (int i = 0; i < bitmap.getWidth(); ++i) {
-            for (int j = 0; j < bitmap.getHeight(); ++j) {
-                //we're interested only in the MSB of the first byte,
-                //since the other 3 bytes are identical for B&W images
-                pixels[i + j] = (byte) ((bitmap.getPixel(i, j) & 0x80) >> 7);
-            }
-        }
-
-        return pixels;
-    }
-
     /**
      * Makes a Post request.
      * @param textUrl The action (i.e. c=seller&a=create)
@@ -190,7 +195,6 @@ public class HttpClient {
             return new HttpResult("ERROR: No parameters", 400);
         }
 
-        //String result = null;
         HttpResult httpResult = null;
 
         try {

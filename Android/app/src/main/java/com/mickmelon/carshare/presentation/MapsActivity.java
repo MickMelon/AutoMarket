@@ -89,16 +89,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         _map = googleMap;
 
+        // Check if the user has given the app the desired permissions to access GPS
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            handlePermissionsNotGranted();
+            ToastHelper.showToast(getApplicationContext(), "No permissions granted");
+            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
         } else {
             ToastHelper.showToast(getApplicationContext(), "Permissions granted.");
 
             // Location Manager
             LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                handleGpsNotEnabled();
+                ToastHelper.showToast(getApplicationContext(), "GPS permissions not granted.");
                 return;
             }
 
@@ -117,39 +119,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /**
-     * Called when the location permissions have not been granted by the user.
-     */
-    private void handlePermissionsNotGranted() {
-        // TODO: Consider calling
-        //    ActivityCompat#requestPermissions
-        // here to request the missing permissions, and then overriding
-        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-        //                                          int[] grantResults)
-        // to handle the case where the user grants the permission. See the documentation
-        // for ActivityCompat#requestPermissions for more details.
-        ToastHelper.showToast(getApplicationContext(), "No permissions granted");
-        ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-    }
-
-    /**
-     * Called when GPS is not enabled on the user's device.
-     */
-    private void handleGpsNotEnabled() {
-
-    }
-
-    /**
      * Displays the route from the user to seller.
      */
     private void displayRouteFromUserToSeller() {
         Route route = getPolyRoute(_userAddress, _sellerAddress);
 
-        Polyline polyline = _map.addPolyline(new PolylineOptions()
-                .clickable(true)
-                .width(5)
-                .color(Color.BLUE)
-                .geodesic(true)
-                .addAll(route.getLatLng()));
+        _map.addPolyline(new PolylineOptions()
+            .clickable(true)
+            .width(5)
+            .color(Color.BLUE)
+            .geodesic(true)
+            .addAll(route.getLatLng()));
 
 
         _map.moveCamera(CameraUpdateFactory.newLatLng(route.getLatLng().get(0)));
