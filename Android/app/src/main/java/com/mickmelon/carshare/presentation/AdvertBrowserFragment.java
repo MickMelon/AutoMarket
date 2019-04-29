@@ -42,7 +42,9 @@ public class AdvertBrowserFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         AdvertBrowserViewModel viewModel = ViewModelProviders.of(this).get(AdvertBrowserViewModel.class);
+
         viewModel.getAdverts().observe(this, adverts -> {
+
             RecyclerView recyclerView = view.findViewById(R.id.rv);
             recyclerView.setHasFixedSize(true);
 

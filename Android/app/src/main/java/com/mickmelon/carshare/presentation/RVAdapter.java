@@ -2,6 +2,7 @@ package com.mickmelon.carshare.presentation;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -38,12 +39,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.AdvertViewHolder> 
     public void onBindViewHolder(@NonNull AdvertViewHolder advertViewHolder, int i) {
         advertViewHolder._description.setText(_adverts.get(i).getDescription());
         advertViewHolder._price.setText(String.format("%s", _adverts.get(i).getPrice()));
-
-        Bitmap bitmap = _adverts.get(i).getImageBitmap();
-
-        if (bitmap != null) {
-            advertViewHolder._image.setImageBitmap(_adverts.get(i).getImageBitmap());
-        } else advertViewHolder._image.setImageBitmap(_adverts.get(i).getImageBitmap());
+        advertViewHolder._image.setImageDrawable(null);
+        advertViewHolder._image.setImageBitmap(_adverts.get(i).getImageBitmap());
 
         advertViewHolder._advertId = _adverts.get(i).getAdvertId();
     }
