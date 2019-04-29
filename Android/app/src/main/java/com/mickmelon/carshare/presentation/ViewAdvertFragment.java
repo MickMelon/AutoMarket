@@ -71,7 +71,8 @@ public class ViewAdvertFragment extends Fragment {
         advertLiveData.observe(this, advert -> {
             name.setText(advert.getVehicleReg());
             description.setText(advert.getDescription());
-            price.setText(String.valueOf(advert.getPrice()));
+            int priceInt = (int) Math.round(advert.getPrice());
+            price.setText("£" + priceInt);
 
             reg[0] = advert.getVehicleReg();
         });

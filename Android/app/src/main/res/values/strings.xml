@@ -43,4 +43,10 @@
     <string name="postadvert_edittext_price">Price</string>
     <string name="postadvert_button_postadvert">Post Advert</string>
     <string name="title_activity_maps">Map</string>
+
+    <!-- SellerFragment -->
+    <string name="seller_button_call">Call</string>
+    <string name="seller_button_email">Email</string>
+    <string name="seller_button_route">Get Route</string>
+    <string name="seller_button_website">Website</string>
 </resources>

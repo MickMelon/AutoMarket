@@ -38,7 +38,10 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.AdvertViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull AdvertViewHolder advertViewHolder, int i) {
         advertViewHolder._description.setText(_adverts.get(i).getDescription());
-        advertViewHolder._price.setText(String.format("%s", _adverts.get(i).getPrice()));
+
+        int price = (int) Math.round(_adverts.get(i).getPrice());
+        advertViewHolder._price.setText("£" + price);
+
         advertViewHolder._image.setImageDrawable(null);
         advertViewHolder._image.setImageBitmap(_adverts.get(i).getImageBitmap());
 
