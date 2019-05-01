@@ -40,12 +40,6 @@ public class AdvertBrowserViewModel extends ViewModel {
     private void loadAdverts() {
         DataAccess dataAccess = DataAccess.getInstance();
         List<Advert> adverts = dataAccess.adverts().getAllAdverts();
-
-        /*for (Advert advert : adverts) {
-            Bitmap image = dataAccess.adverts().getAdvertImageBitmap(advert);
-            advert.setImageBitmap(image);
-        }*/
-
         _adverts.setValue(adverts);
     }
 }
